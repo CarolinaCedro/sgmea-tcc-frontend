@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -6,12 +6,13 @@ import {
   FormsModule,
   ReactiveFormsModule,
   ɵTypedOrUntyped,
-  ɵFormGroupValue
+  ɵFormGroupValue,
 } from '@angular/forms';
-import {Router, RouterLink} from '@angular/router';
-import {NgClass, NgIf} from '@angular/common';
-import {AngularSvgIconModule} from 'angular-svg-icon';
-import {ButtonComponent} from '../../../../shared/components/button/button.component';
+import { Router, RouterLink } from '@angular/router';
+import { NgClass, NgIf } from '@angular/common';
+import { AngularSvgIconModule } from 'angular-svg-icon';
+import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { AuthService } from '../../service/auth/auth.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -25,7 +26,7 @@ export class SignInComponent implements OnInit {
   submitted = false;
   passwordTextType!: boolean;
 
-  constructor(private readonly _formBuilder: FormBuilder, private readonly _router: Router) {
+  constructor(private readonly _formBuilder: FormBuilder, private readonly _router: Router, private authService: AuthService) {
   }
 
   onClick() {
@@ -48,19 +49,21 @@ export class SignInComponent implements OnInit {
   }
 
   onSubmit() {
-    this.submitted = true;
-    const {email, password} = this.form.value;
-
-    // stop here if form is invalid
-    if (this.form.invalid) {
-      return;
-    }
-
-    this._router.navigate(['/']);
+    // this.submitted = true;
+    // const { email, password } = this.form.value;
+    //
+    // // stop here if form is invalid
+    // if (this.form.invalid) {
+    //   return;
+    // }
+    //
+    // this._router.navigate(['/']);
   }
 
-  login(value: ɵTypedOrUntyped<any, ɵFormGroupValue<any>, any>) {
-    console.log("acesso", value)
-
+  login(value: FormGroup) {
+    this.authService.login(value?.value).subscribe((res) => {
+      console.log('conseguiu logar', res);
+    });
+    console.log('acesso', value);
   }
 }
