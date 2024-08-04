@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+  ɵTypedOrUntyped,
+  ɵFormGroupValue,
+} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { NgClass, NgIf } from '@angular/common';
 import { AngularSvgIconModule } from 'angular-svg-icon';
@@ -17,7 +25,8 @@ export class SignInComponent implements OnInit {
   submitted = false;
   passwordTextType!: boolean;
 
-  constructor(private readonly _formBuilder: FormBuilder, private readonly _router: Router) {}
+  constructor(private readonly _formBuilder: FormBuilder, private readonly _router: Router) {
+  }
 
   onClick() {
     console.log('Button clicked');
@@ -48,5 +57,10 @@ export class SignInComponent implements OnInit {
     }
 
     this._router.navigate(['/']);
+  }
+
+  login(value: ɵTypedOrUntyped<any, ɵFormGroupValue<any>, any>) {
+    console.log('value', value);
+
   }
 }
