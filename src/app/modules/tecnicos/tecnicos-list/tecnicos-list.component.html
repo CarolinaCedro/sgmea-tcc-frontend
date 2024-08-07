@@ -1,0 +1,31 @@
+<sgmea-list [listTitle]="'Técnicos'" [itensCount]="10" class="w-full">
+  <div *ngFor="let tec of tecnicos"
+       class="font-medium text-sm sm:text-base teste md:text-base lg:text-base leading-5 break-words flex justify-between items-center">
+    <div class="flex items-center">
+      <svg-icon src="assets/icons/heroicons/outline/user-circle.svg" [svgClass]="'h-5 w-5 text-primary'"></svg-icon>
+      <p class="pl-2">{{tec?.nome}}</p>
+    </div>
+    <div>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>edit</mat-icon>
+          <span>Editar</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>visibility</mat-icon>
+          <span>Visualizar</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>delete</mat-icon>
+          <span>Remover</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+
+
+</sgmea-list>

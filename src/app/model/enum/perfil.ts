@@ -1,0 +1,6 @@
+export enum Perfil {
+  OWNER = 'OWNER',
+  GESTOR = 'GESTOR',
+  FUNCIONARIO = 'FUNCIONARIO',
+  TECNICO = 'TECNICO'
+}

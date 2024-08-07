@@ -1,0 +1,12 @@
+<div class="flex h-screen w-full overflow-hidden">
+  <sidebar></sidebar>
+  <div class="flex grow flex-col content-start overflow-hidden bg-card">
+    <navbar></navbar>
+    <div
+      id="main-content"
+      class="scrollbar-thumb-rounded scrollbar-track-rounded grow overflow-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted">
+      <router-outlet></router-outlet>
+    </div>
+    <footer-sgmea></footer-sgmea>
+  </div>
+</div>

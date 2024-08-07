@@ -1,0 +1,26 @@
+<div class="flex h-screen w-screen">
+  <div class="auth-bg hidden flex-1 items-center justify-center bg-primary bg-cover lg:flex">
+    <div class="max-w-2xl space-y-4 p-8 text-center text-white">
+<!--      <img src="./assets/images/auth-screens.png" alt="SGMEA dashboard" />-->
+      <h1 class="text-4xl font-bold">SGMEA</h1>
+      <h1 class="text-2xl font-bold">"Agilidade e Eficiência na Gestão de Manutenção"</h1>
+      <p class="text-xs font-light">
+        O Sistema de Gerenciamento de Manutenção de Equipamentos Acadêmicos (SGMEA) é uma plataforma inovadora
+        projetada para otimizar o processo de manutenção em instituições educacionais. Facilita a comunicação
+        entre professores e funcionários, agiliza a criação e o acompanhamento de ordens de serviço, e melhora
+        a disponibilidade de equipamentos. O SGMEA é a solução ideal para garantir que os recursos educacionais
+        estejam sempre prontos para uso.
+      </p>
+    </div>
+  </div>
+  <div class="flex flex-1 items-center justify-center bg-background">
+    <div class="max-w-md overflow-y-auto px-4 sm:w-[500px]">
+      <!-- logo -->
+      <div class="flex items-center justify-center">
+        <b class="text-md pl-3 font-bold text-foreground">LOGIN</b>
+      </div>
+      <!-- Route -->
+      <router-outlet/>
+    </div>
+  </div>
+</div>
