@@ -1,0 +1,255 @@
+import {Injectable} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import moment from "moment";
+import { isArray, isEmpty, isNotEmpty, isNotNullOrUndefined, isNullOrUndefined } from '../../utils';
+import { Model } from '../../http/model/model';
+
+
+
+
+const DATE_TIME_PATTERN = "YYYY-MM-DDTHH:mm:ss.SSSZZ";
+const DATE_PATTERN = "YYYY-MM-DD";
+
+export interface QueryParam {
+  [key: string]: string | string[];
+}
+
+@Injectable({
+  providedIn: "root"
+})
+export class QueryParamUtilsService {
+
+  constructor(protected router: Router, protected route: ActivatedRoute) {
+  }
+
+  setQueryParameter(params: { [key: string]: string | string[] }, prefix?: string): QueryParamUtilsService {
+    if (params !== null && params !== undefined) {
+      setTimeout(() => {
+        const aux: QueryParam = {};
+
+        const keys: Array<string> = this.route.snapshot.queryParamMap.keys;
+        if (keys !== null && keys.length !== 0) {
+          keys.forEach(_key => {
+            const value = this.route.snapshot.queryParamMap.getAll(_key);
+            aux[_key] = value.length === 1 ? value[0] : value;
+          });
+        }
+        prefix = this.preparePrefix(prefix);
+
+        Object.keys(params).forEach(key => {
+          aux[prefix + key] = params[key];
+        });
+
+        this.router.navigate([], {queryParams: aux});
+      }, 0);
+
+    }
+    return this;
+  }
+
+  setParameter(key: string, value?: string | Array<string>, prefix?: string): QueryParamUtilsService {
+    const query = {};
+    query[key] = value;
+    return this.setQueryParameter(query, prefix);
+  }
+
+  setParameterIfNotNul(key: string, value?: string | Array<string>, prefix?: string): QueryParamUtilsService {
+    if (isNotNullOrUndefined(value)) {
+      return this.setParameter(key, value, prefix);
+    }
+    return this;
+  }
+
+  getParameter(key: string, prefix?: string): string {
+    return this.route.snapshot.queryParamMap.get(this.preparePrefix(prefix) + key);
+  }
+
+  setDateParameter(key: string, date: Date | Array<Date>, pattenr?: string, prefix?: string): QueryParamUtilsService {
+    if (isNullOrUndefined(pattenr)) {
+      pattenr = DATE_PATTERN;
+    }
+    this.setParameter(key, isArray(date) ?
+      (date as Array<Date>).map(dt => moment(dt).format(pattenr)) : moment(date as Date).format(pattenr), prefix);
+    return this;
+  }
+
+  setDateParameterIfNotNull(key: string, date: Date | Array<Date>, pattern?: string, prefix?: string): QueryParamUtilsService {
+    if (isNotNullOrUndefined(date)) {
+      return this.setDateParameter(key, date, pattern, prefix);
+    }
+    return this;
+  }
+
+  getDate(key: string, pattern?: string, prefix?: string): Date {
+    if (!this.contains(key, prefix)) {
+      return null;
+    }
+    if (isNullOrUndefined(pattern)) {
+      pattern = DATE_PATTERN;
+    }
+    const momentValue = moment(this.getParameter(key, prefix), pattern);
+    return momentValue.isValid() ? momentValue.toDate() : null;
+  }
+
+  getAllDate(key: string, pattern?: string, prefix?: string): Array<Date> {
+    if (!this.contains(key, prefix)) {
+      return null;
+    }
+    if (isNullOrUndefined(pattern)) {
+      pattern = DATE_PATTERN;
+    }
+    return this.getAllParameter(key, prefix)
+      .map(it => moment(it, pattern))
+      .filter(it => it.isValid())
+      .map(it => it.toDate());
+  }
+
+  setDateTimeParameter(key: string, date: Date | Array<Date>, pattenr?: string, prefix?: string): QueryParamUtilsService {
+    if (isNotNullOrUndefined(pattenr)) {
+      pattenr = DATE_TIME_PATTERN;
+    }
+    return this.setDateParameter(key, date, pattenr, prefix);
+  }
+
+  setDateTimeParameterIfNotNull(key: string, date: Date | Array<Date>, pattern?: string, prefix?: string): QueryParamUtilsService {
+    if (isNotNullOrUndefined(date)) {
+      return this.setDateTimeParameter(key, date, pattern, prefix);
+    }
+    return this;
+  }
+
+  getDateTime(key: string, pattern?: string, prefix?: string): Date {
+    if (isNullOrUndefined(pattern)) {
+      pattern = DATE_TIME_PATTERN;
+    }
+    return this.getDate(key, pattern, prefix);
+  }
+
+  getAllDateTime(key: string, pattern?: string, prefix?: string): Array<Date> {
+    if (isNullOrUndefined(pattern)) {
+      pattern = DATE_TIME_PATTERN;
+    }
+    return this.getAllDate(key, pattern, prefix);
+  }
+
+  setModelParam(key: string, model: Model | Array<Model>, prefix?: string): QueryParamUtilsService {
+    this.setParameter(key, isNullOrUndefined(model) ?
+      null : isArray(model) ? (model as Array<Model>).map(it => it.id) : (model as Model).id, prefix);
+    return this;
+  }
+
+  setModelParamIfNotNull(key: string, model: Model | Array<Model>, prefix?: string): QueryParamUtilsService {
+    if (isNotNullOrUndefined(model)) {
+      this.setModelParam(key, model, prefix);
+    }
+    return this;
+  }
+
+  getModel(key: string, type: any, prefix?: string): Model {
+    if (!this.contains(key)) {
+      return null;
+    }
+    const newModel = Model.createNewModel(type);
+    newModel.id = this.getParameter(key, prefix);
+    return newModel;
+  }
+
+  getAllModel(key: string, type: any, prefix?: string): Array<Model> {
+    if (!this.contains(key)) {
+      return null;
+    }
+
+    return this.getAllParameter(key, prefix)
+      .map(it => {
+        const newModel = Model.createNewModel(type);
+        newModel.id = it;
+        return newModel;
+      });
+  }
+
+  contains(key: string, prefix?: string): boolean {
+    return this.route.snapshot.queryParamMap.has(this.preparePrefix(prefix) + key);
+  }
+
+  getKeys(prefix?: string): string[] {
+    prefix = this.preparePrefix(prefix);
+
+    const keys = this.route.snapshot.queryParamMap.keys;
+
+    if (isEmpty(prefix)) {
+      return isEmpty(keys) ? [] : keys;
+    } else {
+      return isEmpty(keys) ? [] : keys.filter(key => key.startsWith(prefix));
+    }
+  }
+
+  getAllParameter(key: string, prefix?: string): string[] {
+    return this.route.snapshot.queryParamMap.getAll(this.preparePrefix(prefix) + key);
+  }
+
+  getAll(prefix?: string): QueryParam {
+    const aux = {};
+    const keys = this.getKeys(prefix);
+    if (isNotEmpty(keys)) {
+      keys.forEach(key => {
+        const parameters = this.getAllParameter(key);
+        if (isEmpty(parameters)) {
+          aux[key] = parameters;
+        } else if (parameters.length > 1) {
+          aux[key] = parameters;
+        } else {
+          aux[key] = parameters[0];
+        }
+      });
+    }
+    return aux;
+  }
+
+  addPrefix(value: QueryParam, prefix: string): QueryParam {
+    const newParams: QueryParam = {};
+    if (isNotNullOrUndefined(value)) {
+      prefix = this.preparePrefix(prefix);
+      Object.keys(value).forEach(key => {
+        newParams[prefix + key] = value[key];
+      });
+    }
+    return newParams;
+  }
+
+  removePrefix(value: QueryParam, prefix: string): QueryParam {
+    const newParams: QueryParam = {};
+    if (isNotNullOrUndefined(value) && isNotEmpty(prefix)) {
+      Object.keys(value).forEach(key => {
+        newParams[key.substring(prefix.length)] = value[key];
+      });
+    }
+    return newParams;
+  }
+
+  remove(key: string, prefix?: string): QueryParamUtilsService {
+    //prefix = this.preparePrefix(prefix);
+    if (this.contains(key, prefix)) {
+      const aux = {};
+      const keys = this.getKeys(prefix);
+      prefix = this.preparePrefix(prefix);
+      if (isNotEmpty(keys)) {
+        keys.filter(k => k !== prefix + key).forEach(k => {
+          const parameters = this.getAllParameter(k);
+          if (isEmpty(parameters)) {
+            aux[k] = parameters;
+          } else if (parameters.length > 1) {
+            aux[k] = parameters;
+          } else {
+            aux[k] = parameters[0];
+          }
+        });
+      }
+      this.router.navigate([], {queryParams: aux});
+    }
+    return this;
+  }
+
+  private preparePrefix(prefix: string): string {
+    return isNullOrUndefined(prefix) ? "" : prefix;
+  }
+}
