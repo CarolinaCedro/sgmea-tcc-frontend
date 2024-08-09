@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
 import {LocalStorageService} from '../../../utis/localstorage/local-storage.service';
 import {UserLogin} from '../../../../model/user-login';
 
-const LOGIN_ENDPOINT: string = 'localhost:8083/api/sgmea/v1/auth/login';
+const LOGIN_ENDPOINT: string = 'http://localhost:8083/api/sgmea/v1/auth/login';
 
 
 @Injectable({

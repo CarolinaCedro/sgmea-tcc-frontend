@@ -7,13 +7,15 @@ import {NewPasswordComponent} from "./pages/new-password/new-password.component"
 import {TwoStepsComponent} from "./pages/two-steps/two-steps.component";
 
 
+
 export default [
   {
     path: '',
     component: AuthComponent,
     children: [
       {path: '', redirectTo: 'sign-in', pathMatch: 'full'},
-      {path: 'sign-in', component: SignInComponent, data: {returnUrl: window.location.pathname}},
+      // {path: 'sign-in', component: SignInComponent, data: {returnUrl: window.location.pathname}},
+      {path: 'sign-in', component: SignInComponent},
       {path: 'sign-up', component: SignUpComponent},
       {path: 'forgot-password', component: ForgotPasswordComponent},
       {path: 'new-password', component: NewPasswordComponent},

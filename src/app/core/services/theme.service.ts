@@ -19,7 +19,10 @@ export class ThemeService {
   private loadTheme() {
     const theme = localStorage.getItem('theme');
     if (theme) {
-      this.theme.set(JSON.parse(theme));
+      try {
+        this.theme.set(JSON.parse(theme));
+      } catch (err) {
+      }
     }
   }
 
