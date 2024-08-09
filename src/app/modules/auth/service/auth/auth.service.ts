@@ -27,7 +27,7 @@ export class AuthService {
 
 
   get toke(): Token {
-    return this.tokenService.token;
+    return <Token>this.tokenService.token;
   }
 
 

@@ -12,7 +12,7 @@ export class JwtTokenService {
   constructor(private storage: LocalStorageService) {
   }
 
-  get token(): Token {
+  get token(): Token | null {
     return new Token(this.storage.getItem(JwtTokenService.TOKEN_KEY));
   }
 

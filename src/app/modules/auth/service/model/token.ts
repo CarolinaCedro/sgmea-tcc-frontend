@@ -1,12 +1,12 @@
 export class Token {
-  private _token: string ;
+  private _token: string | null ;
 
-  constructor(token: string ) {
+  constructor(token: string | null) {
     this._token = token;
   }
 
   getToken(): string {
-    return this._token;
+    return <string>this._token;
   }
 
   setToken(token: string): Token {

@@ -70,56 +70,35 @@ export namespace Model {
     return { toClassOnly: true };
   }
 
-  export function deserialize(value: string | Array<string> | any, type: {
-    new(): Model
-  }): Model | Array<Model> | null {
-    //se for algo null apenas retornamos
+  export function deserialize(value: string | Array<string> | any, type: { new(): Model }): Model | Array<Model> | null {
+    // Se for algo null apenas retornamos
     if (isNullOrUndefined(value)) return null;
-    //criando uma nova instancia
+
+    // Criando uma nova instância
     let model = Model.createNewModel(type);
 
-    //é uma string?
+    // É uma string?
     if (isString(value)) {
-      //está vazia ?
+      // Está vazia?
       if (isEmpty(value)) {
-        //apenas atribuimos null
+        // Apenas atribuimos null
         model = null;
       } else {
-        //apenas atribui o valor apara o id
-        if ('id' in model) {
-          model.id = value;
-        }
+        // Apenas atribui o valor ao id
+        (model as Model).id = value;
       }
     } else if (isArray(value)) {
-      return value.map(it => deserialize(it, type));
+      // Especificando o tipo de 'it' como 'any'
+      return value.map((it: any) => deserialize(it, type));
     } else if (isObject(value)) {
-      //se chegou aqui, quer dizer que é um objeto
-      //realizando o databinding necessário
+      // Se chegou aqui, quer dizer que é um objeto
+      // Realizando o databinding necessário
       model = databinding(value as any, type) as Model;
     } else {
       model = value;
     }
+
     return model;
   }
 
-  export function cloneObject(value: any, clazz?: any): object | null {
-    if (isNullOrUndefined(value)) {
-      return null;
-    }
-    if (isNotNullOrUndefined(clazz)) {
-      return databinding(null, value, clazz);
-    }
-    const clone = {};
-
-    Object.keys(value).forEach(key => {
-      if (isArray(value[key])) {
-        clone[key] = new Array(value[key]);
-      } else if (isObject(value[key])) {
-        clone[key] = cloneObject(value[key]);
-      } else {
-        clone[key] = value[key];
-      }
-    });
-    return clone;
-  }
 }
