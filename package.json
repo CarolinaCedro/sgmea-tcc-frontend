@@ -35,6 +35,7 @@
     "class-transformer": "^0.5.1",
     "express": "^4.18.2",
     "moment": "^2.30.1",
+    "ng-apexcharts": "^1.11.0",
     "ng2-logger": "^16.444.15",
     "rxjs": "~7.8.0",
     "tailwind-scrollbar": "^1.3.1",

@@ -1,1 +1,241 @@
-Teste
+<div class="flex min-w-0 flex-auto flex-col">
+
+  <div>
+    <div class="mx-auto flex w-full max-w-screen-xl flex-col px-6 sm:px-8">
+      <div
+        class="my-8 flex min-w-0 flex-auto flex-col sm:my-12 sm:flex-row sm:items-center"
+      >
+        <div class="flex min-w-0 flex-auto items-center">
+          <div class="ml-4 flex min-w-0 flex-col">
+            <div
+              class="truncate text-3xl font-semibold leading-7 tracking-tight "
+            >
+              Bem vindo de volta, Carolina
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="grid w-full min-w-0 grid-cols-1 p-10 gap-6 sm:grid-cols-2 md:grid-cols-4">
+    <!-- Summary -->
+    <div class="bg-white flex flex-auto flex-col overflow-hidden rounded-xl p-6 shadow">
+      <div class="flex items-start justify-between">
+        <div
+          class="truncate text-lg font-medium leading-6 tracking-tight"
+        >
+          Summary
+        </div>
+
+      </div>
+      <div class="mt-2 flex flex-col items-center">
+        <div
+          class="text-7xl font-bold leading-none tracking-tight text-blue-500 sm:text-8xl"
+        >
+          21
+        </div>
+        <div
+          class="text-lg font-medium text-blue-600 dark:text-blue-500"
+        >
+          Due Tasks
+        </div>
+        <div
+          class="text-secondary mt-5 flex w-full items-baseline justify-center"
+        >
+          <div
+            class="truncate text-md font-medium"
+          >
+            Completed:
+          </div>
+          <div
+            class="ml-1.5 text-lg font-semibold"
+          >
+            13
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Overdue -->
+    <div
+      class="bg-white flex flex-auto flex-col overflow-hidden rounded-2xl p-6 shadow"
+    >
+      <div class="flex items-start justify-between">
+        <div
+          class="truncate text-lg font-medium leading-6 tracking-tight"
+        >
+          Overdue
+        </div>
+      </div>
+      <div class="mt-2 flex flex-col items-center">
+        <div
+          class="text-7xl font-bold leading-none tracking-tight text-red-500 sm:text-8xl"
+        >
+          17
+        </div>
+        <div
+          class="text-lg font-medium text-red-600 dark:text-red-500"
+        >
+          Tasks
+        </div>
+        <div
+          class="text-secondary mt-5 flex w-full items-baseline justify-center"
+        >
+          <div
+            class="truncate text-md font-medium"
+          >
+            From yesterday:
+          </div>
+          <div
+            class="ml-1.5 text-lg font-semibold"
+          >
+            9
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Issues -->
+    <div
+      class="bg-white flex flex-auto flex-col overflow-hidden rounded-2xl p-6 shadow"
+    >
+
+      <div class="flex items-start justify-between">
+        <div
+          class="truncate text-lg font-medium leading-6 tracking-tight"
+        >
+          Overdue
+        </div>
+      </div>
+
+      <div class="mt-2 flex flex-col items-center">
+        <div
+          class="text-7xl font-bold leading-none tracking-tight text-amber-500 sm:text-8xl"
+        >
+          24
+        </div>
+        <div
+          class="text-lg font-medium text-amber-600 dark:text-amber-500"
+        >
+          Open
+        </div>
+        <div
+          class="text-secondary mt-5 flex w-full items-baseline justify-center"
+        >
+          <div
+            class="truncate text-md font-medium"
+          >
+            Closed today:
+          </div>
+          <div
+            class="ml-1.5 text-lg font-semibold"
+          >
+            19
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Features -->
+    <div
+      class="bg-white flex flex-auto flex-col overflow-hidden rounded-2xl p-6 shadow"
+    >
+      <div class="flex items-start justify-between">
+        <div
+          class="truncate text-lg font-medium leading-6 tracking-tight"
+        >
+          Features
+        </div>
+      </div>
+      <div class="mt-2 flex flex-col items-center">
+        <div
+          class="text-7xl font-bold leading-none tracking-tight text-green-500 sm:text-8xl"
+        >
+          38
+        </div>
+        <div
+          class="text-lg font-medium text-green-600 dark:text-green-500"
+        >
+          Proposals
+        </div>
+        <div
+          class="text-secondary mt-5 flex w-full items-baseline justify-center"
+        >
+          <div
+            class="truncate text-md font-medium"
+          >
+            Implemented:
+          </div>
+          <div
+            class="ml-1.5 text-lg font-semibold"
+          >
+            16
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="bg-white flex  m-10 flex-auto flex-col overflow-hidden rounded-2xl p-6 shadow sm:col-span-2 md:col-span-4 lg:col-span-2">
+    <div class="flex flex-col items-start justify-between sm:flex-row">
+      <div class="truncate text-lg font-medium leading-6 tracking-tight">
+        Task Distribution
+      </div>
+      <div class="mt-3 sm:ml-2 sm:mt-0">
+        <mat-button-toggle-group
+          value="this-week"
+          #taskDistributionWeekSelector="matButtonToggleGroup"
+        >
+          <mat-button-toggle value="last-week"
+          >Last Week
+          </mat-button-toggle
+          >
+          <mat-button-toggle value="this-week"
+          >This Week
+          </mat-button-toggle
+          >
+        </mat-button-toggle-group>
+      </div>
+    </div>
+    <div class="mt-6 flex flex-auto flex-col">
+      <apx-chart
+        class="h-80 w-full flex-auto"
+        [chart]="chartTaskDistribution.chart"
+        [labels]="chartTaskDistribution.labels"
+        [legend]="chartTaskDistribution.legend"
+        [plotOptions]="chartTaskDistribution.plotOptions"
+        [series]="chartTaskDistribution.series[taskDistributionWeekSelector.value]"
+        [states]="chartTaskDistribution.states"
+        [stroke]="chartTaskDistribution.stroke"
+        [theme]="chartTaskDistribution.theme"
+        [tooltip]="chartTaskDistribution.tooltip"
+        [yaxis]="chartTaskDistribution.yaxis"
+      ></apx-chart>
+    </div>
+    <div class="-m-6 mt-4 grid grid-cols-2 divide-x border-t bg-gray-50 dark:bg-transparent">
+      <div class="flex flex-col items-center justify-center p-6 sm:p-8">
+        <div class="text-5xl font-semibold leading-none tracking-tighter">
+          {{
+            taskDistributionOverview.new
+          }}
+        </div>
+        <div class="text-secondary mt-1 text-center">
+          New tasks
+        </div>
+      </div>
+      <div class="flex flex-col items-center justify-center p-6 sm:p-8">
+        <div class="text-5xl font-semibold leading-none tracking-tighter">
+          {{
+            taskDistributionOverview.completed
+          }}
+        </div>
+        <div class="text-secondary mt-1 text-center">
+          Completed tasks
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

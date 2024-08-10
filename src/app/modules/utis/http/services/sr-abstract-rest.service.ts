@@ -15,7 +15,7 @@ import {
   deserializeListResource as customDeserializeListResource,
 } from '../converter/converte';
 
-export abstract class SrAbstractRestService<T extends Model> implements ModelService<T> {
+export abstract class AbstractRestService<T extends Model> implements ModelService<T> {
   protected readonly log: Logg = Logg.of(this.getNameOfService());
 
   constructor(public type: any, protected serviceUrl: string, protected http: HttpService) {
