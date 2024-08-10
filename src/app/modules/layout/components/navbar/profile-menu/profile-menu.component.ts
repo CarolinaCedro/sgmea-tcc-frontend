@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { NgClass } from '@angular/common';
-import { ClickOutsideDirective } from '../../../../../shared/directives/click-outside.directive';
-import { ThemeService } from '../../../../../core/services/theme.service';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import {Component, OnInit} from '@angular/core';
+import {RouterLink} from '@angular/router';
+import {NgClass} from '@angular/common';
+import {ClickOutsideDirective} from '../../../../../shared/directives/click-outside.directive';
+import {ThemeService} from '../../../../../core/services/theme.service';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {AuthService} from "../../../../../core/auth/service/auth/auth.service";
 
 @Component({
   selector: 'profile-menu',
@@ -50,14 +51,14 @@ export class ProfileMenuComponent implements OnInit {
     {
       title: 'Sair',
       icon: './assets/icons/heroicons/outline/logout.svg',
-      link: '/login',
+      link: '/auth/sign-in',
     },
   ];
 
   public themeColors = [
     {
       name: 'base',
-      code: '#e11d48',
+      code: '#3b82f6',
     },
     {
       name: 'yellow',
@@ -87,9 +88,11 @@ export class ProfileMenuComponent implements OnInit {
 
   public themeMode = ['light', 'dark'];
 
-  constructor(public themeService: ThemeService) {}
+  constructor(public themeService: ThemeService, private auth: AuthService) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   public toggleMenu(): void {
     this.isOpen = !this.isOpen;
@@ -104,7 +107,11 @@ export class ProfileMenuComponent implements OnInit {
 
   toggleThemeColor(color: string) {
     this.themeService.theme.update((theme) => {
-      return { ...theme, color: color };
+      return {...theme, color: color};
     });
+  }
+
+  logout() {
+    this.auth.logout()
   }
 }

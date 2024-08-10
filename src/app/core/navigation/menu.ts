@@ -1,4 +1,4 @@
-import { MenuItem } from '../models/menu.model';
+import {MenuItem} from '../models/menu.model';
 
 export class Menu {
   public static pages: MenuItem[] = [
@@ -7,27 +7,32 @@ export class Menu {
       separator: false,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/chart-pie.svg',
+          icon: 'fa-solid fa-chart-pie',
           label: 'Dashboard',
           route: '/home/dashboard',
         },
         {
-          icon: 'assets/icons/heroicons/outline/lock-closed.svg',
+          icon: 'fa-solid fa-user-large',
+          label: 'Funcionário',
+          route: '/home/funcionario',
+        },
+        {
+          icon: 'fa-solid fa-chalkboard-user',
           label: 'Técnico',
-          route: '/home/tecnicos',
+          route: '/home/tecnico',
         },
         {
-          icon: 'assets/icons/heroicons/outline/moon.svg',
-          label: 'Gerente',
-          route: '/home/auth',
+          icon: 'fa-solid fa-user-tie',
+          label: 'Gestores',
+          route: '/home/gestor',
         },
         {
-          icon: 'assets/icons/heroicons/outline/refresh.svg',
+          icon: 'fa-solid fa-clipboard',
           label: 'Chamados',
-          route: '/home/auth',
+          route: '/home/chamados',
         },
         {
-          icon: 'assets/icons/heroicons/outline/lock-closed.svg',
+          icon: 'fa-solid fa-note-sticky',
           label: 'Relatório',
           route: '/home/auth',
         },

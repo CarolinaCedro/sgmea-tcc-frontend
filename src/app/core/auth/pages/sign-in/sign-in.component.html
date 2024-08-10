@@ -10,20 +10,20 @@
       <div class="relative">
         <input
           type="text"
-          id="email"
-          [ngClass]="{ 'is__invalid-input': submitted && f['email'].errors }"
+          id="nome"
+          [ngClass]="{ 'is__invalid-input': submitted && f['nome'].errors }"
           class="peer block"
           placeholder=" "
-          formControlName="email" />
+          formControlName="nome"/>
         <label
-          for="email"
+          for="nome"
           class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">
           Endereço de e-mail
         </label>
       </div>
-      <div *ngIf="submitted && f['email'].errors" class="is__invalid-error">
-        <div *ngIf="f['email'].errors['required']">Campo obrigatório</div>
-        <div *ngIf="f['email'].errors['email']">O e-mail deve ser um endereço válido</div>
+      <div *ngIf="submitted && f['nome'].errors" class="is__invalid-error">
+        <div *ngIf="f['nome'].errors?.['required']">Campo obrigatório</div>
+        <div *ngIf="f['nome'].errors?.['nome']">O e-mail deve ser um endereço válido</div>
       </div>
     </div>
 
@@ -31,32 +31,43 @@
       <div class="relative">
         <input
           [type]="passwordTextType ? 'text' : 'password'"
-          id="password"
-          [ngClass]="{ 'is__invalid-input': submitted && f['password'].errors }"
+          id="senha"
+          [ngClass]="{ 'is__invalid-input': submitted && f['senha'].errors }"
           class="peer block"
           placeholder=" "
-          formControlName="password" />
+          formControlName="senha"/>
         <label
-          for="password"
+          for="senha"
           class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">
           Senha
         </label>
         <span class="absolute top-2.5 right-5 cursor-pointer text-muted-foreground" (click)="togglePasswordTextType()">
 <!--          <svg-icon-->
-<!--            [src]="-->
-<!--              !passwordTextType-->
-<!--                ? 'assets/icons/heroicons/outline/eye-off.svg'-->
-<!--                : 'assets/icons/heroicons/outline/eye.svg'-->
-<!--            "-->
-<!--            [svgClass]="'h-5 w-5'">-->
-<!--          </svg-icon>-->
+          <!--            [src]="-->
+          <!--              !passwordTextType-->
+          <!--                ? 'assets/icons/heroicons/outline/eye-off.svg'-->
+          <!--                : 'assets/icons/heroicons/outline/eye.svg'-->
+          <!--            "-->
+          <!--            [svgClass]="'h-5 w-5'">-->
+          <!--          </svg-icon>-->
         </span>
       </div>
-      <div *ngIf="submitted && f['password'].errors" class="is__invalid-error">
-        <div *ngIf="f['password'].errors['required']">Campo obrigatório</div>
-      </div>
+
     </div>
+
+    <div *ngIf="submitted && f['senha'].errors" class="is__invalid-error">
+      <div *ngIf="f['senha'].errors?.['required']">Campo obrigatório</div>
+    </div>
+
+
   </div>
+
+  <div *ngIf="isNotUserValid" class="w-full flex justify-center">
+    <small class="p-3 text-red-600 bg-red-100 border border-red-300 rounded-md text-center block shake">
+      Email ou senha incorretos. Tente novamente.
+    </small>
+  </div>
+
 
   <div class="mb-2 flex items-center justify-between space-x-3">
 
@@ -68,7 +79,8 @@
 
   <!-- Botão de Envio -->
   <div>
-    <app-button full impact="bold" tone="primary" shape="rounded" (click)="login(form.value)" size="medium">Entrar</app-button>
+    <app-button full impact="bold" tone="primary" shape="rounded" (click)="login(form.value)" size="medium">Entrar
+    </app-button>
   </div>
 
   <!-- Cadastro -->

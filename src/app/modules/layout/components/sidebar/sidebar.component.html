@@ -3,26 +3,32 @@
   class="scrollbar-thumb-rounded scrollbar-track-rounded hidden h-full flex-col justify-between overflow-auto bg-background pt-3 transition-all duration-300 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-card lg:flex">
   <div class="px-4">
     <!-- Logo -->
-    <div class="relative h-10">
-      <div class="flex items-center" *ngIf="menuService.showSideBar">
-        <a
-          (click)="toggleSidebar()"
-          class="flex cursor-pointer items-center justify-center rounded bg-primary p-2 focus:outline-none focus:ring-1">
-<!--          <svg-icon src="assets/icons/logo.svg"> </svg-icon>-->
-          <h3 class="text-white">SGMEA</h3>
-        </a>
+    <div class="relative h-15">
+      <div class="flex items-center justify-center" *ngIf="menuService.showSideBar">
+
+        <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-3 px-2 md:px-0 border-b">
+          <!-- Title -->
+          <div class="">
+            <div class="text-4xl font-extrabold tracking-tight leading-none flex justify-between">
+              <div class="text-2xl sm:text-base md:text-lg text-primary lg:text-4xl xl:text-4xl">
+                SGMEA
+              </div>
+            </div>
+            <small class="text-gray-500">ownergmail.com</small>
+          </div>
+        </div>
+
       </div>
       <button
         (click)="toggleSidebar()"
         class="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded text-muted-foreground/50 transition-all duration-200 focus:outline-none hover:text-muted-foreground"
         [ngClass]="{ 'rotate-180': !menuService.showSideBar }">
-<!--        <svg-icon src="assets/icons/heroicons/solid/chevron-double-left.svg"> </svg-icon>-->
+        <i class="fa-solid fa-circle-left text-primary text-lg"></i>
       </button>
     </div>
 
     <!-- Separator -->
-    <div class="pt-3">
-      <hr class="border-dashed border-muted" />
+    <div class="pt-2">
     </div>
 
     <!-- Menu Items -->
@@ -35,10 +41,10 @@
       target="_blank"
       href="#"
       class="group flex h-9 cursor-pointer items-center justify-start rounded p-2 hover:bg-card">
-<!--      <svg-icon-->
-<!--        src="assets/icons/heroicons/outline/information-circle.svg"-->
-<!--        [svgClass]="'h-5 w-5 text-muted-foreground/50'">-->
-<!--      </svg-icon>-->
+      <!--      <svg-icon-->
+      <!--        src="assets/icons/heroicons/outline/information-circle.svg"-->
+      <!--        [svgClass]="'h-5 w-5 text-muted-foreground/50'">-->
+      <!--      </svg-icon>-->
 
     </a>
   </div>

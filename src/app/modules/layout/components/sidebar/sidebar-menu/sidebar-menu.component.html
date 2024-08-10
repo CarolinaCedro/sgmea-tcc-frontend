@@ -13,7 +13,7 @@
         <div
           [ngClass]="item.active && !menuService.showSideBar ? 'text-primary' : 'text-muted-foreground/50'"
           class="pointer-events-none absolute m-2">
-<!--          <svg-icon src="{{ item.icon }}" [svgClass]="'h-5 w-5'"> </svg-icon>-->
+          <i [class]="item.icon" class="w-10 h-10 text-primary"></i>
         </div>
 
         <!-- Condition -->
@@ -29,7 +29,7 @@
             class="flex h-9 cursor-pointer items-center justify-start rounded text-muted-foreground hover:bg-card hover:text-foreground">
             <a
               routerLinkActive="text-primary"
-              class="ml-10 truncate text-xs font-semibold tracking-wide focus:outline-none">
+              class="ml-10 truncate text-sm font-semibold tracking-wide focus:outline-none">
               {{ item.label }}
             </a>
           </div>
@@ -50,7 +50,7 @@
           *ngIf="item.children"
           [ngClass]="{ hidden: !menuService.showSideBar, 'rotate-90': item.expanded }"
           class="pointer-events-none absolute top-1 right-0 flex items-center p-1 text-muted-foreground/50 transition-all duration-500">
-<!--          <svg-icon src="assets/icons/heroicons/solid/chevron-right.svg" [svgClass]="'h-5 w-5'"> </svg-icon>-->
+          <!--          <svg-icon src="assets/icons/heroicons/solid/chevron-right.svg" [svgClass]="'h-5 w-5'"> </svg-icon>-->
         </button>
 
         <!-- Tooltip -->
@@ -68,6 +68,6 @@
   </ul>
 
   <div class="pt-3" *ngIf="menu.separator">
-    <hr class="border-dashed border-border" />
+    <hr class="border-dashed border-border"/>
   </div>
 </div>

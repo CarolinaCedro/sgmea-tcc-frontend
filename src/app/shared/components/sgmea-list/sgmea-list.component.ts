@@ -7,7 +7,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
@@ -16,7 +15,6 @@ import { Subject } from 'rxjs';
   standalone: true,
   imports: [
     NgIf,
-    AngularSvgIconModule,
   ],
   templateUrl: './sgmea-list.component.html',
   styleUrls: ['./sgmea-list.component.scss']

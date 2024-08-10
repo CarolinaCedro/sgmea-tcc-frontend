@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { LocalStorageService } from '../../../utis/localstorage/local-storage.service';
 import { Token } from '../model/token';
+import {LocalStorageService} from "../../../../modules/utis/localstorage/local-storage.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class JwtTokenService {
 
-  public static readonly TOKEN_KEY: string = "APPLICATION_TOKEN";
+  public static readonly TOKEN_KEY: string = "token";
 
   constructor(private storage: LocalStorageService) {
   }
