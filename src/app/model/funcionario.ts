@@ -14,8 +14,8 @@ export class Funcionario extends User {
   chamadoCriados: ChamadoCriado[] = [];
 
 
-  constructor(id: string, nome: string, cpf: string, email: string, senha: string, role: UserRole, perfil: Perfil, gestor: Gestor, departamento: Departamento, funcao: string, chamadoCriados: ChamadoCriado[]) {
-    super(id, nome, cpf, email, senha, role, perfil, gestor);
+  constructor(departamento: Departamento, funcao: string, chamadoCriados: ChamadoCriado[]) {
+    super();
     this.departamento = departamento;
     this.funcao = funcao;
     this.chamadoCriados = chamadoCriados;

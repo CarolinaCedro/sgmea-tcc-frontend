@@ -1,17 +1,17 @@
 
 import {Exclude} from "class-transformer";
-import {isEmpty, isNotNullOrUndefined, isNullOrUndefined} from "../../utils/utils";
+import {isEmpty, isNotNullOrUndefined, isNullOrUndefined} from "../../utils";
 
 
 export class MetaData {
   @Exclude()
-  private _totalLoadedRecords: number;
-  page: number;
-  pageSize: number;
-  totalPages: number;
-  totalRecords: number;
-  totalAll: number;
-  links: Link[];
+  private _totalLoadedRecords!: number;
+  page!: number;
+  pageSize!: number;
+  totalPages!: number;
+  totalRecords!: number;
+  totalAll!: number;
+  links!: Link[];
 
   constructor(inst?: any) {
     // @ts-ignore

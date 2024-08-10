@@ -1,5 +1,6 @@
 import {SrCriterion} from "./sr-criterion";
-import {isNullOrUndefined} from "../../utils/commons/sr-commons.model";
+import {isNullOrUndefined} from "../../utils";
+
 
 
 

@@ -10,8 +10,6 @@ import { ReactiveFormsModule } from '@angular/forms';
   standalone: true,
   imports: [
     SgmeaFormComponent,
-    MatFormField,
-    MatInput,
     MatInputModule,
     NgIf,
     ReactiveFormsModule,

@@ -1,19 +1,20 @@
 import { Component, Input } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
-import { MatDivider } from '@angular/material/divider';
-import { MatCardActions } from '@angular/material/card';
-import { MatButton } from '@angular/material/button';
+import {MatIcon, MatIconModule} from '@angular/material/icon';
+import {MatDivider, MatDividerModule} from '@angular/material/divider';
+import {MatCardActions, MatCardModule} from '@angular/material/card';
+import {MatButton, MatButtonModule} from '@angular/material/button';
 import { MatPrefix } from '@angular/material/form-field';
+import {MatInputModule} from "@angular/material/input";
 
 @Component({
   selector: 'sgmea-form',
   standalone: true,
   imports: [
-    MatIcon,
-    MatDivider,
-    MatCardActions,
-    MatButton,
-    MatPrefix,
+    MatIconModule,
+    MatInputModule,
+    MatDividerModule,
+    MatCardModule,
+    MatButtonModule
   ],
   templateUrl: './sgmea-form.component.html',
   styleUrl: './sgmea-form.component.scss',

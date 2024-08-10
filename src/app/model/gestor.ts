@@ -9,19 +9,9 @@ export class Gestor extends User {
   chamadoAtribuidos: ChamadoAtribuido[] = [];
   usuariosAlocados: User[] = [];
 
-  constructor(
-    id: string,
-    nome: string,
-    cpf: string,
-    email: string,
-    senha: string,
-    role: UserRole,
-    perfil: Perfil,
-    areaGestao: AreaGestao,
-    chamadoAtribuidos: ChamadoAtribuido[] = [],
-    usuariosAlocados: User[] = []
-  ) {
-    super(id, nome, cpf, email, senha, role, perfil);
+
+  constructor(areaGestao: AreaGestao, chamadoAtribuidos: ChamadoAtribuido[], usuariosAlocados: User[]) {
+    super();
     this.areaGestao = areaGestao;
     this.chamadoAtribuidos = chamadoAtribuidos;
     this.usuariosAlocados = usuariosAlocados;

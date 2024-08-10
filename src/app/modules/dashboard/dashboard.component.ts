@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
+import {MatButtonToggle, MatButtonToggleGroup, MatButtonToggleModule} from "@angular/material/button-toggle";
 import {ApexOptions, NgApexchartsModule} from "ng-apexcharts";
 
 // Define um tipo para as chaves de semana
@@ -10,7 +10,7 @@ type TaskDistributionKey = 'this-week' | 'last-week';
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   standalone: true,
-  imports: [RouterOutlet, MatButtonToggleGroup, MatButtonToggle, NgApexchartsModule],
+  imports: [RouterOutlet, NgApexchartsModule, MatButtonToggleModule],
 })
 export class DashboardComponent implements OnInit {
 

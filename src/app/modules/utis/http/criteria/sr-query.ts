@@ -1,5 +1,5 @@
 import {SrCriterion} from "./sr-criterion";
-import {isNotNullOrUndefined, isNullOrUndefined} from "../../utils/commons/sr-commons.model";
+import {isNotNullOrUndefined, isNullOrUndefined} from "../../utils";
 
 
 export class SrQuery {

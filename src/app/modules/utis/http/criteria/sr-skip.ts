@@ -1,6 +1,7 @@
 import {SrCriterion} from "./sr-criterion";
 import {SrOperators} from "./sr-operators";
-import {isNullOrUndefined} from "../../utils/commons/sr-commons.model";
+import {isNullOrUndefined} from "../../utils";
+
 
 
 export class SrSkip extends SrCriterion {

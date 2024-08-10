@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {AbstractRestService} from "../../utis/http/services/sr-abstract-rest.service";
+import {AbstractRestService} from "../../utis/http/services/abstract-rest.service";
 import {Tecnico} from "../../../model/tecnico";
 import {HttpService} from "../../utis/http/services/http.service";
 
@@ -9,6 +9,6 @@ import {HttpService} from "../../utis/http/services/http.service";
 export class TecnicoService extends AbstractRestService<Tecnico> {
 
   constructor(http: HttpService) {
-    super(Tecnico, "", http)
+    super(Tecnico, "/api/sgmea/v1/tecnico", http)
   }
 }

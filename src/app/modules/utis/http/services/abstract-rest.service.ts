@@ -1,14 +1,14 @@
-import { HttpService } from './http.service';
-import { forkJoin, Observable, of } from 'rxjs';
-import { serialize } from 'class-transformer';
-import { ModelService, PathVariable } from './model-service.interface';
-import { catchError, expand, map, mergeMap, reduce, take, takeWhile } from 'rxjs/operators';
-import { throwErrorMessage } from '../model/exception/error-message.model';
-import { isListResource, ListResource } from '../model/list-resource.model';
-import { Model } from '../model/model';
-import { Logg } from '../../logger/logger';
-import { SrQuery } from '../criteria';
-import { isEmpty, isNotNullOrUndefined, isNullOrUndefined, isObject, isString, splitArray } from '../../utils';
+import {HttpService} from './http.service';
+import {forkJoin, Observable, of} from 'rxjs';
+import {serialize} from 'class-transformer';
+import {ModelService, PathVariable} from './model-service.interface';
+import {catchError, expand, map, mergeMap, reduce, take, takeWhile} from 'rxjs/operators';
+import {throwErrorMessage} from '../model/exception/error-message.model';
+import {isListResource, ListResource} from '../model/list-resource.model';
+import {Model} from '../model/model';
+import {Logg} from '../../logger/logger';
+import {SrQuery} from '../criteria';
+import {isEmpty, isNotNullOrUndefined, isNullOrUndefined, isObject, isString, splitArray} from '../../utils';
 import {
   deserializeArray as customDeserializeArray,
   deserializeItem as customDeserializeItem,
@@ -33,7 +33,9 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
     if (isNotNullOrUndefined(pathVariable)) {
       Object.keys(pathVariable)
         .forEach((key: string) => {
-          url = url.replace('{' + key + '}', pathVariable[key]);
+          if (pathVariable) {
+            url = url.replace('{' + key + '}', pathVariable[key]);
+          }
         });
     }
     return url;
@@ -102,6 +104,75 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
   }
 
   findByIds(ids: Array<string | T>, targetList?: ListResource<any> | Array<any>, pathVariable?: PathVariable): Observable<Array<T>>;
+  findByIds(ids: any, targetList?: any, pathVariable?: PathVariable): Observable<Array<T>> {
+    return of(ids)
+      .pipe(
+        mergeMap((ids: Array<string | T>) => {
+          //se não tiver itens válidos, devemos retornar um array vazio
+          if (isEmpty(ids)) {
+            return of([]);
+          }
+          //pegando apenas itens válidos
+          const _ids = ids
+            .filter(id => isNotNullOrUndefined(id))
+            .map(id => isString(id) ? id as string : (id as T).id);
+
+          if (isEmpty(_ids)) {
+            return of([]);
+          }
+
+          return of(_ids)
+            .pipe(
+              //removendo qualquer id repetido
+              map((_idss: Array<string>) => Array.from(new Set(_idss))),
+              //criando pool de requisições para carregar os itens
+              map((_idss: Array<string>) => {
+                return splitArray(_idss, 50).map(it => this.createRequestFindByIds(it, pathVariable));
+              }),
+              mergeMap((idsRequest: Array<Observable<T[]>>) => forkJoin(idsRequest)),
+              map((results: Array<Array<T>>) => {
+                return results.reduce((value, currentValue) => value.concat(currentValue), []);
+              }),
+              map((result: Array<T>) => {
+                //vamos fazer o processo de databinding
+                if (!isEmpty(targetList)) {
+                  result.forEach((resultIt: T) => {
+
+                    let targetItens: Array<any> = null;
+                    //pegando uma listagem de itens de um resource
+                    if (isListResource(targetList)) {
+                      targetItens = (targetList as ListResource<any>).records.filter(it => isNotNullOrUndefined(it));
+                    } else {
+                      targetItens = (targetList as Array<any>).filter(it => isNotNullOrUndefined(it));
+                    }
+                    //iterando a listagem de target
+                    //pode ser que estejamos interando um array de contas
+                    //nesse caso vamo ver se encontramo algum objeto com o id esperado
+                    let aux = false;
+                    targetItens.filter(it => resultIt.id === it["id"])
+                      .forEach((it: any, index: number) => {
+                        Model.databinding(it, resultIt);
+                        //targetItens[index] = resultIt;
+                        aux = true;
+                      });
+                    if (!aux) {
+                      targetItens.forEach(itTarget => {
+                        Object.keys(itTarget).filter(itKey =>
+                          isNotNullOrUndefined(itTarget[itKey]) &&
+                          isObject(itTarget[itKey]) &&
+                          isNotNullOrUndefined(itTarget[itKey]["id"]) &&
+                          itTarget[itKey]["id"] === resultIt.id
+                        ).map(itKey => itTarget[itKey] = resultIt);
+                      });
+                    }
+                  });
+                }
+                return result;
+              })
+            );
+        })
+      );
+  }
 
 
   private createRequestFindByIds(ids: Array<string>, pathVariable?: PathVariable): Observable<T[]> {

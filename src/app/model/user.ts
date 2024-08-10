@@ -1,39 +1,36 @@
 import {Gestor} from "./gestor";
 import {Perfil} from "./enum/perfil";
 import {UserRole} from "./enum/user-role";
+import {Transform, Type} from "class-transformer";
+import {Model} from "../modules/utis/http/model/model";
+import {ModelImplModel} from "../modules/utis/http/model/model-impl.model";
 
 
-export class User {
+export class User extends ModelImplModel {
+
   id: string;
   nome: string;
   cpf: string;
   email: string;
-  gestor?: Gestor;
+
+  @Transform(value => Model.serialize(value), Model.serializeOpts())
+  @Transform(value => Model.deserialize(value, Gestor), Model.deserializeOpts())
+  @Type(() => Gestor)
+  gestor?: Gestor | null;
+
+
+  @Transform(value => Perfil.serialize(value), Perfil.serializeOpts())
+  @Transform(value => Perfil.deserialize(value), Perfil.deserializeOpts())
   perfil: Perfil;
   senha: string;
+
+
+  @Transform(value => UserRole.serialize(value), UserRole.serializeOpts())
+  @Transform(value => UserRole.deserialize(value), UserRole.deserializeOpts())
   role: UserRole;
 
-  constructor(
-    id: string,
-    nome: string,
-    cpf: string,
-    email: string,
-    senha: string,
-    role: UserRole,
-    perfil: Perfil,
-    gestor?: Gestor
-  ) {
-    this.id = id;
-    this.nome = nome;
-    this.cpf = cpf;
-    this.email = email;
-    this.senha = senha;
-    this.role = role;
-    this.perfil = perfil;
-    this.gestor = gestor;
-  }
 
-  // Métodos que simulam a interface UserDetails
+// Métodos que simulam a interface UserDetails
   getAuthorities(): string[] {
     switch (this.role) {
       case UserRole.ADMIN:

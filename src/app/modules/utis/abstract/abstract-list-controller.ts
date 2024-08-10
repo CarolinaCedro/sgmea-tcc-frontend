@@ -167,28 +167,28 @@ export abstract class AbstractListController<T extends Model> implements ListCon
   * */
   remove(value: T): void {
 
-    console.log('o valor chegando', value);
-    this.openConfirmationDialog().subscribe(accept => {
-      if (accept) {
-        this.service.delete(value).subscribe(
-          () => {
-            this.values.records = this.values?.records?.filter(it => it.id !== value.id);
-            // this._fuseAlertService.show({
-            //     message: "O item foi excluído com sucesso",
-            //     type: "success"
-            // })
-          },
-          (err: ErrorMessage) => {
-            console.log('erros', err);
-            this.showErrors(err?.message);
-          },
-        );
-      }
-    });
+    // console.log('o valor chegando', value);
+    // this.openConfirmationDialog().subscribe(accept => {
+    //   if (accept) {
+    //     this.service.delete(value).subscribe(
+    //       () => {
+    //         this.values.records = this.values?.records?.filter(it => it.id !== value.id);
+    //         // this._fuseAlertService.show({
+    //         //     message: "O item foi excluído com sucesso",
+    //         //     type: "success"
+    //         // })
+    //       },
+    //       (err: ErrorMessage) => {
+    //         console.log('erros', err);
+    //         this.showErrors(err?.message);
+    //       },
+    //     );
+    //   }
+    // });
   }
 
 
-  openConfirmationDialog(): Observable<boolean> {
+  openConfirmationDialog(): Observable<boolean> | null {
     return null;
     // Open the dialog and save the reference of it
     // const dialogRef = this._fuseConfirmationService.OpenDeleteAction();
