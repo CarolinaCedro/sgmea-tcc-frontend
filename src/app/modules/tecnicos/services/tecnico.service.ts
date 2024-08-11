@@ -8,7 +8,14 @@ import {HttpService} from "../../utis/http/services/http.service";
 })
 export class TecnicoService extends AbstractRestService<Tecnico> {
 
+
   constructor(http: HttpService) {
     super(Tecnico, "/api/sgmea/v1/tecnico", http)
   }
+
+  protected getNameOfService(): string {
+    return "TecnicoService";
+  }
+
+
 }

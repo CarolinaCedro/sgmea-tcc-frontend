@@ -14,12 +14,24 @@ import {
   deserializeItem as customDeserializeItem,
   deserializeListResource as customDeserializeListResource,
 } from '../converter/converte';
+import {LocalStorageService} from "../../localstorage/local-storage.service";
+import {inject} from "@angular/core";
 
 export abstract class AbstractRestService<T extends Model> implements ModelService<T> {
   protected readonly log: Logg = Logg.of(this.getNameOfService());
 
+  private TOKEN: string = "token";
+  private localStorage: LocalStorageService;
+
+
   constructor(public type: any, protected serviceUrl: string, protected http: HttpService) {
+    this.localStorage = inject(LocalStorageService)
   }
+
+  public setToken(token: string): void {
+    this.TOKEN = token;
+  }
+
 
   protected buildServiceUrl(query?: SrQuery | string | null, pathVariable?: PathVariable | null): string {
     let url: string = '';
@@ -46,11 +58,15 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
   }
 
   save(value: T, pathVariable?: PathVariable): Observable<T> {
+
+    console.log("ele pega o token", this.localStorage.getItem(this.TOKEN))
+
     return of(serialize(value))
       .pipe(
         mergeMap(payload =>
           this.http
             .createRequest()
+            .setAuthToken(this.localStorage.getItem(this.TOKEN))
             .usingLog(this.log)
             .url(this.buildServiceUrl(null, pathVariable))
             .post(payload)
@@ -90,6 +106,7 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
             }
             return this.http
               .createRequest()
+              .setAuthToken(this.localStorage.getItem(this.TOKEN))
               .usingLog(this.log)
               .url(this.buildServiceUrl(null, pathVariable) + '/' + (isString(_id) ? _id as string : (_id as T).id))
               .get()
@@ -181,6 +198,7 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
         mergeMap(idsRequest => {
           const request = this.http
             .createRequest()
+            .setAuthToken(this.localStorage.getItem(this.TOKEN))
             .usingLog(this.log)
             .url(this.buildServiceUrl(null, pathVariable) + '/ids');
 
@@ -208,6 +226,7 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
         mergeMap(() =>
           this.http
             .createRequest()
+            .setAuthToken(this.localStorage.getItem(this.TOKEN))
             .usingLog(this.log)
             .url(this.buildServiceUrl(null, pathVariable) + '/first')
             .get()
@@ -230,6 +249,7 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
         mergeMap(_value =>
           this.http
             .createRequest()
+            .setAuthToken(this.localStorage.getItem(this.TOKEN))
             .usingLog(this.log)
             .url(this.buildServiceUrl(null, pathVariable) + '/' + _value.id)
             .delete()
@@ -247,6 +267,7 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
         mergeMap(() =>
           this.http
             .createRequest()
+            .setAuthToken(this.localStorage.getItem(this.TOKEN))
             .usingLog(this.log)
             .url(this.buildServiceUrl(null, pathVariable) + '/count')
             .acceptTextOnly()
@@ -267,6 +288,7 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
         mergeMap(url =>
           this.http
             .createRequest()
+            .setAuthToken(this.localStorage.getItem(this.TOKEN))
             .usingLog(this.log)
             .url(url)
             .get()

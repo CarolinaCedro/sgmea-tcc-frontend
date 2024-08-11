@@ -1,13 +1,13 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Directive, inject, OnDestroy, OnInit, Query } from '@angular/core';
-import { take, takeUntil, tap } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
-import { Model } from '../http/model/model';
-import { ListResource } from '../http/model/list-resource.model';
-import { QueryParam, QueryParamUtilsService } from './query-param/query-param-utils.service';
-import { ModelService } from '../http/services/model-service.interface';
-import { ErrorMessage } from '../http/model/exception/error-message.model';
-import { ListController } from '../models/list-controller.interface';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Directive, inject, OnDestroy, OnInit, Query} from '@angular/core';
+import {take, takeUntil, tap} from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
+import {Model} from '../http/model/model';
+import {ListResource} from '../http/model/list-resource.model';
+import {QueryParam, QueryParamUtilsService} from './query-param/query-param-utils.service';
+import {ModelService} from '../http/services/model-service.interface';
+import {ErrorMessage} from '../http/model/exception/error-message.model';
+import {ListController} from '../models/list-controller.interface';
 
 
 @Directive({
@@ -42,7 +42,7 @@ export abstract class AbstractListController<T extends Model> implements ListCon
   // Método Angular executado quando o componente é inicializado.
   // Inicializa a listagem de recursos e configura um observador para eventos de rolagem da tela.
   ngOnInit() {
-    // this.list();
+    this.list();
     // this.layoutService.onScrolledEvent
     //     .pipe(
     //         debounceTime(1000)
@@ -157,7 +157,7 @@ export abstract class AbstractListController<T extends Model> implements ListCon
     Utiliza o Angular Router para navegar para a rota de edição do recurso.
   * */
   edit(value: T): void {
-    this.router.navigate(['../' + value.id], { relativeTo: this.route });
+    this.router.navigate(['../' + value.id], {relativeTo: this.route});
   }
 
 
