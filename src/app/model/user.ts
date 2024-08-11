@@ -1,8 +1,6 @@
-import {Gestor} from "./gestor";
 import {Perfil} from "./enum/perfil";
 import {UserRole} from "./enum/user-role";
-import {Transform, Type} from "class-transformer";
-import {Model} from "../modules/utis/http/model/model";
+import {Transform} from "class-transformer";
 import {ModelImplModel} from "../modules/utis/http/model/model-impl.model";
 
 
@@ -13,10 +11,10 @@ export class User extends ModelImplModel {
   cpf: string;
   email: string;
 
-  @Transform(value => Model.serialize(value), Model.serializeOpts())
-  @Transform(value => Model.deserialize(value, Gestor), Model.deserializeOpts())
-  @Type(() => Gestor)
-  gestor?: Gestor | null;
+  // @Transform(value => Model.serialize(value), Model.serializeOpts())
+  // @Transform(value => Model.deserialize(value, Gestor), Model.deserializeOpts())
+  // @Type(() => Gestor)
+  // gestor?: Gestor | null;
 
 
   @Transform(value => Perfil.serialize(value), Perfil.serializeOpts())
