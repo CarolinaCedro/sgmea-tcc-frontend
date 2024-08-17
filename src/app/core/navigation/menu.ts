@@ -32,9 +32,19 @@ export class Menu {
           route: '/home/chamados',
         },
         {
+          icon: 'fa-solid fa-clipboard',
+          label: 'Priorização chamado',
+          route: '/home/priorizao-chamado',
+        },
+        {
+          icon: 'fa-solid fa-clipboard',
+          label: 'Histórico',
+          route: '/home/historico',
+        },
+        {
           icon: 'fa-solid fa-note-sticky',
           label: 'Relatório',
-          route: '/home/auth',
+          route: '/home/relatorio',
         },
 
       ],

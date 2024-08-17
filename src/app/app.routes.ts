@@ -58,6 +58,22 @@ export const routes: Routes = [
         path: 'tecnico',
         loadChildren: () => import('../app/modules/tecnicos/tecnicos.routes')
       },
+      {
+        path: 'chamados',
+        loadChildren: () => import('../app/modules/chamados/chamados.routes')
+      },
+      {
+        path: 'priorizao-chamado',
+        loadChildren: () => import('../app/modules/priorizao-chamado/priorizao-chamado.routes')
+      },
+      {
+        path: 'relatorio',
+        loadChildren: () => import('../app/modules/relatorio/relatorio.routes')
+      },
+      {
+        path: 'historico',
+        loadChildren: () => import('../app/modules/historico/historico.routes')
+      },
     ]
   }
 

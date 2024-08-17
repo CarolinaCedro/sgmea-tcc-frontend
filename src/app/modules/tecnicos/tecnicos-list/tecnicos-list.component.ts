@@ -4,7 +4,7 @@ import {MatIcon, MatIconModule} from '@angular/material/icon';
 import {MatButtonModule, MatIconButton} from '@angular/material/button';
 import {MatMenu, MatMenuItem, MatMenuModule, MatMenuTrigger} from '@angular/material/menu';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {NgForOf} from '@angular/common';
+import {JsonPipe, NgForOf} from '@angular/common';
 import {AbstractListController} from "../../utis/abstract/abstract-list-controller";
 import {Tecnico} from "../../../model/tecnico";
 import {TecnicoService} from "../services/tecnico.service";
@@ -33,6 +33,7 @@ const tecnicos = [
     NgForOf,
     MatIconModule,
     MatButtonModule,
+    JsonPipe,
   ],
   templateUrl: './tecnicos-list.component.html',
   styleUrl: './tecnicos-list.component.scss',

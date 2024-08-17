@@ -81,10 +81,16 @@ export abstract class AbstractListController<T extends Model> implements ListCon
         if (result) {
           console.log('result da list', result);
           this.values = result;
+        } else {
+          console.error('Result is undefined or null');
         }
+
+        console.log("resultados fora?", result);
         return null;
-        //console.log(this.values);
-      }, (err: ErrorMessage) => this.showErrors(err));
+      }, (err: ErrorMessage) => {
+        console.log("error", err)
+      });
+
   }
 
 
@@ -210,8 +216,8 @@ export abstract class AbstractListController<T extends Model> implements ListCon
  * Exibe mensagens de erro.
    Registra o erro no console e pode exibir um diálogo de mensagem de erro.
  * */
-  showErrors(error: any) {
-    console.log('error show error', error);
+  showErrors(error: ErrorMessage) {
+    console.log('error show error', error.message);
 
     // Exibe um diálogo de mensagem de erro
     // this._fuseConfirmationService.open({

@@ -293,7 +293,10 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
             .url(url)
             .get()
             .pipe(
-              map((result) => this.deserializeListResource(result)),
+              map((result) => {
+                console.log("os results service", result)
+                this.deserializeListResource(result)
+              }),
               catchError((err) => throwErrorMessage(err, this.log)),
             ),
         ),
@@ -375,19 +378,44 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
     return itens;
   }
 
-  protected deserializeListResource(value: any, clazz?: any);
   protected deserializeListResource(value: any, clazz?: any): ListResource<T> {
+    console.log("Chegou aqui", value);
     let list = new ListResource<T>();
+
     if (isNullOrUndefined(clazz)) {
+      console.log("a classe é ", clazz)
       clazz = this.type;
     }
+
+
     try {
-      list = customDeserializeListResource(value, clazz);
-      this.log.d('payload response', list);
+      console.log("entrou no try")
+      // Verifique se value é válido e tem o campo records
+      if (value && value.records) {
+        console.log("entrou no console value")
+        list = customDeserializeListResource(value.records, clazz);
+        console.log("a famosa list", list)
+      } else {
+        this.log.e('Error: value is null or does not contain records.');
+        throw new Error('Invalid data structure');
+      }
+
+      // Tratamento adicional para _metadata se necessário
+      if (value._metadata) {
+        this.log.d('Metadata exists:', value._metadata);
+        // Processar _metadata se necessário
+      } else {
+        this.log.d('Metadata is null');
+        // Tomar ações caso _metadata seja null, se necessário
+      }
+
+      this.log.d('Payload response', list);
     } catch (error) {
-      this.log.e('error on deserialize ', error);
+      this.log.e('Error on deserialize ', error);
       throw error;
     }
+
     return list;
   }
+
 }

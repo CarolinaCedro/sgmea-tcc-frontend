@@ -1,10 +1,10 @@
-import { MetaData } from './metadata.model';
+import {MetaData} from './metadata.model';
 
 
 export class ListResource<T> {
 
   records: Array<T>;
-  _metadata: MetaData;
+  _metadata?: MetaData;
 
   constructor() {
     this.records = new Array();
@@ -84,6 +84,7 @@ export class ListResource<T> {
 }
 
 function _isNullOrUndefined(...value: any[]): boolean {
+  console.log("is null or undefined", value)
   if (value === null || value === undefined) return true;
   let result = true;
   for (let i = 0; i < value.length; i++) {
