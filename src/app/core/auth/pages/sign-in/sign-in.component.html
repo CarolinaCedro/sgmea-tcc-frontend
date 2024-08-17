@@ -79,7 +79,13 @@
 
   <!-- Botão de Envio -->
   <div>
-    <app-button full impact="bold" tone="primary" shape="rounded" (click)="login(form.value)" size="medium">Entrar
+    <app-button full impact="bold" tone="primary" shape="rounded" (click)="login(form.value)" size="medium">
+      <span class="pr-2" >Entrar</span>
+      <mat-progress-spinner
+        *ngIf="showLoanding"
+        [diameter]="24"
+        color="warn"
+        [mode]="'indeterminate'"/>
     </app-button>
   </div>
 

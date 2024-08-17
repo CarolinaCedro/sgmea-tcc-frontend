@@ -1,81 +1,67 @@
-<form class="my-10 space-y-6">
+<form class="my-10 space-y-6" [formGroup]="form">
   <div class="text-center">
     <h2 class="mb-1 text-3xl font-semibold text-foreground">Cadastre-se <span class="text-primary">!</span></h2>
   </div>
 
   <div class="space-y-3 text-left">
+    <!-- Nome -->
     <div class="relative">
-      <input type="text" id="nome" class="peer block" placeholder=" "/>
-      <label
-        for="nome"
-        class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">
-        Nome Completo
-      </label>
+      <input type="text" id="nome" formControlName="nome" class="peer block" placeholder=" " />
+      <label for="nome" class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">Nome Completo</label>
     </div>
+
+    <!-- Email -->
     <div class="relative">
-      <input type="text" id="email" class="peer block" placeholder=" "/>
-      <label
-        for="email"
-        class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">
-        Endereço de e-mail
-      </label>
+      <input type="text" id="email" formControlName="email" class="peer block" placeholder=" " />
+      <label for="email" class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">Endereço de e-mail</label>
     </div>
+
+    <!-- CPF -->
     <div class="relative">
-      <input type="text" id="cpf" class="peer block" placeholder=" "/>
-      <label
-        for="cpf"
-        class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">
-        CPF
-      </label>
+      <input type="text" id="cpf" formControlName="cpf" class="peer block" placeholder=" " />
+      <label for="cpf" class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">CPF</label>
     </div>
+
+    <!-- Perfil -->
     <div class="relative">
-      <select id="perfil"
-              class="peer block w-full bg-background border border-muted rounded-md py-2 px-3 text-sm text-foreground">
+      <select id="perfil" formControlName="perfil" class="peer block w-full bg-background border border-muted rounded-md py-2 px-3 text-sm text-foreground">
         <option value="" disabled selected hidden></option>
         <option value="GESTOR">Gestor</option>
         <option value="FUNCIONARIO">Funcionário</option>
-        <option value="FUNCIONARIO">Técnico</option>
+        <option value="TECNICO">Técnico</option>
       </select>
-      <label
-        for="perfil"
-        class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">
-        Perfil
-      </label>
+      <label for="perfil" class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">Perfil</label>
     </div>
+
+    <!-- Senha -->
     <div class="relative">
-      <input type="password" id="senha" class="peer block" placeholder=" "/>
-      <label
-        for="senha"
-        class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">
-        Senha
-      </label>
-      <span class="absolute top-2.5 right-5 cursor-pointer text-muted-foreground">
-      <i class="fa-solid fa-eye"></i>
+      <input [type]="showPassword ? 'text' : 'password'" id="senha" formControlName="senha" class="peer block" placeholder=" " />
+      <label for="senha" class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">Senha</label>
+      <span class="absolute top-2.5 right-5 cursor-pointer text-muted-foreground" (click)="togglePasswordVisibility()">
+        <i [ngClass]="showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
       </span>
     </div>
+
     <!-- Indicador de Força da Senha -->
     <div class="grid grid-cols-4 gap-2">
-      <div class="h-1 rounded-sm bg-muted"></div>
-      <div class="h-1 rounded-sm bg-muted"></div>
-      <div class="h-1 rounded-sm bg-muted"></div>
-      <div class="h-1 rounded-sm bg-muted"></div>
+      <div [ngClass]="{'bg-muted': passwordStrength < 1, 'bg-primary': passwordStrength >= 1}" class="h-1 rounded-sm"></div>
+      <div [ngClass]="{'bg-muted': passwordStrength < 2, 'bg-primary': passwordStrength >= 2}" class="h-1 rounded-sm"></div>
+      <div [ngClass]="{'bg-muted': passwordStrength < 3, 'bg-primary': passwordStrength >= 3}" class="h-1 rounded-sm"></div>
+      <div [ngClass]="{'bg-muted': passwordStrength < 4, 'bg-primary': passwordStrength >= 4}" class="h-1 rounded-sm"></div>
     </div>
-    <span class="text-xs text-muted-foreground">
-      Use 8 ou mais caracteres com uma combinação de letras, números e símbolos.
-    </span>
+    <span class="text-xs text-muted-foreground">Use 8 ou mais caracteres com uma combinação de letras, números e símbolos.</span>
+
+    <!-- Confirmar Senha -->
     <div class="relative">
-      <input type="password" id="confirm-password" class="peer block" placeholder=" "/>
-      <label
-        for="confirm-password"
-        class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">
-        Confirmar Senha
-      </label>
+      <input [type]="showPassword ? 'text' : 'password'" id="confirm-password" formControlName="confirmPassword" class="peer block" placeholder=" " />
+      <label for="confirm-password" class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">Confirmar Senha</label>
     </div>
+    <div *ngIf="form.errors?.mismatch" class="text-red-500 text-sm">As senhas não correspondem</div>
   </div>
 
   <!-- Botão de Envio -->
   <div>
-    <app-button full impact="bold" tone="primary" shape="rounded" size="medium">Cadastrar</app-button>
+    <app-button full impact="bold" tone="primary" shape="rounded" (click)="createNewUser(form)" size="medium">Cadastrar</app-button>
   </div>
 
   <!-- Login -->

@@ -11,8 +11,6 @@
               <div class="text-2xl sm:text-base md:text-lg lg:text-4xl xl:text-4xl">
                 {{ formTitle }}
               </div>
-              <mat-icon matPrefix class="hidden sm:flex icon-size-12 color-icon" [svgIcon]="iconModule">
-              </mat-icon>
             </div>
           </div>
         </div>
@@ -23,9 +21,9 @@
         <mat-divider />
         <mat-card-actions>
           <div class="p-2 flex justify-end flex-wrap">
-            <button mat-button>Cancelar</button>
+            <button mat-button (click)="formController.cancel()">Cancelar</button>
 
-            <button mat-flat-button class="bg-primary">
+            <button mat-flat-button class="bg-primary" [disabled]="!formController.form.valid">
               Salvar
             </button>
 
