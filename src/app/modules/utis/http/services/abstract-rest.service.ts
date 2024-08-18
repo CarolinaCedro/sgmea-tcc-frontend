@@ -295,7 +295,9 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
             .pipe(
               map((result) => {
                 console.log("os results service", result)
-                this.deserializeListResource(result)
+                let list = this.deserializeListResource(result)
+                console.log("a list depois do deserializer", list)
+                return list;
               }),
               catchError((err) => throwErrorMessage(err, this.log)),
             ),
@@ -311,18 +313,18 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
     return of(query)
       .pipe(
         mergeMap(() =>
-          this.list(query, pathVariable)
-            .pipe(
-              expand((list: ListResource<T>) => list.hasNextPage() ? this.list(list._metadata.nextPage(), pathVariable) : of(null)),
-              //devemos continuar o processo enquanto temos um list populado
-              takeWhile((list: ListResource<T>) => {
-                return isNotNullOrUndefined(list);
-              }),
-              map(list => list),
-              reduce((acumulator: ListResource<T>, currentVaue: ListResource<T>) => {
-                return acumulator.pushAll(currentVaue);
-              }),
-            ),
+            this.list(query, pathVariable)
+          // .pipe(
+          //   expand((list: ListResource<T>) => list.hasNextPage() ? this.list(list._metadata.nextPage(), pathVariable) : of(null)),
+          //   //devemos continuar o processo enquanto temos um list populado
+          //   takeWhile((list: ListResource<T>) => {
+          //     return isNotNullOrUndefined(list);
+          //   }),
+          //   map(list => list),
+          //   reduce((acumulator: ListResource<T>, currentVaue: ListResource<T>) => {
+          //     return acumulator.pushAll(currentVaue);
+          //   }),
+          // ),
         ),
       );
   }
@@ -331,18 +333,18 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
     return of(query)
       .pipe(
         mergeMap(() =>
-          this.listFully(query)
-            .pipe(
-              expand((list: ListResource<T>) => list.hasNextPage() ? this.listFully(list._metadata.nextPage(), pathVariable) : of(null)),
-              //devemos continuar o processo enquanto temos um list populado
-              takeWhile((list: ListResource<T>) => {
-                return isNotNullOrUndefined(list);
-              }),
-              map(list => list),
-              reduce((acumulator: ListResource<T>, currentVaue: ListResource<T>) => {
-                return acumulator.pushAll(currentVaue);
-              }),
-            ),
+            this.listFully(query)
+          // .pipe(
+          //   expand((list: ListResource<T>) => list.hasNextPage() ? this.listFully(list._metadata.nextPage(), pathVariable) : of(null)),
+          //   //devemos continuar o processo enquanto temos um list populado
+          //   takeWhile((list: ListResource<T>) => {
+          //     return isNotNullOrUndefined(list);
+          //   }),
+          //   map(list => list),
+          //   reduce((acumulator: ListResource<T>, currentVaue: ListResource<T>) => {
+          //     return acumulator.pushAll(currentVaue);
+          //   }),
+          // ),
         ),
       );
   }
@@ -378,40 +380,19 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
     return itens;
   }
 
+  protected deserializeListResource(value: any, clazz?: any);
   protected deserializeListResource(value: any, clazz?: any): ListResource<T> {
-    console.log("Chegou aqui", value);
     let list = new ListResource<T>();
-
     if (isNullOrUndefined(clazz)) {
-      console.log("a classe é ", clazz)
       clazz = this.type;
     }
-
-
+    console.log("a class", clazz)
     try {
-      console.log("entrou no try")
-      // Verifique se value é válido e tem o campo records
-      if (value && value.records) {
-        console.log("entrou no console value")
-        list = customDeserializeListResource(value.records, clazz);
-        console.log("a famosa list", list)
-      } else {
-        this.log.e('Error: value is null or does not contain records.');
-        throw new Error('Invalid data structure');
-      }
-
-      // Tratamento adicional para _metadata se necessário
-      if (value._metadata) {
-        this.log.d('Metadata exists:', value._metadata);
-        // Processar _metadata se necessário
-      } else {
-        this.log.d('Metadata is null');
-        // Tomar ações caso _metadata seja null, se necessário
-      }
-
-      this.log.d('Payload response', list);
+      console.log("a lista", value)
+      list = customDeserializeListResource(value, clazz);
+      console.log("a lista depois", list)
     } catch (error) {
-      this.log.e('Error on deserialize ', error);
+      this.log.e("error on deserialize ", error);
       throw error;
     }
 

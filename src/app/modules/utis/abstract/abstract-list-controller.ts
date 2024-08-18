@@ -42,6 +42,7 @@ export abstract class AbstractListController<T extends Model> implements ListCon
   // Método Angular executado quando o componente é inicializado.
   // Inicializa a listagem de recursos e configura um observador para eventos de rolagem da tela.
   ngOnInit() {
+    console.log("inicia componente")
     this.list();
     // this.layoutService.onScrolledEvent
     //     .pipe(
@@ -78,6 +79,7 @@ export abstract class AbstractListController<T extends Model> implements ListCon
     this.service
       .listFully(query)
       .subscribe(result => {
+        console.log("vem result ?", result)
         if (result) {
           console.log('result da list', result);
           this.values = result;
@@ -85,7 +87,7 @@ export abstract class AbstractListController<T extends Model> implements ListCon
           console.error('Result is undefined or null');
         }
 
-        console.log("resultados fora?", result);
+        console.log("resultados fora?", this.values);
         return null;
       }, (err: ErrorMessage) => {
         console.log("error", err)
@@ -96,57 +98,57 @@ export abstract class AbstractListController<T extends Model> implements ListCon
 
   /* Carrega a próxima página de recursos.
      Utiliza o serviço para obter a próxima página de recursos e atualiza a lista de recursos. */
-  protected loadNextPage(values: ListResource<T>): void {
-    this.service.listFully(values._metadata.nextPage())
-      .pipe(
-        take(1),
-        takeUntil(this.unsubscribes),
-        tap(records => {
-          console.log('esses recors', records);
-          this.isLoandingMore = false; // Definir como false após o carregamento variável spinner
-          this.btnMoreData = true;
-
-          if (records.records.length < 100) {
-            this.isLoandingMore = false;
-            this.btnMoreData = false;
-            console.log('tamanho', records.records.length);
-          }
-        }),
-      )
-      .subscribe(records => {
-        console.log('como vem esses recors no loadNextPage', records);
-        this.values.pushAll(records);
-        console.log('os valores que vem', records);
-        // this.LayouService.updateScroll();
-      });
-  }
+  // protected loadNextPage(values: ListResource<T>): void {
+  //   this.service.listFully(values._metadata.nextPage())
+  //     .pipe(
+  //       take(1),
+  //       takeUntil(this.unsubscribes),
+  //       tap(records => {
+  //         console.log('esses recors', records);
+  //         this.isLoandingMore = false; // Definir como false após o carregamento variável spinner
+  //         this.btnMoreData = true;
+  //
+  //         if (records.records.length < 100) {
+  //           this.isLoandingMore = false;
+  //           this.btnMoreData = false;
+  //           console.log('tamanho', records.records.length);
+  //         }
+  //       }),
+  //     )
+  //     .subscribe(records => {
+  //       console.log('como vem esses recors no loadNextPage', records);
+  //       this.values.pushAll(records);
+  //       console.log('os valores que vem', records);
+  //       // this.LayouService.updateScroll();
+  //     });
+  // }
 
 
   /*
   * Carrega a próxima página de recursos em uma nova implementação de paginação.
     Funciona de maneira semelhante a loadNextPage, mas com uma lógica específica para uma nova paginação
   * */
-  protected loadNextPageNewPagination(values: ListResource<T>): void {
-    this.service.listFully(values._metadata.nextPage())
-      .pipe(
-        take(1),
-        takeUntil(this.unsubscribes),
-        tap(records => {
-          this.isLoandingMore = false; // Definir como false após o carregamento variável spinner
-          this.btnMoreData = true;
-
-          if (records.records.length < 30) {
-            this.isLoandingMore = false;
-            this.btnMoreData = false;
-            console.log('tamanho', records.records.length);
-          }
-        }),
-      )
-      .subscribe(records => {
-        this.values.pushAll(records);
-        // this.LayouService.updateScroll();
-      });
-  }
+  // protected loadNextPageNewPagination(values: ListResource<T>): void {
+  //   this.service.listFully(values._metadata.nextPage())
+  //     .pipe(
+  //       take(1),
+  //       takeUntil(this.unsubscribes),
+  //       tap(records => {
+  //         this.isLoandingMore = false; // Definir como false após o carregamento variável spinner
+  //         this.btnMoreData = true;
+  //
+  //         if (records.records.length < 30) {
+  //           this.isLoandingMore = false;
+  //           this.btnMoreData = false;
+  //           console.log('tamanho', records.records.length);
+  //         }
+  //       }),
+  //     )
+  //     .subscribe(records => {
+  //       this.values.pushAll(records);
+  //       // this.LayouService.updateScroll();
+  //     });
+  // }
 
 
   /*
@@ -262,15 +264,15 @@ export abstract class AbstractListController<T extends Model> implements ListCon
   }
 
 
-  loadMore() {
-    console.log('clicando');
-    this.btnMoreData = false;
-    this.isLoandingMore = true;
-    if (this.values.hasNextPage()) {
-      this.loadNextPage(this.values);
-      // this.eventInfinitScroll.currentScrollPosition = 0;
-    }
-  }
+  // loadMore() {
+  //   console.log('clicando');
+  //   this.btnMoreData = false;
+  //   this.isLoandingMore = true;
+  //   if (this.values.hasNextPage()) {
+  //     this.loadNextPage(this.values);
+  //     // this.eventInfinitScroll.currentScrollPosition = 0;
+  //   }
+  // }
 
 
 }

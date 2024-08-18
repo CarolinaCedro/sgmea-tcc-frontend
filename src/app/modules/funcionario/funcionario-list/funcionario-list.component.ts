@@ -6,7 +6,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import {NgForOf} from "@angular/common";
 import {AbstractListController} from "../../utis/abstract/abstract-list-controller";
 import {Funcionario} from "../../../model/funcionario";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {FuncionarioService} from "../service/funcionario.service";
 
 @Component({
@@ -17,7 +17,8 @@ import {FuncionarioService} from "../service/funcionario.service";
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
-    NgForOf
+    NgForOf,
+    RouterLink
   ],
   templateUrl: './funcionario-list.component.html',
   styleUrl: './funcionario-list.component.scss'

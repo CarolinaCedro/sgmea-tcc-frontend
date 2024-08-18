@@ -33,6 +33,16 @@ export class Menu {
         },
         {
           icon: 'fa-solid fa-clipboard',
+          label: 'Equipamentos',
+          route: '/home/equipamentos',
+        },
+        {
+          icon: 'fa-solid fa-clipboard',
+          label: 'Departamentos',
+          route: '/home/departamentos',
+        },
+        {
+          icon: 'fa-solid fa-clipboard',
           label: 'Priorização chamado',
           route: '/home/priorizao-chamado',
         },

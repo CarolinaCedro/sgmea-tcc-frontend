@@ -4,6 +4,23 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+
+.bg {
+  display: flex;
+  margin-top: .5rem;
+  align-items: center;
+  width: 100%;
+  padding: 0 .5rem;
+  border-radius: .5rem;
+  background: white;
+}
+
+
+.text-color{
+  color: #65758b;
+}
+
+
 @layer base {
   :root {
     --background: 0 0% 100%;

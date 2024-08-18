@@ -59,7 +59,7 @@ export function deserializeArray(values, clazz: any, log?: Logg): Array<any> {
 }
 
 export function deserializeListResource(value: any, clazz: any, log?: Logg): ListResource<any> {
-  return value?.records
+  return value
   // console.log("Entrou no converte", value);
   // const list = new ListResource<any>();
   //

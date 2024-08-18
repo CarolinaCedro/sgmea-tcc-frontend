@@ -45,6 +45,8 @@ export class TecnicosListComponent extends AbstractListController<Tecnico> imple
     super(service, router, route);
   }
 
+
+
   tecnicos = tecnicos;
 
 

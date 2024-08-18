@@ -1,4 +1,6 @@
-export class Equipamento {
+import {ModelImplModel} from "../modules/utis/http/model/model-impl.model";
+
+export class Equipamento extends ModelImplModel {
 
 
   id: string;
@@ -10,6 +12,7 @@ export class Equipamento {
 
 
   constructor(id: string, nome: string, descricao: string, fabricante: string, modelo: string, emUso: boolean) {
+    super();
     this.id = id;
     this.nome = nome;
     this.descricao = descricao;

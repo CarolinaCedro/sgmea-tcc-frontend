@@ -52,28 +52,4 @@ export class User extends ModelImplModel {
         return ['ROLE_FUNCIONARIO'];
     }
   }
-
-  getPassword(): string {
-    return this.senha;
-  }
-
-  getUsername(): string {
-    return this.nome;
-  }
-
-  isAccountNonExpired(): boolean {
-    return true;
-  }
-
-  isAccountNonLocked(): boolean {
-    return true;
-  }
-
-  isCredentialsNonExpired(): boolean {
-    return true;
-  }
-
-  isEnabled(): boolean {
-    return true;
-  }
 }
