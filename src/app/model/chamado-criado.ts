@@ -1,9 +1,9 @@
-
 import {Equipamento} from "./equipamento";
 import {Prioridade} from "./enum/prioridade";
 import {Status} from "./enum/status";
+import {ModelImplModel} from "../modules/utis/http/model/model-impl.model";
 
-export class ChamadoCriado {
+export class ChamadoCriado extends ModelImplModel {
 
 
   id: string;
@@ -15,10 +15,12 @@ export class ChamadoCriado {
   titulo: string;
   observacaoConsolidacao: string;
   observacoes: string;
+
   // funcionario: Funcionario;
 
 
   constructor(id: string, dataAbertura: Date, dataFechamento: Date, prioridade: Prioridade, status: Status, equipamento: Equipamento, titulo: string, observacaoConsolidacao: string, observacoes: string) {
+    super();
     this.id = id;
     this.dataAbertura = dataAbertura;
     this.dataFechamento = dataFechamento;
@@ -28,6 +30,5 @@ export class ChamadoCriado {
     this.titulo = titulo;
     this.observacaoConsolidacao = observacaoConsolidacao;
     this.observacoes = observacoes;
-    // this.funcionario = funcionario;
   }
 }

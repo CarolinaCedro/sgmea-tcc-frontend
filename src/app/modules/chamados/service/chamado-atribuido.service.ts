@@ -9,7 +9,7 @@ import {HttpService} from "../../utis/http/services/http.service";
 export class ChamadoAtribuidoService extends AbstractRestService<ChamadoAtribuido> {
 
   constructor(http: HttpService) {
-    super(ChamadoAtribuido, "/api/sgmea/v1/chamado-atribuido", http)
+    super(ChamadoAtribuido, "/api/sgmea/v1/chamado", http)
   }
 
   protected getNameOfService(): string {

@@ -17,7 +17,7 @@ export class Menu {
           route: '/home/funcionario',
         },
         {
-          icon: 'fa-solid fa-chalkboard-user',
+          icon: 'fa-solid fa-screwdriver-wrench',
           label: 'Técnico',
           route: '/home/tecnico',
         },
@@ -32,22 +32,22 @@ export class Menu {
           route: '/home/chamados',
         },
         {
-          icon: 'fa-solid fa-clipboard',
+          icon: 'fa-solid fa-tachograph-digital',
           label: 'Equipamentos',
           route: '/home/equipamentos',
         },
         {
-          icon: 'fa-solid fa-clipboard',
+          icon: 'fa-solid fa-building-user',
           label: 'Departamentos',
           route: '/home/departamentos',
         },
         {
-          icon: 'fa-solid fa-clipboard',
+          icon: 'fa-solid fa-clipboard-check',
           label: 'Priorização chamado',
           route: '/home/priorizao-chamado',
         },
         {
-          icon: 'fa-solid fa-clipboard',
+          icon: 'fa-solid fa-clone',
           label: 'Histórico',
           route: '/home/historico',
         },

@@ -1,8 +1,8 @@
-
 import {ChamadoCriado} from "./chamado-criado";
+import {ModelImplModel} from "../modules/utis/http/model/model-impl.model";
 
 
-export class ChamadoAtribuido {
+export class ChamadoAtribuido extends ModelImplModel {
 
 
   id: string;
@@ -12,9 +12,8 @@ export class ChamadoAtribuido {
 
 
   constructor(id: string, chamadoCriado: ChamadoCriado) {
+    super();
     this.id = id;
     this.chamadoCriado = chamadoCriado;
-    // this.tecnico = tecnico;
-    // this.gestor = gestor;
   }
 }

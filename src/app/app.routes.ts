@@ -19,6 +19,12 @@ export const routes: Routes = [
   },
 
   {
+    path: "recovery-password",
+    loadChildren: () => import('../app/core/security/recovery-password/recovery-password.routes'),
+    canActivate: [AuthGuardRouterNoSecurityService]
+  },
+
+  {
     path: 'home',
     canActivate: [AuthGuardRouterSecurityService],
     component: LayoutComponent,

@@ -1,1 +1,45 @@
-<p>historico-list works!</p>
+<sgmea-list [listTitle]="'Historico'" class="w-full">
+  <mat-table [dataSource]="chamados" class="mat-elevation-z8">
+
+    <!-- Título -->
+    <ng-container matColumnDef="titulo">
+      <mat-header-cell *matHeaderCellDef> Título</mat-header-cell>
+      <mat-cell *matCellDef="let chamado"> {{ chamado.titulo }}</mat-cell>
+    </ng-container>
+
+    <!-- Status -->
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef> Status</mat-header-cell>
+      <mat-cell *matCellDef="let chamado">
+        <span [ngClass]="{'aberto': chamado.status === 'Aberto', 'fechado': chamado.status === 'Fechado'}">
+          {{ chamado.status }}
+        </span>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Data de Abertura -->
+    <ng-container matColumnDef="dataAbertura">
+      <mat-header-cell *matHeaderCellDef> Data de Abertura</mat-header-cell>
+      <mat-cell *matCellDef="let chamado"> {{ chamado.dataAbertura | date }}</mat-cell>
+    </ng-container>
+
+    <!-- Ações -->
+    <ng-container matColumnDef="acoes">
+      <mat-header-cell *matHeaderCellDef> Ações</mat-header-cell>
+      <mat-cell *matCellDef="let chamado">
+        <button mat-button color="primary">Ver Detalhes</button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+
+</sgmea-list>
+
+
+
+
+
+

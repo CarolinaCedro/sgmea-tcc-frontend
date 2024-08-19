@@ -10,7 +10,7 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
 
 
   constructor(http: HttpService) {
-    super(ChamadoCriado, "/api/sgmea/v1/chamado-criado", http)
+    super(ChamadoCriado, "api/sgmea/v1/chamado", http)
   }
 
   protected getNameOfService(): string {
