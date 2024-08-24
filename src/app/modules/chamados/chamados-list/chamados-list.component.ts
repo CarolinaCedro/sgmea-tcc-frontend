@@ -30,8 +30,4 @@ export class ChamadosListComponent extends AbstractListController<ChamadoCriado>
     super(service, router, route);
   }
 
-  remove(tec: any) {
-
-
-  }
 }

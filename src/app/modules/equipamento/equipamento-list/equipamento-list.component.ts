@@ -31,9 +31,4 @@ export class EquipamentoListComponent extends AbstractListController<Equipamento
     super(service, router, route);
   }
 
-
-  remove(tec) {
-
-
-  }
 }

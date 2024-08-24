@@ -1,0 +1,15 @@
+<h2 mat-dialog-title class="dialog-title">
+  <i class="fas text-orange-400 fa-exclamation-circle attention-icon"></i>
+  {{ data?.title }}
+</h2>
+
+<mat-dialog-content class="dialog-content">
+  {{ data?.content }}
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog-actions">
+  <button mat-button mat-dialog-close class="close-button">{{ data?.closeLabel }}</button>
+  <app-button full impact="bold" tone="primary" shape="rounded" size="medium" class="action-button" (click)="confirm()">
+    {{ data?.action }}
+  </app-button>
+</mat-dialog-actions>

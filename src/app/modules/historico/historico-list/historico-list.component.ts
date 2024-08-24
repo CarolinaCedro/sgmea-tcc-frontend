@@ -10,6 +10,8 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
 import {SgmeaListComponent} from "../../../shared/components/sgmea-list/sgmea-list.component";
+import {ChamadoCriadoService} from "../../chamados/service/chamado-criado.service";
+import {MatChipsModule} from "@angular/material/chips";
 
 
 export interface Chamado {
@@ -34,20 +36,55 @@ export interface Chamado {
     MatIconModule,
     MatMenuModule,
     NgForOf,
-    SgmeaListComponent
+    SgmeaListComponent,
+    MatChipsModule
   ],
   templateUrl: './historico-list.component.html',
   styleUrl: './historico-list.component.scss'
 })
 export class HistoricoListComponent {
 
-  displayedColumns: string[] = ['titulo', 'status', 'dataAbertura', 'acoes'];
-  chamados: Chamado[] = [
-    {titulo: 'Erro no sistema X', status: 'Aberto', dataAbertura: new Date('2024-08-01')},
-    {titulo: 'Problema na rede', status: 'Fechado', dataAbertura: new Date('2024-07-25')},
-    {titulo: 'Solicitação de suporte', status: 'Aberto', dataAbertura: new Date('2024-08-15')}
-  ];
-  dataSource = new MatTableDataSource(this.chamados);
-  totalChamados = this.chamados.length;
+  chamados: any[] = [];
+  displayedColumns: string[] = ['titulo', 'status', 'dataAbertura', 'dataFechamento', 'responsavel', 'prioridade', 'acoes'];
+
+  constructor(private chamadoService: ChamadoCriadoService) {}
+
+  ngOnInit(): void {
+    this.loadChamados();
+  }
+
+  loadChamados(): void {
+    this.chamadoService.getChamadosEncerrados().subscribe(data => {
+      this.chamados = data;
+    });
+  }
+
+  getStatusColor(status: string): 'primary' | 'accent' | 'warn' {
+    switch (status) {
+      case 'ABERTO':
+        return 'primary'; // ou qualquer cor desejada
+      case 'ENCERRADO':
+        return 'accent'; // ou qualquer cor desejada
+      default:
+        return 'warn'; // ou qualquer cor padrão desejada
+    }
+  }
+
+  getPriorityColor(priority: string): 'primary' | 'accent' | 'warn' {
+    switch (priority) {
+      case 'ALTA':
+        return 'warn'; // ou qualquer cor desejada
+      case 'Média':
+        return 'accent'; // ou qualquer cor desejada
+      case 'Baixa':
+        return 'primary'; // ou qualquer cor desejada
+      default:
+        return 'primary'; // ou qualquer cor padrão desejada
+    }
+  }
+
+  verDetalhes(chamado: any): void {
+    // Implemente a lógica para ver detalhes
+  }
 
 }

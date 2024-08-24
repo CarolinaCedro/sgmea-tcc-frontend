@@ -20,11 +20,11 @@ import {inject} from "@angular/core";
 export abstract class AbstractRestService<T extends Model> implements ModelService<T> {
   protected readonly log: Logg = Logg.of(this.getNameOfService());
 
-  private TOKEN: string = "token";
-  private localStorage: LocalStorageService;
+  public TOKEN: string = "token";
+  public localStorage: LocalStorageService;
 
 
-  constructor(public type: any, protected serviceUrl: string, protected http: HttpService) {
+  constructor(public type: any, protected serviceUrl: string, public http: HttpService) {
     this.localStorage = inject(LocalStorageService)
   }
 

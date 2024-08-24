@@ -31,9 +31,4 @@ export class DepartamentoListComponent extends AbstractListController<Departamen
   }
 
 
-
-  remove(tecnico: any) {
-    console.log('remove')
-  }
-
 }

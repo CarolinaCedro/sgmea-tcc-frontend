@@ -8,12 +8,17 @@ import {QueryParam, QueryParamUtilsService} from './query-param/query-param-util
 import {ModelService} from '../http/services/model-service.interface';
 import {ErrorMessage} from '../http/model/exception/error-message.model';
 import {ListController} from '../models/list-controller.interface';
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmationDialogComponent} from "../../../shared/dialog/confirmation-dialog/confirmation-dialog.component";
 
 
 @Directive({
   standalone: true,
 })
 export abstract class AbstractListController<T extends Model> implements ListController<T>, OnInit, OnDestroy {
+
+  readonly dialog = inject(MatDialog);
+
 
   values: ListResource<T>;
   protected readonly queryService: QueryParamUtilsService;
@@ -174,35 +179,41 @@ export abstract class AbstractListController<T extends Model> implements ListCon
     Exibe um diálogo de confirmação e, se confirmado, remove o recurso usando o serviço.
   * */
   remove(value: T): void {
-
-    // console.log('o valor chegando', value);
-    // this.openConfirmationDialog().subscribe(accept => {
-    //   if (accept) {
-    //     this.service.delete(value).subscribe(
-    //       () => {
-    //         this.values.records = this.values?.records?.filter(it => it.id !== value.id);
-    //         // this._fuseAlertService.show({
-    //         //     message: "O item foi excluído com sucesso",
-    //         //     type: "success"
-    //         // })
-    //       },
-    //       (err: ErrorMessage) => {
-    //         console.log('erros', err);
-    //         this.showErrors(err?.message);
-    //       },
-    //     );
-    //   }
-    // });
+    console.log("clicando");
+    this.openDialog({
+      title: 'Confirmação',
+      content: 'Tem certeza que deseja remover este item?',
+      action: 'Confirmar',
+      closeLabel: 'Fechar',
+      data: value
+    });
   }
 
+  openDialog(data: { title: string, content: string, action: string, closeLabel: string, data: T }): void {
+    console.log("entrou em open dialog")
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: data // Passando todos os dados, incluindo o item `data`
+    });
 
-  openConfirmationDialog(): Observable<boolean> | null {
-    return null;
-    // Open the dialog and save the reference of it
-    // const dialogRef = this._fuseConfirmationService.OpenDeleteAction();
 
-    // Return the afterClosed observable of the dialog reference
-    // return dialogRef.afterClosed();
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("clicando fora")
+      if (result.action === "Confirmar") {
+        console.log("result dentro", result)
+        // Ação confirmada, extraindo o `value` dos dados do diálogo
+        this.service.delete(data?.data).subscribe(
+          () => {
+            this.values.records = this.values?.records?.filter(it => it.id !== data.data.id);
+          },
+          (err: ErrorMessage) => {
+            console.log('erros', err);
+            this.showErrors(err);
+          },
+        );
+      }
+    });
   }
 
 
