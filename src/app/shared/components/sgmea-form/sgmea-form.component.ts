@@ -7,6 +7,7 @@ import {MatInputModule} from "@angular/material/input";
 import {FormController} from "../../../modules/utis/models/form-controller.interface";
 import {map, mergeMap, take} from "rxjs/operators";
 import {Subject} from "rxjs";
+import {ButtonComponent} from "../button/button.component";
 
 @Component({
   selector: 'sgmea-form',
@@ -16,7 +17,8 @@ import {Subject} from "rxjs";
     MatInputModule,
     MatDividerModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    ButtonComponent
   ],
   templateUrl: './sgmea-form.component.html',
   styleUrl: './sgmea-form.component.scss',
@@ -60,6 +62,8 @@ export class SgmeaFormComponent implements OnInit{
           }),
           take(1)
         ).subscribe();
+    }else {
+      console.log("registro já populado")
     }
   }
 

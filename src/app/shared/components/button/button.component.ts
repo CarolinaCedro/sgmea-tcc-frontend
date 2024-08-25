@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, input } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, input, Input} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { cx } from '../../utils/ckassnames';
 
@@ -85,6 +85,7 @@ export class ButtonComponent implements OnInit {
     medium: 'shadow-md',
     large: 'shadow-lg',
   };
+  @Input() disabled!: boolean;
 
   constructor() {}
 

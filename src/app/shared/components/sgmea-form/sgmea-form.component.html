@@ -22,11 +22,11 @@
         <div class="p-2 flex justify-end flex-wrap">
           <button mat-button (click)="formController.cancel()">Cancelar</button>
 
-          <button mat-flat-button class="bg-primary"
+          <app-button full impact="bold" tone="primary" shape="rounded" size="medium"
                   [disabled]="!formController.form.valid" (click)="formController.save(formController.value)"
           >
             Salvar
-          </button>
+          </app-button>
 
         </div>
       </mat-card-actions>

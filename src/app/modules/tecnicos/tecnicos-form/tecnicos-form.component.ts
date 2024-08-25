@@ -1,13 +1,17 @@
 import {AfterViewInit, Component} from '@angular/core';
 import {SgmeaFormComponent} from '../../../shared/components/sgmea-form/sgmea-form.component';
-import {MatFormField} from '@angular/material/form-field';
-import {MatInput, MatInputModule} from '@angular/material/input';
-import {NgIf} from '@angular/common';
+import {MatInputModule} from '@angular/material/input';
+import {NgForOf, NgIf} from '@angular/common';
 import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {AbstractFormController} from "../../utis/abstract/abstract-form-controller";
 import {Tecnico} from "../../../model/tecnico";
 import {TecnicoService} from "../services/tecnico.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatOptionModule} from "@angular/material/core";
+import {GestorAutocompleteDirective} from "../../gestor/directives/gestor-autocomplete.directive";
+import {ListResource} from "../../utis/http/model/list-resource.model";
+import {Gestor} from "../../../model/gestor";
 
 @Component({
   selector: 'app-tecnicos-form',
@@ -17,11 +21,17 @@ import {ActivatedRoute, Router} from "@angular/router";
     MatInputModule,
     NgIf,
     ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatOptionModule,
+    NgForOf,
+    GestorAutocompleteDirective,
   ],
   templateUrl: './tecnicos-form.component.html',
   styleUrl: './tecnicos-form.component.scss'
 })
 export class TecnicosFormComponent extends AbstractFormController<Tecnico> implements AfterViewInit {
+
+  gestor: ListResource<Gestor>;
 
   constructor(formBuilder: FormBuilder, service: TecnicoService, router: Router, route: ActivatedRoute) {
     super(Tecnico, formBuilder.group({
@@ -44,4 +54,7 @@ export class TecnicosFormComponent extends AbstractFormController<Tecnico> imple
   }
 
 
+  onGestorFiltered(gestor: ListResource<Gestor>) {
+    this.gestor = gestor
+  }
 }

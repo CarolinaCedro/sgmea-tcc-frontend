@@ -17,12 +17,13 @@ export class DashboardComponent implements OnInit {
   taskDistribution = {
     overview: {
       'this-week': {
-        new: 594,
-        completed: 287,
+        new: 3,
+        completed: 10,
+
       },
       'last-week': {
-        new: 526,
-        completed: 260,
+        new: 3,
+        completed: 2,
       },
     },
     labels: ['API', 'Backend', 'Frontend', 'Issues'],
@@ -36,12 +37,13 @@ export class DashboardComponent implements OnInit {
     value: 'this-week' as TaskDistributionKey // Certifique-se de que o valor é do tipo TaskDistributionKey
   };
 
-  chartTaskDistribution: ApexOptions | any = {};
+  chartTaskDistribution: ApexOptions;
   data: any;
 
   constructor() {
-    this.chartTaskDistribution = {
+    const selectedWeek = this.taskDistribution.series[this.taskDistributionWeekSelector.value] || [1,2,3,6,8];
 
+    this.chartTaskDistribution = {
       chart: {
         fontFamily: 'inherit',
         foreColor: 'inherit',
@@ -68,7 +70,7 @@ export class DashboardComponent implements OnInit {
           },
         },
       },
-      series: this.taskDistribution.series[this.taskDistributionWeekSelector.value],
+      series: selectedWeek,
       states: {
         hover: {
           filter: {
@@ -101,6 +103,7 @@ export class DashboardComponent implements OnInit {
       },
     };
   }
+
 
   ngOnInit(): void {
     this._prepareChartData();

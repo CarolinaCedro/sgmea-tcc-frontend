@@ -93,7 +93,6 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
 
     if (!this.isFormActive) {
       this.form.disable();
-
     }
 
 
@@ -108,6 +107,8 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
     Configura um observador para as alterações no formulário e inicia o carregamento do recurso pelo ID.
   * */
   ngAfterViewInit(): void {
+
+    console.log("is form active ?", this.isFormActive)
 
     //ovindo alterações no formulário e fazendo databing
     this.form.valueChanges
@@ -252,6 +253,10 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
   * */
   cancel(): void {
     this.returnList()
+  }
+
+  viewOnly(): Observable<boolean> {
+    return of(false)
   }
 
 
