@@ -42,6 +42,24 @@
         <!-- Campo Email -->
         <div class="form__group w-full">
           <div class="relative">
+            <input formControlName="password"
+                   type="password"
+                   id="senha"
+                   class="peer block"
+                   placeholder=" "/>
+            <label for="senha"
+                   class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">
+              Senha
+            </label>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="flex flex-col sm:flex-row w-full gap-0 sm:gap-5 pb-5">
+        <!-- Campo Email -->
+        <div class="form__group w-full">
+          <div class="relative">
             <input formControlName="email"
                    type="text"
                    id="email"
@@ -60,17 +78,18 @@
             <input formControlName="id"
                    type="text"
                    id="gestor"
+                   [value]="value?.gestor?.nome ? value?.gestor?.nome : ''"
                    [gestorAutocomplete]="autoGestor"
                    (onItensFiltered)="onGestorFiltered($event)"
                    [matAutocomplete]="autoGestor"
                    class="peer block"
                    placeholder=" "/>
 
-
             <mat-autocomplete #autoGestor="matAutocomplete">
               <mat-option
+                disabled="true"
                 *ngFor="let gestor of gestor?.records"
-                [value]="gestor?.nome"
+                [value]="gestor"
               >
                 {{ gestor?.nome }}
               </mat-option>
@@ -124,9 +143,10 @@
         <!-- Campo Departamento -->
         <div class="form__group w-full">
           <div class="relative" formGroupName="departamento">
-            <input formControlName="descricao"
+            <input formControlName="id"
                    type="text"
                    id="departamento"
+                   [value]="value?.departamento?.nome ? value?.departamento?.nome : ''"
                    [departamentosAutocomplete]="autoDepartamento"
                    (onItensFiltered)="onDepartamentFiltered($event)"
                    [matAutocomplete]="autoDepartamento"
@@ -137,7 +157,7 @@
             <mat-autocomplete #autoDepartamento="matAutocomplete">
               <mat-option
                 *ngFor="let departamento of departamentos?.records"
-                [value]="departamento?.descricao"
+                [value]="departamento"
               >
                 {{ departamento?.descricao }}
               </mat-option>

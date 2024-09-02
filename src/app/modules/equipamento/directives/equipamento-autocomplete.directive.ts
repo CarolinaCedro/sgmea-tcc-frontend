@@ -55,7 +55,7 @@ export class EquipamentoAutocompleteDirective extends AbstractAutoCompleteDirect
 
   display(departamento: Equipamento): string {
     if (isNotNullOrUndefined(departamento)) {
-      return isString(departamento) ? null : departamento.descricao;
+      return isString(departamento) ? null : departamento.nome;
     }
     return null;
   }

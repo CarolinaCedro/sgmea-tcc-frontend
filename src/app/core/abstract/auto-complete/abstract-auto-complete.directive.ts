@@ -121,9 +121,13 @@ export abstract class AbstractAutoCompleteDirective<T> implements OnInit, AfterV
     }
   }
 
-  onItemSelected(event?: MatAutocompleteSelectedEvent | T) {
+  onItemSelected(event: MatAutocompleteSelectedEvent | T) {
+
+    console.log("caindo aqui no onItemSelected",event)
+
     if (event instanceof MatAutocompleteSelectedEvent) {
       this.itemSelected = (event as MatAutocompleteSelectedEvent).option.value;
+      console.log("agora pegando o value",this.itemSelected)
     } else {
       this.itemSelected = (event as T);
     }
