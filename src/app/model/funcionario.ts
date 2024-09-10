@@ -1,23 +1,27 @@
 import {User} from "./user";
-import {ChamadoCriado} from "./chamado-criado";
 import {Departamento} from "./departamento";
-import {UserRole} from "./enum/user-role";
-import {Perfil} from "./enum/perfil";
-import {Gestor} from "./gestor";
+import {Transform, Type} from "class-transformer";
+import {Model} from "../modules/utis/http/model/model";
 
 
 export class Funcionario extends User {
 
 
+  @Transform(value => Model.serialize(value), Model.serializeOpts())
+  @Transform(value => Model.deserialize(value, Departamento), Model.deserializeOpts())
+  @Type(() => Departamento)
   departamento?: Departamento;
+
   funcao?: string;
-  chamadoCriados: ChamadoCriado[] = [];
+  // @Transform(value => Model.serialize(value), Model.serializeOpts())
+  // @Transform(value => Model.deserialize(value, ChamadoCriado), Model.deserializeOpts())
+  // @Type(() => ChamadoCriado)
+  // chamadoCriados: ChamadoCriado[] = [];
 
 
-  constructor(departamento: Departamento, funcao: string, chamadoCriados: ChamadoCriado[]) {
+  constructor(departamento: Departamento, funcao: string) {
     super();
     this.departamento = departamento;
     this.funcao = funcao;
-    this.chamadoCriados = chamadoCriados;
   }
 }

@@ -47,7 +47,7 @@ export abstract class AbstractListController<T extends Model> implements ListCon
   // Método Angular executado quando o componente é inicializado.
   // Inicializa a listagem de recursos e configura um observador para eventos de rolagem da tela.
   ngOnInit() {
-    console.log("inicia componente")
+
     this.list();
     // this.layoutService.onScrolledEvent
     //     .pipe(
@@ -84,15 +84,14 @@ export abstract class AbstractListController<T extends Model> implements ListCon
     this.service
       .listFully(query)
       .subscribe(result => {
-        console.log("vem result ?", result)
+        // console.log("vem result ?", result)
         if (result) {
           console.log('result da list', result);
           this.values = result;
         } else {
-          console.error('Result is undefined or null');
+          console.error('Result list is undefined or null');
         }
 
-        console.log("resultados fora?", this.values);
         return null;
       }, (err: ErrorMessage) => {
         console.log("error", err)

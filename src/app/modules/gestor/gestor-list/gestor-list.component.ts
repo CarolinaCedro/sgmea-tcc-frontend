@@ -8,18 +8,28 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
 import {NgForOf} from "@angular/common";
 import {SgmeaListComponent} from "../../../shared/components/sgmea-list/sgmea-list.component";
+import {
+    SgmeaContainerListComponent
+} from "../../../shared/components/sgmea-container-list/sgmea-container-list.component";
+import {TecnicoFilterComponent} from "../../tecnicos/filter/tecnico-filter/tecnico-filter.component";
+import {GestorFilter, GestorFilterComponent} from "../filter/gestor-filter/gestor-filter.component";
+import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
 
 @Component({
   selector: 'app-gestor-list',
   standalone: true,
-  imports: [
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-    NgForOf,
-    SgmeaListComponent,
-    RouterLink
-  ],
+    imports: [
+        MatButtonModule,
+        MatIconModule,
+        MatMenuModule,
+        NgForOf,
+        SgmeaListComponent,
+        RouterLink,
+        SgmeaContainerListComponent,
+        TecnicoFilterComponent,
+        GestorFilterComponent,
+        SgmeaNoDataComponent
+    ],
   templateUrl: './gestor-list.component.html',
   styleUrl: './gestor-list.component.scss'
 })
@@ -29,4 +39,8 @@ export class GestorListComponent extends AbstractListController<Gestor> implemen
   }
 
 
+  customList($event: GestorFilter) {
+
+
+  }
 }

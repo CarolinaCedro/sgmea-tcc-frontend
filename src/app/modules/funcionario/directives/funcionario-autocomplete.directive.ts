@@ -15,21 +15,14 @@ import {FuncionarioService} from "../service/funcionario.service";
   standalone: true,
   selector: "[funcionarioAutocomplete]"
 })
-export class FuncionarioAutocompleteDirective extends AbstractAutoCompleteDirective<Funcionario> implements AfterViewInit, OnInit {
+export class FuncionarioAutocompleteDirective extends AbstractAutoCompleteDirective<Funcionario> {
 
   @Input("funcionarioAutocomplete")
   matAutoComplete: MatAutocomplete;
 
 
-  private readonly _renderData: Subject<Funcionario> = new Subject();
-  private setFirst: boolean = false;
-
   constructor(elementRef: ElementRef, form: NgControl, trigger: MatAutocompleteTrigger, private service: FuncionarioService, private cdRef: ChangeDetectorRef) {
     super(elementRef, form, trigger);
-  }
-
-  ngOnInit(): void {
-    super.ngOnInit();
   }
 
 

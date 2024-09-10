@@ -8,6 +8,12 @@ import {JsonPipe, NgForOf} from '@angular/common';
 import {AbstractListController} from "../../utis/abstract/abstract-list-controller";
 import {Tecnico} from "../../../model/tecnico";
 import {TecnicoService} from "../services/tecnico.service";
+import {
+  SgmeaContainerListComponent
+} from "../../../shared/components/sgmea-container-list/sgmea-container-list.component";
+import {FuncionarioFilterComponent} from "../../funcionario/filter/funcionario-filter/funcionario-filter.component";
+import {TecnicoFilter, TecnicoFilterComponent} from "../filter/tecnico-filter/tecnico-filter.component";
+import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
 
 const tecnicos = [
   {id: '1', nome: 'Ana Carolina'},
@@ -26,15 +32,19 @@ const tecnicos = [
 @Component({
   selector: 'app-tecnicos-list',
   standalone: true,
-  imports: [
-    SgmeaListComponent,
-    RouterLink,
-    MatMenuModule,
-    NgForOf,
-    MatIconModule,
-    MatButtonModule,
-    JsonPipe,
-  ],
+    imports: [
+        SgmeaListComponent,
+        RouterLink,
+        MatMenuModule,
+        NgForOf,
+        MatIconModule,
+        MatButtonModule,
+        JsonPipe,
+        SgmeaContainerListComponent,
+        FuncionarioFilterComponent,
+        TecnicoFilterComponent,
+        SgmeaNoDataComponent,
+    ],
   templateUrl: './tecnicos-list.component.html',
   styleUrl: './tecnicos-list.component.scss',
 })
@@ -46,11 +56,15 @@ export class TecnicosListComponent extends AbstractListController<Tecnico> imple
   }
 
 
-
   tecnicos = tecnicos;
 
 
   remove(tecnico: any) {
     console.log('remove')
+  }
+
+  customList($event: TecnicoFilter) {
+
+
   }
 }

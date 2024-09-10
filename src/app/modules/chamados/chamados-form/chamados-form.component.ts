@@ -37,7 +37,6 @@ export class ChamadosFormComponent extends AbstractFormController<ChamadoCriado>
   isStatusDisabled: boolean;
 
 
-
   constructor(formBuilder: FormBuilder, service: ChamadoCriadoService, router: Router, route: ActivatedRoute, private authService: AuthService) {
     super(ChamadoCriado, formBuilder.group({
       id: [''],
@@ -45,12 +44,8 @@ export class ChamadosFormComponent extends AbstractFormController<ChamadoCriado>
       prioridade: ['BAIXA'],
       status: ['ABERTO'],
       observacoes: [''],
-      equipamento: formBuilder.group({
-        id: ['']
-      }),
-      funcionario: formBuilder.group({
-        id: ['']
-      }),
+      equipamento: [''],
+      funcionario: [''],
       dataFechamento: [null]
     }), service, router, route);
 
@@ -69,19 +64,19 @@ export class ChamadosFormComponent extends AbstractFormController<ChamadoCriado>
   isFormActive = true
 
 
-  save(value: ChamadoCriado) {
-    // Extrair apenas o campo 'id' dos objetos
-    const equipamentoId: string = this.form.get("equipamento.id").value?.id || this.form.get("equipamento.id").value;
-    const funcionarioId: string = this.form.get("funcionario.id").value?.id || this.form.get("funcionario.id").value;
-
-    console.log('equipamentoId:', equipamentoId);
-    console.log('funcionarioId:', funcionarioId);
-
-    value.equipamento.id = equipamentoId
-    value.funcionario.id = funcionarioId
-
-    super.save(value);
-  }
+  // save(value: ChamadoCriado) {
+  //   // Extrair apenas o campo 'id' dos objetos
+  //   const equipamentoId: string = this.form.get("equipamento.id").value?.id || this.form.get("equipamento.id").value;
+  //   const funcionarioId: string = this.form.get("funcionario.id").value?.id || this.form.get("funcionario.id").value;
+  //
+  //   console.log('equipamentoId:', equipamentoId);
+  //   console.log('funcionarioId:', funcionarioId);
+  //
+  //   value.equipamento.id = equipamentoId
+  //   value.funcionario.id = funcionarioId
+  //
+  //   super.save(value);
+  // }
 
 
   containsMetadata(): boolean {

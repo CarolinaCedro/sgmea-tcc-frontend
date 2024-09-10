@@ -16,7 +16,7 @@ import {EspecialidadeService} from "../service/especialidade.service";
   standalone: true,
   selector: "[especialidadeAutocomplete]"
 })
-export class EspecialidadeAutocompleteDirective extends AbstractAutoCompleteDirective<Especialidade> implements AfterViewInit, OnInit {
+export class EspecialidadeAutocompleteDirective extends AbstractAutoCompleteDirective<Especialidade> {
 
   @Input("especialidadeAutocomplete")
   matAutoComplete: MatAutocomplete;
@@ -27,10 +27,6 @@ export class EspecialidadeAutocompleteDirective extends AbstractAutoCompleteDire
 
   constructor(elementRef: ElementRef, form: NgControl, trigger: MatAutocompleteTrigger, private service: EspecialidadeService, private cdRef: ChangeDetectorRef) {
     super(elementRef, form, trigger);
-  }
-
-  ngOnInit(): void {
-    super.ngOnInit();
   }
 
 

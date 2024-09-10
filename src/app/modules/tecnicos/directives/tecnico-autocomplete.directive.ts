@@ -15,7 +15,7 @@ import {TecnicoService} from "../services/tecnico.service";
   standalone: true,
   selector: "[tecnicoAutocomplete]"
 })
-export class TecnicoAutocompleteDirective extends AbstractAutoCompleteDirective<Tecnico> implements AfterViewInit, OnInit {
+export class TecnicoAutocompleteDirective extends AbstractAutoCompleteDirective<Tecnico> {
 
   @Input("tecnicoAutocomplete")
   matAutoComplete: MatAutocomplete;
@@ -26,10 +26,6 @@ export class TecnicoAutocompleteDirective extends AbstractAutoCompleteDirective<
 
   constructor(elementRef: ElementRef, form: NgControl, trigger: MatAutocompleteTrigger, private service: TecnicoService, private cdRef: ChangeDetectorRef) {
     super(elementRef, form, trigger);
-  }
-
-  ngOnInit(): void {
-    super.ngOnInit();
   }
 
 

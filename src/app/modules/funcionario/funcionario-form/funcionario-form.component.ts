@@ -6,14 +6,13 @@ import {FuncionarioService} from "../service/funcionario.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SgmeaFormComponent} from "../../../shared/components/sgmea-form/sgmea-form.component";
 import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {DepartamentoAutocompleteDirective} from "../../departamentos/directives/departamento-autocomplete.directive";
 import {ListResource} from "../../utis/http/model/list-resource.model";
 import {Departamento} from "../../../model/departamento";
 import {Gestor} from "../../../model/gestor";
 import {GestorAutocompleteDirective} from "../../gestor/directives/gestor-autocomplete.directive";
 import {BehaviorSubject} from "rxjs";
-import {isEmpty, isNullOrUndefined} from "../../utis/utils";
 
 @Component({
   selector: 'app-funcionario-form',
@@ -24,7 +23,8 @@ import {isEmpty, isNullOrUndefined} from "../../utis/utils";
     MatAutocompleteModule,
     NgForOf,
     DepartamentoAutocompleteDirective,
-    GestorAutocompleteDirective
+    GestorAutocompleteDirective,
+    NgIf
   ],
   templateUrl: './funcionario-form.component.html',
   styleUrls: ['./funcionario-form.component.scss']
@@ -42,20 +42,20 @@ export class FuncionarioFormComponent extends AbstractFormController<Funcionario
       nome: [''],
       cpf: [''],
       email: [''],
-      gestor: formBuilder.group({
-        id:[''],
-        nome: ['']
-      }),
+      gestor: [''],
       senha: [''],
       role: [''],
       perfil: [''],
-      departamento: formBuilder.group({
-        id: [''],
-        descricao: ['']
-      }),
+      departamento: [''],
       funcao: [''],
       chamadoCriados: [[]]
     }), service, router, route);
+
+
+    this.form.get("perfil").valueChanges.subscribe(value => {
+      this.form.get("role").setValue(value);
+    });
+
   }
 
   containsMetadata(): boolean {

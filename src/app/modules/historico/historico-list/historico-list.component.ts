@@ -12,6 +12,10 @@ import {MatMenuModule} from "@angular/material/menu";
 import {SgmeaListComponent} from "../../../shared/components/sgmea-list/sgmea-list.component";
 import {ChamadoCriadoService} from "../../chamados/service/chamado-criado.service";
 import {MatChipsModule} from "@angular/material/chips";
+import {
+    PriorizacaoFilterComponent
+} from "../../priorizao-chamado/filter/priorizacao-filter/priorizacao-filter.component";
+import {HistoricoFilter, HistoricoFilterComponent} from "../filter/historico-filter/historico-filter.component";
 
 
 export interface Chamado {
@@ -37,7 +41,9 @@ export interface Chamado {
     MatMenuModule,
     NgForOf,
     SgmeaListComponent,
-    MatChipsModule
+    MatChipsModule,
+    PriorizacaoFilterComponent,
+    HistoricoFilterComponent
   ],
   templateUrl: './historico-list.component.html',
   styleUrl: './historico-list.component.scss'
@@ -87,4 +93,7 @@ export class HistoricoListComponent {
     // Implemente a lógica para ver detalhes
   }
 
+  customList($event: HistoricoFilter) {
+
+  }
 }

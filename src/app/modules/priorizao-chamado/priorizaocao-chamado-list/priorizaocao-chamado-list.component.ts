@@ -8,6 +8,15 @@ import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {AbstractListController} from "../../utis/abstract/abstract-list-controller";
 import {ChamadoCriado} from "../../../model/chamado-criado";
 import {ChamadoCriadoService} from "../../chamados/service/chamado-criado.service";
+import {
+    SgmeaContainerListComponent
+} from "../../../shared/components/sgmea-container-list/sgmea-container-list.component";
+import {
+  DepartamentosFilterComponent
+} from "../../departamentos/filter/departamentos-filter/departamentos-filter.component";
+import {PriorizacaoFilterComponent} from "../filter/priorizacao-filter/priorizacao-filter.component";
+import {ChamadoFilter} from "../../chamados/filter/chamado-filter/chamado-filter.component";
+import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
 
 @Component({
   selector: 'app-priorizaocao-chamado-list',
@@ -18,7 +27,11 @@ import {ChamadoCriadoService} from "../../chamados/service/chamado-criado.servic
     MatMenuModule,
     NgForOf,
     SgmeaListComponent,
-    RouterLink
+    RouterLink,
+    SgmeaContainerListComponent,
+    DepartamentosFilterComponent,
+    PriorizacaoFilterComponent,
+    SgmeaNoDataComponent
   ],
   templateUrl: './priorizaocao-chamado-list.component.html',
   styleUrl: './priorizaocao-chamado-list.component.scss'
@@ -36,4 +49,7 @@ export class PriorizaocaoChamadoListComponent extends AbstractListController<Cha
   }
 
 
+  customList($event: ChamadoFilter) {
+
+  }
 }

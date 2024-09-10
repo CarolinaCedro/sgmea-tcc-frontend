@@ -1,19 +1,17 @@
-import {User} from "./user";
 import {AreaGestao} from "./enum/area-gestao";
-import {ChamadoAtribuido} from "./chamado-atribuido";
-import {UserRole} from "./enum/user-role";
-import {Perfil} from "./enum/perfil";
+import {User} from "./user";
 
 export class Gestor extends User {
+
+
+  // @Transform(value => Model.serialize(value), Model.serializeOpts())
+  // @Transform(value => Model.deserialize(value, AreaGestao), Model.deserializeOpts())
+  // @Type(() => AreaGestao)
   areaGestao: AreaGestao;
-  chamadoAtribuidos: ChamadoAtribuido[] = [];
-  usuariosAlocados: User[] = [];
 
 
-  constructor(areaGestao: AreaGestao, chamadoAtribuidos: ChamadoAtribuido[], usuariosAlocados: User[]) {
+  constructor(areaGestao: AreaGestao) {
     super();
     this.areaGestao = areaGestao;
-    this.chamadoAtribuidos = chamadoAtribuidos;
-    this.usuariosAlocados = usuariosAlocados;
   }
 }

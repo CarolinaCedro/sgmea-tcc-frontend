@@ -8,6 +8,14 @@ import {AbstractListController} from "../../utis/abstract/abstract-list-controll
 import {Funcionario} from "../../../model/funcionario";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {FuncionarioService} from "../service/funcionario.service";
+import {FuncionarioFilter, FuncionarioFilterComponent} from "../filter/funcionario-filter/funcionario-filter.component";
+import {Subject} from "rxjs";
+import {finalize, takeUntil} from "rxjs/operators";
+import {MatListModule} from "@angular/material/list";
+import {
+  SgmeaContainerListComponent
+} from "../../../shared/components/sgmea-container-list/sgmea-container-list.component";
+import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
 
 @Component({
   selector: 'app-funcionario-list',
@@ -18,16 +26,42 @@ import {FuncionarioService} from "../service/funcionario.service";
     MatIconModule,
     MatMenuModule,
     NgForOf,
-    RouterLink
+    RouterLink,
+    FuncionarioFilterComponent,
+    MatListModule,
+    SgmeaContainerListComponent,
+    SgmeaNoDataComponent
   ],
   templateUrl: './funcionario-list.component.html',
   styleUrl: './funcionario-list.component.scss'
 })
 export class FuncionarioListComponent extends AbstractListController<Funcionario> implements OnInit {
 
+  currentFilter: FuncionarioFilter;
+  private cancelRequest: Subject<void> = new Subject();
+
+
+
   constructor(service: FuncionarioService, router: Router, route: ActivatedRoute) {
     super(service, router, route);
   }
 
 
+  customList(filter: FuncionarioFilter) {
+    // this.cancelRequest.next();
+    // this.currentFilter = filter;
+    // (this.service as FuncionarioService)
+    //   .listAdvanced(filter)
+    //   .pipe(
+    //     finalize(() => {
+    //       // this.loading.timeOut(this.nameList());
+    //     }),
+    //     takeUntil(this.unsubscribes),
+    //     takeUntil(this.cancelRequest.asObservable()),
+    //   ).subscribe(result => {
+    //   this.values = result;
+    // }, (err: Error) => console.log(err.message));
+
+
+  }
 }

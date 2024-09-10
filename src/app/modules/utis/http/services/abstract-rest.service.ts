@@ -59,8 +59,7 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
 
   save(value: T, pathVariable?: PathVariable): Observable<T> {
 
-    console.log("ele pega o token", this.localStorage.getItem(this.TOKEN))
-
+    // console.log("ele pega o token", this.localStorage.getItem(this.TOKEN))
     return of(serialize(value))
       .pipe(
         mergeMap(payload =>
@@ -81,11 +80,13 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
   }
 
   update(value: T, pathVariable?: PathVariable): Observable<T> {
+    console.log("caindo aqui put ????")
     return of(serialize(value))
       .pipe(
         mergeMap(payload =>
           this.http
             .createRequest()
+            .setAuthToken(this.localStorage.getItem(this.TOKEN))
             .url(this.buildServiceUrl(null, pathVariable) + '/' + value.id)
             .put(payload)
             .pipe(
@@ -294,9 +295,9 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
             .get()
             .pipe(
               map((result) => {
-                console.log("os results service", result)
+                // console.log("os results service", result)
                 let list = this.deserializeListResource(result)
-                console.log("a list depois do deserializer", list)
+                // console.log("a list depois do deserializer", list)
                 return list;
               }),
               catchError((err) => throwErrorMessage(err, this.log)),
@@ -386,11 +387,8 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
     if (isNullOrUndefined(clazz)) {
       clazz = this.type;
     }
-    console.log("a class", clazz)
     try {
-      console.log("a lista", value)
       list = customDeserializeListResource(value, clazz);
-      console.log("a lista depois", list)
     } catch (error) {
       this.log.e("error on deserialize ", error);
       throw error;

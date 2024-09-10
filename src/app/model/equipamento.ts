@@ -20,4 +20,6 @@ export class Equipamento extends ModelImplModel {
     this.modelo = modelo;
     this.emUso = emUso;
   }
+
+
 }

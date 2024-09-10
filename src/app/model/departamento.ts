@@ -7,5 +7,4 @@ export class Departamento extends ModelImplModel {
   descricao: string;
 
 
-
 }

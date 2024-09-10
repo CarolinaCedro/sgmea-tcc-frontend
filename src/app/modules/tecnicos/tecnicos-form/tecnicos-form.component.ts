@@ -39,14 +39,18 @@ export class TecnicosFormComponent extends AbstractFormController<Tecnico> imple
       nome: [''],
       email: [''],
       cpf: [''],
-      gestor: formBuilder.group({
-        id: ['']
-      }),
-      disponibilidade: [false],
+      gestor: [''],
+      disponibilidade: [true],
+      especialidade: [''],
       senha: [''],
       perfil: [''],
       role: ['']
     }), service, router, route);
+
+    this.form.get("perfil").valueChanges.subscribe(value => {
+      this.form.get("role").setValue(value);
+    });
+
   }
 
   containsMetadata(): boolean {

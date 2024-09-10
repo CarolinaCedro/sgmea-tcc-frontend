@@ -1,4 +1,7 @@
 <sgmea-list [listTitle]="'Histórico de Chamados'" class="w-full">
+
+  <historico-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>
+
   <mat-table [dataSource]="chamados" class="mat-elevation-z8">
 
     <!-- Título -->

@@ -1,33 +1,44 @@
 <sgmea-list [listTitle]="'Equipamentos'" [itensCount]="10" class="w-full">
-  <ng-template let-equipamento ngFor [ngForOf]="values?.records">
-    <div
-      class="text-sm sm:text-base bg md:text-base lg:text-base leading-5 break-words flex justify-between items-center">
-      <div class="flex items-center text-gray-500">
-        <i class="fa-solid fa-tachograph-digital text-primary"></i>
-        <p class="pl-2">{{ equipamento?.nome }}</p>
-      </div>
-      <div>
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-          <mat-icon>more_vert</mat-icon>
-        </button>
 
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item [routerLink]="[equipamento?.id]">
+
+  <equipamento-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>
+
+
+
+  @if (values?.records && values.records.length > 0) {
+    <ng-template let-equipamento let-last="last" ngFor [ngForOf]="values?.records">
+      <sgmea-container-list [icon]="'fa-solid fa-tachograph-digital'" [address]="equipamento?.id">
+        <div
+          class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ equipamento?.nome }}
+        </div>
+        <div menu-content>
+
+
+          <a mat-menu-item [routerLink]="[equipamento.id]" [queryParams]="getCurrentQueryParams()">
             <mat-icon>edit</mat-icon>
             <span>Editar</span>
-          </button>
-          <button mat-menu-item [routerLink]="[equipamento?.id]">
+          </a>
+
+
+          <a mat-menu-item [routerLink]="[equipamento.id]" [queryParams]="getCurrentQueryParams()">
             <mat-icon>visibility</mat-icon>
             <span>Visualizar</span>
-          </button>
-          <button mat-menu-item (click)="remove(equipamento)">
+          </a>
+
+          <button mat-menu-item
+
+                  (click)="remove(equipamento)">
             <mat-icon>delete</mat-icon>
             <span>Remover</span>
           </button>
-        </mat-menu>
-      </div>
-    </div>
-  </ng-template>
+        </div>
+
+      </sgmea-container-list>
+    </ng-template>
+  } @else {
+    <sgmea-no-data/>
+  }
+
 
 
 </sgmea-list>

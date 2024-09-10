@@ -1,5 +1,9 @@
 import {Prioridade} from "./enum/prioridade";
 import {ModelImplModel} from "../modules/utis/http/model/model-impl.model";
+import {Transform, Type} from "class-transformer";
+import {Model} from "../modules/utis/http/model/model";
+import {Equipamento} from "./equipamento";
+import {Funcionario} from "./funcionario";
 
 export class ChamadoCriado extends ModelImplModel {
 
@@ -7,18 +11,27 @@ export class ChamadoCriado extends ModelImplModel {
   id: string;
   dataAbertura: Date;
   dataFechamento: Date;
+  // @Transform(value => Prioridade.serialize(value), Model.serializeOpts())
+  // @Transform(value => Prioridade.deserialize(value, Prioridade), Model.deserializeOpts())
+  // @Type(() => Prioridade)
   prioridade: Prioridade;
   status: string;
-  equipamento: { id: string };
+
+  @Transform(value => Model.serialize(value), Model.serializeOpts())
+  @Transform(value => Model.deserialize(value, Equipamento), Model.deserializeOpts())
+  @Type(() => Equipamento)
+  equipamento: Equipamento;
   titulo: string;
   observacaoConsolidacao: string;
   observacoes: string;
-  funcionario: { id: string };
+
+  @Transform(value => Model.serialize(value), Model.serializeOpts())
+  @Transform(value => Model.deserialize(value, Funcionario), Model.deserializeOpts())
+  @Type(() => Funcionario)
+  funcionario: Funcionario;
 
 
-  constructor(id: string, dataAbertura: Date, dataFechamento: Date, prioridade: Prioridade, status: string, equipamento: {
-    id: string
-  }, titulo: string, observacaoConsolidacao: string, observacoes: string, funcionario: { id: string }) {
+  constructor(id: string, dataAbertura: Date, dataFechamento: Date, prioridade: Prioridade, status: string, equipamento: Equipamento, titulo: string, observacaoConsolidacao: string, observacoes: string, funcionario: Funcionario) {
     super();
     this.id = id;
     this.dataAbertura = dataAbertura;

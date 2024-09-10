@@ -2,8 +2,8 @@ import {Injectable} from "@angular/core";
 import {HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {tap} from "rxjs/operators";
-import {AuthService} from "../../../modules/auth/service/auth/auth.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {AuthService} from "../../auth/service/auth/auth.service";
 
 
 @Injectable({

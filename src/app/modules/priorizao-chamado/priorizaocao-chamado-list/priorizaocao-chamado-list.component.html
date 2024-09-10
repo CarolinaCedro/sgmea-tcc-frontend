@@ -1,31 +1,43 @@
 <sgmea-list [listTitle]="'Chamados em aberto'" [itensCount]="10" class="w-full">
-  <div *ngFor="let chamado of values?.records"
-       class="text-sm sm:text-base bg md:text-base lg:text-base leading-5 break-words flex justify-between items-center">
-    <div class="flex items-center text-gray-500">
-      <i class="fa-solid fa-clipboard-check text-primary"></i>
-      <p class="pl-2">{{ chamado?.titulo }}</p>
-    </div>
-    <div>
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
 
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item [routerLink]="[chamado?.id]">
-          <mat-icon>edit</mat-icon>
-          <span>Editar</span>
-        </button>
-        <button mat-menu-item [routerLink]="[chamado?.id]">
-          <mat-icon>visibility</mat-icon>
-          <span>Visualizar</span>
-        </button>
-        <button mat-menu-item (click)="remove(chamado)">
-          <mat-icon>delete</mat-icon>
-          <span>Remover</span>
-        </button>
-      </mat-menu>
-    </div>
-  </div>
+
+  <priorizacao-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>
+
+
+  @if (values?.records && values.records.length > 0) {
+
+    <ng-template let-chamado let-last="last" ngFor [ngForOf]="values?.records">
+      <sgmea-container-list [icon]="'fa-solid fa-clipboard-check'" [address]="chamado?.id">
+        <div
+          class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamado?.titulo }}
+        </div>
+        <div menu-content>
+
+
+          <a mat-menu-item [routerLink]="[chamado.id]" [queryParams]="getCurrentQueryParams()">
+            <mat-icon>edit</mat-icon>
+            <span>Editar</span>
+          </a>
+
+
+          <a mat-menu-item [routerLink]="[chamado.id]" [queryParams]="getCurrentQueryParams()">
+            <mat-icon>visibility</mat-icon>
+            <span>Visualizar</span>
+          </a>
+
+          <button mat-menu-item
+
+                  (click)="remove(chamado)">
+            <mat-icon>delete</mat-icon>
+            <span>Remover</span>
+          </button>
+        </div>
+
+      </sgmea-container-list>
+    </ng-template>
+  } @else {
+    <sgmea-no-data/>
+  }
 
 
 </sgmea-list>

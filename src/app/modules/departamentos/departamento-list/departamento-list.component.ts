@@ -9,18 +9,35 @@ import {Departamento} from "../../../model/departamento";
 import {TecnicoService} from "../../tecnicos/services/tecnico.service";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {DepartamentoService} from "../service/departamento.service";
+import {MatDividerModule} from "@angular/material/divider";
+import {SgmeaLoandingComponent} from "../../../shared/components/sgmea-loanding/sgmea-loanding.component";
+import {
+  SgmeaContainerListComponent
+} from "../../../shared/components/sgmea-container-list/sgmea-container-list.component";
+import {EquipamentoFilterComponent} from "../../equipamento/filter/equipamento-filter/equipamento-filter.component";
+import {
+  DepartamentoFilter,
+  DepartamentosFilterComponent
+} from "../filter/departamentos-filter/departamentos-filter.component";
+import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
 
 @Component({
   selector: 'app-departamento-list',
   standalone: true,
-  imports: [
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-    NgForOf,
-    SgmeaListComponent,
-    RouterLink
-  ],
+    imports: [
+        MatButtonModule,
+        MatIconModule,
+        MatMenuModule,
+        NgForOf,
+        SgmeaListComponent,
+        RouterLink,
+        MatDividerModule,
+        SgmeaLoandingComponent,
+        SgmeaContainerListComponent,
+        EquipamentoFilterComponent,
+        DepartamentosFilterComponent,
+        SgmeaNoDataComponent
+    ],
   templateUrl: './departamento-list.component.html',
   styleUrl: './departamento-list.component.scss'
 })
@@ -31,4 +48,7 @@ export class DepartamentoListComponent extends AbstractListController<Departamen
   }
 
 
+  customList($event: DepartamentoFilter) {
+
+  }
 }

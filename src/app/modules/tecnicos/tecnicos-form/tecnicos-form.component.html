@@ -70,7 +70,7 @@
         <!-- Campo Email -->
         <div class="form__group w-full">
           <div class="relative">
-            <input formControlName="password"
+            <input formControlName="senha"
                    type="password"
                    id="senha"
                    class="peer block"
@@ -104,9 +104,9 @@
         </div>
 
         <!-- Campo Gestor -->
-        <div class="form__group w-full" formGroupName="gestor">
+        <div class="form__group w-full" >
           <div class="relative">
-            <input formControlName="id"
+            <input formControlName="gestor"
                    type="text"
                    id="gestor"
                    [gestorAutocomplete]="autoGestor"

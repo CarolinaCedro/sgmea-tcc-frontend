@@ -25,12 +25,17 @@ export class GestorFormComponent extends AbstractFormController<Gestor> implemen
       email: [''],
       senha: [''],
       role: [''],
-      gestor: [null],
+      gestor: [''],
       perfil: [''],
       areaGestao: [''],
       usuariosAlocados: [[]],
       chamadoAtribuidos: [[]]
     }), service, router, route);
+
+
+    this.form.get("perfil").valueChanges.subscribe(value => {
+      this.form.get("role").setValue(value);
+    });
   }
 
   containsMetadata(): boolean {

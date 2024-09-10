@@ -37,8 +37,11 @@ export namespace Perfil {
     switch (status) {
       case Perfil.GESTOR:
       case Perfil[Perfil.GESTOR]:
-        return Perfil[Perfil.FUNCIONARIO];
+        return Perfil[Perfil.GESTOR];
       case Perfil.FUNCIONARIO:
+      case Perfil[Perfil.FUNCIONARIO]:
+        return Perfil[Perfil.FUNCIONARIO];
+      case Perfil.TECNICO:
       case Perfil[Perfil.TECNICO]:
         return Perfil[Perfil.TECNICO];
       default:
@@ -53,8 +56,11 @@ export namespace Perfil {
     switch (status) {
       case Perfil.GESTOR:
       case Perfil[Perfil.GESTOR]:
-        return Perfil[Perfil.FUNCIONARIO];
+        return Perfil[Perfil.GESTOR];
       case Perfil.FUNCIONARIO:
+      case Perfil[Perfil.FUNCIONARIO]:
+        return Perfil[Perfil.FUNCIONARIO];
+      case Perfil.TECNICO:
       case Perfil[Perfil.TECNICO]:
         return Perfil[Perfil.TECNICO];
       default:

@@ -42,7 +42,7 @@
         <!-- Campo Email -->
         <div class="form__group w-full">
           <div class="relative">
-            <input formControlName="password"
+            <input formControlName="senha"
                    type="password"
                    id="senha"
                    class="peer block"
@@ -73,12 +73,11 @@
         </div>
 
         <!-- Campo Gestor -->
-        <div class="form__group w-full" formGroupName="gestor">
+        <div class="form__group w-full">
           <div class="relative">
-            <input formControlName="id"
+            <input formControlName="gestor"
                    type="text"
                    id="gestor"
-                   [value]="value?.gestor?.nome ? value?.gestor?.nome : ''"
                    [gestorAutocomplete]="autoGestor"
                    (onItensFiltered)="onGestorFiltered($event)"
                    [matAutocomplete]="autoGestor"
@@ -87,7 +86,6 @@
 
             <mat-autocomplete #autoGestor="matAutocomplete">
               <mat-option
-                disabled="true"
                 *ngFor="let gestor of gestor?.records"
                 [value]="gestor"
               >
@@ -111,7 +109,7 @@
             <select formControlName="perfil"
                     id="perfil"
                     class="peer block appearance-none">
-              <option value="" disabled selected hidden></option>
+              <option value="" selected hidden></option>
               <option value="GESTOR">Gestor</option>
               <option value="FUNCIONARIO">Funcionário</option>
               <option value="TECNICO">Técnico</option>
@@ -142,11 +140,10 @@
 
         <!-- Campo Departamento -->
         <div class="form__group w-full">
-          <div class="relative" formGroupName="departamento">
-            <input formControlName="id"
+          <div class="relative">
+            <input formControlName="departamento"
                    type="text"
                    id="departamento"
-                   [value]="value?.departamento?.nome ? value?.departamento?.nome : ''"
                    [departamentosAutocomplete]="autoDepartamento"
                    (onItensFiltered)="onDepartamentFiltered($event)"
                    [matAutocomplete]="autoDepartamento"

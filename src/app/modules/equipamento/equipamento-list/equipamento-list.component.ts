@@ -8,19 +8,29 @@ import {AbstractListController} from "../../utis/abstract/abstract-list-controll
 import {Equipamento} from "../../../model/equipamento";
 import {EquipamentoService} from "../service/equipamento.service";
 import {JsonPipe, NgForOf} from "@angular/common";
+import {
+    SgmeaContainerListComponent
+} from "../../../shared/components/sgmea-container-list/sgmea-container-list.component";
+import {ChamadoFilterComponent} from "../../chamados/filter/chamado-filter/chamado-filter.component";
+import {EquipamentoFilter, EquipamentoFilterComponent} from "../filter/equipamento-filter/equipamento-filter.component";
+import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
 
 @Component({
   selector: 'app-equipamento-list',
   standalone: true,
-  imports: [
-    SgmeaListComponent,
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-    RouterLink,
-    NgForOf,
-    JsonPipe
-  ],
+    imports: [
+        SgmeaListComponent,
+        MatButtonModule,
+        MatIconModule,
+        MatMenuModule,
+        RouterLink,
+        NgForOf,
+        JsonPipe,
+        SgmeaContainerListComponent,
+        ChamadoFilterComponent,
+        EquipamentoFilterComponent,
+        SgmeaNoDataComponent
+    ],
   templateUrl: './equipamento-list.component.html',
   styleUrl: './equipamento-list.component.scss'
 })
@@ -31,4 +41,8 @@ export class EquipamentoListComponent extends AbstractListController<Equipamento
     super(service, router, route);
   }
 
+  customList($event: EquipamentoFilter) {
+
+
+  }
 }
