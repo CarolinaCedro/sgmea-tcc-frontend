@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {MatButtonToggle, MatButtonToggleGroup, MatButtonToggleModule} from "@angular/material/button-toggle";
 import {ApexOptions, NgApexchartsModule} from "ng-apexcharts";
+import {AuthService} from "../../core/auth/service/auth/auth.service";
+import {User} from "../../model/user";
 
 // Define um tipo para as chaves de semana
 type TaskDistributionKey = 'this-week' | 'last-week';
@@ -13,6 +15,8 @@ type TaskDistributionKey = 'this-week' | 'last-week';
   imports: [RouterOutlet, NgApexchartsModule, MatButtonToggleModule],
 })
 export class DashboardComponent implements OnInit {
+
+  user: User
 
   taskDistribution = {
     overview: {
@@ -40,8 +44,13 @@ export class DashboardComponent implements OnInit {
   chartTaskDistribution: ApexOptions;
   data: any;
 
-  constructor() {
-    const selectedWeek = this.taskDistribution.series[this.taskDistributionWeekSelector.value] || [1,2,3,6,8];
+  constructor(private authservice: AuthService) {
+
+    this.authservice.userCurrent.subscribe(res => {
+      this.user = res
+    })
+
+    const selectedWeek = this.taskDistribution.series[this.taskDistributionWeekSelector.value] || [1, 2, 3, 6, 8];
 
     this.chartTaskDistribution = {
       chart: {

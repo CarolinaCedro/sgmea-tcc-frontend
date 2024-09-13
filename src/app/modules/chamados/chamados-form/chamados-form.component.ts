@@ -45,6 +45,7 @@ export class ChamadosFormComponent extends AbstractFormController<ChamadoCriado>
       status: ['ABERTO'],
       observacoes: [''],
       equipamento: [''],
+      alocado: [false],
       funcionario: [''],
       dataFechamento: [null]
     }), service, router, route);
@@ -55,6 +56,7 @@ export class ChamadosFormComponent extends AbstractFormController<ChamadoCriado>
       if (!params['id']) {  // Se não houver ID nos parâmetros, é um novo registro
         this.form.patchValue({status: 'ABERTO'});
         this.form.setValue({status: 'ABERTO'});
+        this.form.setValue({alocado: false});
         this.form.get('status').disable();
       }
     });

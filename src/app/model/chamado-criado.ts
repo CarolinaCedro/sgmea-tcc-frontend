@@ -17,6 +17,8 @@ export class ChamadoCriado extends ModelImplModel {
   prioridade: Prioridade;
   status: string;
 
+  alocado: boolean = false
+
   @Transform(value => Model.serialize(value), Model.serializeOpts())
   @Transform(value => Model.deserialize(value, Equipamento), Model.deserializeOpts())
   @Type(() => Equipamento)
@@ -31,13 +33,14 @@ export class ChamadoCriado extends ModelImplModel {
   funcionario: Funcionario;
 
 
-  constructor(id: string, dataAbertura: Date, dataFechamento: Date, prioridade: Prioridade, status: string, equipamento: Equipamento, titulo: string, observacaoConsolidacao: string, observacoes: string, funcionario: Funcionario) {
+  constructor(id: string, dataAbertura: Date, dataFechamento: Date, prioridade: Prioridade, status: string, alocado: boolean, equipamento: Equipamento, titulo: string, observacaoConsolidacao: string, observacoes: string, funcionario: Funcionario) {
     super();
     this.id = id;
     this.dataAbertura = dataAbertura;
     this.dataFechamento = dataFechamento;
     this.prioridade = prioridade;
     this.status = status;
+    this.alocado = alocado;
     this.equipamento = equipamento;
     this.titulo = titulo;
     this.observacaoConsolidacao = observacaoConsolidacao;

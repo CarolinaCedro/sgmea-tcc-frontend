@@ -3,41 +3,74 @@
 
   <priorizacao-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>
 
+  <mat-tab-group>
+    <mat-tab label="Chamados em Aberto">
+      @if (values?.records && values.records.length > 0) {
+        <ng-template let-chamado let-last="last" ngFor [ngForOf]="values?.records">
 
-  @if (values?.records && values.records.length > 0) {
-
-    <ng-template let-chamado let-last="last" ngFor [ngForOf]="values?.records">
-      <sgmea-container-list [icon]="'fa-solid fa-clipboard-check'" [address]="chamado?.id">
-        <div
-          class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamado?.titulo }}
-        </div>
-        <div menu-content>
-
-
-          <a mat-menu-item [routerLink]="[chamado.id]" [queryParams]="getCurrentQueryParams()">
-            <mat-icon>edit</mat-icon>
-            <span>Editar</span>
-          </a>
+          <sgmea-container-list [icon]="'fa-solid fa-clipboard-check'" [address]="chamado?.id">
+            <div class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamado?.titulo }}
+            </div>
+            <div menu-content>
+              <a mat-menu-item [routerLink]="[chamado.id]" [queryParams]="getCurrentQueryParams()">
+                <mat-icon>edit</mat-icon>
+                <span>Editar</span>
+              </a>
 
 
-          <a mat-menu-item [routerLink]="[chamado.id]" [queryParams]="getCurrentQueryParams()">
-            <mat-icon>visibility</mat-icon>
-            <span>Visualizar</span>
-          </a>
+              <a mat-menu-item [routerLink]="[chamado.id]" [queryParams]="getCurrentQueryParams()">
+                <mat-icon>visibility</mat-icon>
+                <span>Visualizar</span>
+              </a>
 
-          <button mat-menu-item
+              <button mat-menu-item
 
-                  (click)="remove(chamado)">
-            <mat-icon>delete</mat-icon>
-            <span>Remover</span>
-          </button>
-        </div>
+                      (click)="remove(chamado)">
+                <mat-icon>delete</mat-icon>
+                <span>Remover</span>
+              </button>
+            </div>
 
-      </sgmea-container-list>
-    </ng-template>
-  } @else {
-    <sgmea-no-data/>
-  }
+          </sgmea-container-list>
+        </ng-template>
+      } @else {
+        <sgmea-no-data/>
+      }
+
+    </mat-tab>
+
+    <mat-tab label="Chamados Atribuidos">
+
+      @if (chamadosAtribuidos && chamadosAtribuidos?.length > 0) {
+        <ng-template let-chamadoAtribuido let-last="last" ngFor [ngForOf]="chamadosAtribuidos">
+
+          <sgmea-container-list [icon]="'fa-solid fa-clipboard-check'" [address]="chamadoAtribuido?.id">
+            <div
+              class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamadoAtribuido?.chamadoCriado?.titulo }}
+            </div>
+            <div menu-content>
+
+              <a mat-menu-item [routerLink]="[chamadoAtribuido.id]" [queryParams]="getCurrentQueryParams()">
+                <mat-icon>visibility</mat-icon>
+                <span>Visualizar</span>
+              </a>
+
+              <button mat-menu-item
+
+                      (click)="remove(chamadoAtribuido)">
+                <mat-icon>delete</mat-icon>
+                <span>Remover</span>
+              </button>
+            </div>
+
+          </sgmea-container-list>
+        </ng-template>
+      } @else {
+        <sgmea-no-data/>
+      }
+
+    </mat-tab>
+  </mat-tab-group>
 
 
 </sgmea-list>

@@ -2,24 +2,29 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  Input,
+  Input, OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 
 @Component({
   selector: 'sgmea-list',
   standalone: true,
   imports: [
     NgIf,
+    MatPaginatorModule,
   ],
   templateUrl: './sgmea-list.component.html',
   styleUrls: ['./sgmea-list.component.scss']
 })
-export class SgmeaListComponent {
+export class SgmeaListComponent implements OnInit{
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
 
   @Input() listTitle: string = "Seu título aqui";
   @Input() itensCount!: number;
@@ -34,5 +39,9 @@ export class SgmeaListComponent {
 
   newRecordOnClick(): void {
     this.router.navigate(["./new_record"], { relativeTo: this.activatedRoute });
+  }
+
+  ngOnInit() {
+    this.paginator._intl.itemsPerPageLabel="Itens por página ";
   }
 }

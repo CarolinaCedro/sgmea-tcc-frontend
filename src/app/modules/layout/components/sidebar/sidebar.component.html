@@ -11,10 +11,11 @@
           <div class="">
             <div class="text-4xl font-extrabold tracking-tight leading-none flex justify-between">
               <div class="text-2xl sm:text-base md:text-lg text-primary lg:text-4xl xl:text-4xl">
-                SGMEA
+                S<b class="text-red">G</b>MEA
               </div>
             </div>
-            <small class="text-gray-500">ownergmail.com</small>
+            <div class="text-xs	text-gray-500">{{ currentUser?.perfil }}</div>
+            <small class="text-gray-500">{{ currentUser?.email }}</small>
           </div>
         </div>
 

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatCardModule} from '@angular/material/card';
@@ -6,8 +6,10 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from "@angular/material/input";
 import {FormController} from "../../../modules/utis/models/form-controller.interface";
 import {map, mergeMap, take} from "rxjs/operators";
-import {Subject} from "rxjs";
 import {ButtonComponent} from "../button/button.component";
+import {SgmeaLoadingService} from "../services/sgmea-loading.service";
+import * as console from "console";
+import {Subject} from "rxjs/internal/Subject";
 
 @Component({
   selector: 'sgmea-form',
@@ -35,6 +37,9 @@ export class SgmeaFormComponent implements OnInit{
   @Input()
   formController: FormController<any>;
 
+
+
+
   private unsubscribes: Subject<void> = new Subject();
 
 
@@ -47,6 +52,8 @@ export class SgmeaFormComponent implements OnInit{
   @Input() cardWidth?: string = '360px !important';
 
 
+  constructor() {
+  }
 
   ngOnInit() {
     this.containsDomain = this.formController?.containsMetadata();

@@ -1,1 +1,8 @@
-<p>sgmea-loanding works!</p>
+<ng-container *ngIf="show">
+  <mat-progress-bar
+    [mode]="mode"
+    color="primary"
+    [value]="progress">
+
+  </mat-progress-bar>
+</ng-container>

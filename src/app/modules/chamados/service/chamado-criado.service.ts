@@ -10,6 +10,7 @@ import {PathVariable} from "../../utis/http/services/model-service.interface";
 import {Funcionario} from "../../../model/funcionario";
 import {EquipamentoService} from "../../equipamento/service/equipamento.service";
 import {FuncionarioService} from "../../funcionario/service/funcionario.service";
+import {ChamadoAtribuido} from "../../../model/chamado-atribuido";
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,8 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
         )
       );
   }
+
+
 
   getChamadosEncerrados(): Observable<any> {
     return this.http
