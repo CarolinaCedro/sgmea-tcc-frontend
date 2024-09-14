@@ -13,7 +13,7 @@ import {SgmeaListComponent} from "../../../shared/components/sgmea-list/sgmea-li
 import {ChamadoCriadoService} from "../../chamados/service/chamado-criado.service";
 import {MatChipsModule} from "@angular/material/chips";
 import {
-    PriorizacaoFilterComponent
+  PriorizacaoFilterComponent
 } from "../../priorizao-chamado/filter/priorizacao-filter/priorizacao-filter.component";
 import {HistoricoFilter, HistoricoFilterComponent} from "../filter/historico-filter/historico-filter.component";
 
@@ -53,7 +53,8 @@ export class HistoricoListComponent {
   chamados: any[] = [];
   displayedColumns: string[] = ['titulo', 'status', 'dataAbertura', 'dataFechamento', 'responsavel', 'prioridade', 'acoes'];
 
-  constructor(private chamadoService: ChamadoCriadoService) {}
+  constructor(private chamadoService: ChamadoCriadoService) {
+  }
 
   ngOnInit(): void {
     this.loadChamados();
@@ -65,12 +66,14 @@ export class HistoricoListComponent {
     });
   }
 
-  getStatusColor(status: string): 'primary' | 'accent' | 'warn' {
+  getStatusColor(status: string): 'primary' | 'accent' | 'warn' | 'fechado' {
     switch (status) {
       case 'ABERTO':
         return 'primary'; // ou qualquer cor desejada
       case 'ENCERRADO':
         return 'accent'; // ou qualquer cor desejada
+      case 'CONCLUIDO':
+        return 'fechado';
       default:
         return 'warn'; // ou qualquer cor padrão desejada
     }
@@ -80,9 +83,9 @@ export class HistoricoListComponent {
     switch (priority) {
       case 'ALTA':
         return 'warn'; // ou qualquer cor desejada
-      case 'Média':
+      case 'BAIXA':
         return 'accent'; // ou qualquer cor desejada
-      case 'Baixa':
+      case 'MEDIA':
         return 'primary'; // ou qualquer cor desejada
       default:
         return 'primary'; // ou qualquer cor padrão desejada

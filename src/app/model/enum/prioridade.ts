@@ -1,5 +1,7 @@
 // prioridade.enum.ts
 
+import {Exclude} from "class-transformer";
+
 export enum Prioridade {
   BAIXA = 'BAIXA',
   MEDIA = 'MEDIA',
@@ -26,4 +28,7 @@ export namespace Prioridade {
   export function fromCodigo(codigo: number): Prioridade | null {
     return codigoMap[codigo] || null;
   }
+
+
+
 }

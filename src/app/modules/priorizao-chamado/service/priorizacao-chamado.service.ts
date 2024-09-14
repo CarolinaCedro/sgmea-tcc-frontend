@@ -9,9 +9,11 @@ import {GestorService} from "../../gestor/service/gestor.service";
 import {ChamadoCriadoService} from "../../chamados/service/chamado-criado.service";
 import {PathVariable} from "../../utis/http/services/model-service.interface";
 import {forkJoin, Observable, of} from "rxjs";
-import {catchError, map, mergeMap} from "rxjs/operators";
+import {catchError, map, mergeMap, take} from "rxjs/operators";
 import {TecnicoService} from "../../tecnicos/services/tecnico.service";
 import {throwErrorMessage} from "../../utis/http/model/exception/error-message.model";
+import {serialize} from "class-transformer";
+import {ListResource} from "../../utis/http/model/list-resource.model";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,7 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
               private funcionarioService: FuncionarioService,
               private tecnicoService: TecnicoService
   ) {
-    super(ChamadoCriado, "api/sgmea/v1/chamado/chamados-atribuidos", http)
+    super(ChamadoCriado, "api/sgmea/v1/chamado", http)
   }
 
 
@@ -43,6 +45,28 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
         )
       );
   }
+
+  save(value: ChamadoAtribuido, pathVariable?: PathVariable): Observable<ChamadoAtribuido> {
+    return of(serialize(value))
+      .pipe(
+        mergeMap(payload =>
+          this.http
+            .createRequest()
+            .setAuthToken(this.localStorage.getItem(this.TOKEN))
+            .usingLog(this.log)
+            .url(this.buildServiceUrl("api/sgmea/v1/chamado/atribuir-chamado", pathVariable))
+            .post(payload)
+            //pelo fato de ser um poste não se tem necessidade de se pegar a resposta
+            //.map((res: Response) => res.json())
+            .pipe(
+              take(1),
+              catchError((err) => throwErrorMessage(err, this.log)),
+            ),
+        ),
+      );
+  }
+
+
 
   findByListOfChamadosAtribuidosFully(chamado: ChamadoAtribuido): Observable<ChamadoAtribuido> {
     console.log("Chamado recebido:", chamado);
@@ -65,8 +89,7 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
   }
 
 
-
-  getChamadosAtribuidos(): Observable<any> {
+  getChamadosAtribuidos(): Observable<ListResource<ChamadoAtribuido>> {
     return this.http
       .createRequest()
       .setAuthToken(this.localStorage.getItem(this.TOKEN))

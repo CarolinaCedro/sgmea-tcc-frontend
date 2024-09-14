@@ -73,6 +73,10 @@ export const routes: Routes = [
         loadChildren: () => import('../app/modules/priorizao-chamado/priorizao-chamado.routes')
       },
       {
+        path: 'consolidacao-chamado',
+        loadChildren: () => import('../app/modules/consolidacao/consolidacao.routes')
+      },
+      {
         path: 'relatorio',
         loadChildren: () => import('../app/modules/relatorio/relatorio.routes')
       },

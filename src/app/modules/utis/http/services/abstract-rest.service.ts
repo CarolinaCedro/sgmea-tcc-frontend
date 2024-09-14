@@ -289,20 +289,15 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
         mergeMap(url =>
           this.http
             .createRequest()
-            .setAuthToken(this.localStorage.getItem(this.TOKEN))
             .usingLog(this.log)
+            .setAuthToken(this.localStorage.getItem(this.TOKEN))
             .url(url)
             .get()
             .pipe(
-              map((result) => {
-                // console.log("os results service", result)
-                let list = this.deserializeListResource(result)
-                // console.log("a list depois do deserializer", list)
-                return list;
-              }),
-              catchError((err) => throwErrorMessage(err, this.log)),
-            ),
-        ),
+              map((result) => this.deserializeListResource(result)),
+              catchError((err) => throwErrorMessage(err, this.log))
+            )
+        )
       );
   }
 
@@ -314,19 +309,19 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
     return of(query)
       .pipe(
         mergeMap(() =>
-            this.list(query, pathVariable)
-          // .pipe(
-          //   expand((list: ListResource<T>) => list.hasNextPage() ? this.list(list._metadata.nextPage(), pathVariable) : of(null)),
-          //   //devemos continuar o processo enquanto temos um list populado
-          //   takeWhile((list: ListResource<T>) => {
-          //     return isNotNullOrUndefined(list);
-          //   }),
-          //   map(list => list),
-          //   reduce((acumulator: ListResource<T>, currentVaue: ListResource<T>) => {
-          //     return acumulator.pushAll(currentVaue);
-          //   }),
-          // ),
-        ),
+          this.list(query, pathVariable)
+            .pipe(
+              // expand((list: ListResource<T>) => list.hasNextPage() ? this.list(list._metadata.nextPage(), pathVariable) : of(null)),
+              //devemos continuar o processo enquanto temos um list populado
+              takeWhile((list: ListResource<T>) => {
+                return isNotNullOrUndefined(list);
+              }),
+              map(list => list),
+              reduce((acumulator: ListResource<T>, currentVaue: ListResource<T>) => {
+                return acumulator.pushAll(currentVaue);
+              })
+            )
+        )
       );
   }
 
@@ -334,19 +329,19 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
     return of(query)
       .pipe(
         mergeMap(() =>
-            this.listFully(query)
-          // .pipe(
-          //   expand((list: ListResource<T>) => list.hasNextPage() ? this.listFully(list._metadata.nextPage(), pathVariable) : of(null)),
-          //   //devemos continuar o processo enquanto temos um list populado
-          //   takeWhile((list: ListResource<T>) => {
-          //     return isNotNullOrUndefined(list);
-          //   }),
-          //   map(list => list),
-          //   reduce((acumulator: ListResource<T>, currentVaue: ListResource<T>) => {
-          //     return acumulator.pushAll(currentVaue);
-          //   }),
-          // ),
-        ),
+          this.listFully(query)
+            .pipe(
+              // expand((list: ListResource<T>) => list.hasNextPage() ? this.listFully(list._metadata.nextPage(), pathVariable) : of(null)),
+              //devemos continuar o processo enquanto temos um list populado
+              takeWhile((list: ListResource<T>) => {
+                return isNotNullOrUndefined(list);
+              }),
+              map(list => list),
+              reduce((acumulator: ListResource<T>, currentVaue: ListResource<T>) => {
+                return acumulator.pushAll(currentVaue);
+              })
+            )
+        )
       );
   }
 

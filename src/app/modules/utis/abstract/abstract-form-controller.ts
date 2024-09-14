@@ -141,7 +141,7 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
               if (this.clazz) {
                 this.value = createNew(this.clazz);
               }
-              this.loading.hide()
+              // this.loading.hide()
               this.afterLoadId(this.value);
               this.valuesOnChange.emit(this.value);
             }),
@@ -151,8 +151,7 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
           .pipe(
             mergeMap(() => this.service.findByIdFully(params['id'])
               .pipe(
-                finalize(() => this.loading.hide()
-                )
+                // finalize(() => this.loading.hide())
               ),
             ),
             map((result: T) => {
@@ -207,7 +206,7 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
   * */
   save(value: T) {
     console.log('SAVE', value);
-    this.loading.show();
+    // this.loading.show();
     of(value)
       .pipe(
         map(value => {
@@ -221,7 +220,7 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
           this.afterSave(value);
           return value;
         }),
-        finalize(() => this.loading.hide())
+        // finalize(() => this.loading.hide())
 
       ).subscribe(() => {
       if (this.mult) {

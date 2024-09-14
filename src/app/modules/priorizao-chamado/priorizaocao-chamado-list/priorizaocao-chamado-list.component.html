@@ -11,6 +11,8 @@
           <sgmea-container-list [icon]="'fa-solid fa-clipboard-check'" [address]="chamado?.id">
             <div class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamado?.titulo }}
             </div>
+
+
             <div menu-content>
               <a mat-menu-item [routerLink]="[chamado.id]" [queryParams]="getCurrentQueryParams()">
                 <mat-icon>edit</mat-icon>
@@ -41,12 +43,12 @@
 
     <mat-tab label="Chamados Atribuidos">
 
-      @if (chamadosAtribuidos && chamadosAtribuidos?.length > 0) {
-        <ng-template let-chamadoAtribuido let-last="last" ngFor [ngForOf]="chamadosAtribuidos">
+      @if (chamadosAtribuidos?.records && chamadosAtribuidos?.records?.length > 0) {
+        <ng-template let-chamadoAtribuido let-last="last" ngFor [ngForOf]="chamadosAtribuidos?.records">
 
           <sgmea-container-list [icon]="'fa-solid fa-clipboard-check'" [address]="chamadoAtribuido?.id">
             <div
-              class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamadoAtribuido?.chamadoCriado?.titulo }}
+              class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamadoAtribuido?.titulo }}
             </div>
             <div menu-content>
 

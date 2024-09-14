@@ -7,14 +7,14 @@
     <!-- Título -->
     <ng-container matColumnDef="titulo">
       <mat-header-cell *matHeaderCellDef> Título</mat-header-cell>
-      <mat-cell *matCellDef="let chamado"> {{ chamado.titulo }}</mat-cell>
+      <mat-cell *matCellDef="let chamado"> {{ chamado?.titulo }}</mat-cell>
     </ng-container>
 
     <!-- Status -->
     <ng-container matColumnDef="status">
       <mat-header-cell *matHeaderCellDef> Status</mat-header-cell>
       <mat-cell *matCellDef="let chamado">
-        <small [ngClass]="getStatusColor(chamado.status)">
+        <small [ngClass]="getStatusColor(chamado?.status)">
           {{ chamado.status }}
         </small>
       </mat-cell>
@@ -23,13 +23,15 @@
     <!-- Data de Abertura -->
     <ng-container matColumnDef="dataAbertura">
       <mat-header-cell *matHeaderCellDef> Data de Abertura</mat-header-cell>
-      <mat-cell *matCellDef="let chamado"> {{ chamado?.dataAbertura ? chamado?.dataAbertura : null | date: 'dd/MM/yyyy' }}</mat-cell>
+      <mat-cell *matCellDef="let chamado"> {{ chamado?.dataAbertura ? chamado?.dataAbertura : "Não informado" }}
+      </mat-cell>
     </ng-container>
 
     <!-- Data de Fechamento -->
     <ng-container matColumnDef="dataFechamento">
       <mat-header-cell *matHeaderCellDef> Data de Fechamento</mat-header-cell>
-      <mat-cell *matCellDef="let chamado"> {{ chamado.dataFechamento ? (chamado.dataFechamento | date: 'dd/MM/yyyy') : 'Não fechado' }}</mat-cell>
+      <mat-cell *matCellDef="let chamado"> {{ chamado?.dataFechamento ? chamado?.dataFechamento : 'Não fechado' }}
+      </mat-cell>
     </ng-container>
 
     <!-- Responsável -->
@@ -42,8 +44,8 @@
     <ng-container matColumnDef="prioridade">
       <mat-header-cell *matHeaderCellDef> Prioridade</mat-header-cell>
       <mat-cell *matCellDef="let chamado">
-        <small [ngClass]="getPriorityColor(chamado.prioridade)">
-          {{ chamado.prioridade }}
+        <small [ngClass]="getPriorityColor(chamado?.prioridade)">
+          {{ chamado?.prioridade }}
         </small>
       </mat-cell>
     </ng-container>

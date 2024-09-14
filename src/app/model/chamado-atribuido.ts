@@ -15,6 +15,7 @@ export class ChamadoAtribuido extends ModelImplModel {
     this.tecnico = tecnico;
     this.gestor = gestor;
     this.prioridade = prioridade;
+
   }
 
 
@@ -23,6 +24,8 @@ export class ChamadoAtribuido extends ModelImplModel {
   @Transform(value => Model.deserialize(value, ChamadoCriado), Model.deserializeOpts())
   @Type(() => ChamadoCriado)
   chamadoCriado: ChamadoCriado;
+
+  titulo: string
 
   @Transform(value => Model.serialize(value), Model.serializeOpts())
   @Transform(value => Model.deserialize(value, Tecnico), Model.deserializeOpts())

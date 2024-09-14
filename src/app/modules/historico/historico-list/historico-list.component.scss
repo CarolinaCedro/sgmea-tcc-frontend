@@ -6,8 +6,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
 
-
-
 }
 
 .filter-section {
@@ -29,11 +27,14 @@
 }
 
 .aberto {
-  color: green;
+  color: #007bff;
 }
 
 .fechado {
-  color: red;
+  padding: .2rem .5rem;
+  border-radius: 5rem;
+  background-color: green; /* Vermelho para warn */
+  color: white;
 }
 
 
@@ -49,14 +50,14 @@
 .accent {
   padding: .2rem .5rem;
   border-radius: 5rem;
-  background-color: #ff5722; /* Laranja para accent */
+  background-color: #65758b; /* Laranja para accent */
   color: white;
 }
 
 .warn {
   padding: .2rem .5rem;
   border-radius: 5rem;
-  background-color: #f44336; /* Vermelho para warn */
+  background-color: red; /* Vermelho para warn */
   color: white;
 }
 

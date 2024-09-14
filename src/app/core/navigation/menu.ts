@@ -47,6 +47,11 @@ export class Menu {
           route: '/home/priorizao-chamado',
         },
         {
+          icon: 'fa-solid fa-circle-check',
+          label: 'Consolidação chamado',
+          route: '/home/consolidacao-chamado',
+        },
+        {
           icon: 'fa-solid fa-clone',
           label: 'Histórico',
           route: '/home/historico',

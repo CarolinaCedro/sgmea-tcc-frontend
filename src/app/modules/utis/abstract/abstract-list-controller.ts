@@ -10,6 +10,7 @@ import {ErrorMessage} from '../http/model/exception/error-message.model';
 import {ListController} from '../models/list-controller.interface';
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationDialogComponent} from "../../../shared/dialog/confirmation-dialog/confirmation-dialog.component";
+import {SrQuery} from "../http/criteria";
 
 
 @Directive({
@@ -80,19 +81,19 @@ export abstract class AbstractListController<T extends Model> implements ListCon
 
   /* Lista os recursos, opcionalmente aceitando parâmetros de consulta.
   Inicializa a lista de recursos por meio do serviço fornecido. */
-  list(query?: Query | any): void {
+  list(query?: SrQuery | any): void {
     this.service
       .listFully(query)
       .subscribe(result => {
-        // console.log("vem result ?", result)
+        console.log("vem result ?", result)
         if (result) {
           console.log('result da list', result);
           this.values = result;
         } else {
-          console.error('Result list is undefined or null');
+          // console.error('Result list is undefined or null');
+          return null
         }
 
-        return null;
       }, (err: ErrorMessage) => {
         console.log("error", err)
       });

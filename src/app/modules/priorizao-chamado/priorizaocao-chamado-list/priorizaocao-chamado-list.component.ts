@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
-import {JsonPipe, NgForOf} from "@angular/common";
+import {JsonPipe, NgClass, NgForOf} from "@angular/common";
 import {SgmeaListComponent} from "../../../shared/components/sgmea-list/sgmea-list.component";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {AbstractListController} from "../../utis/abstract/abstract-list-controller";
@@ -39,14 +39,15 @@ import {PriorizacaoChamadoService} from "../service/priorizacao-chamado.service"
     PriorizacaoFilterComponent,
     SgmeaNoDataComponent,
     MatTabsModule,
-    JsonPipe
+    JsonPipe,
+    NgClass
   ],
   templateUrl: './priorizaocao-chamado-list.component.html',
   styleUrl: './priorizaocao-chamado-list.component.scss'
 })
 export class PriorizaocaoChamadoListComponent extends AbstractListController<ChamadoCriado> implements AfterViewInit {
 
-  chamadosAtribuidos: ChamadoAtribuido[] = []
+  chamadosAtribuidos: ListResource<ChamadoAtribuido>
 
 
   constructor(public service: ChamadoCriadoService, private chamadoAtribuidoService: PriorizacaoChamadoService, router: Router, route: ActivatedRoute) {
@@ -60,18 +61,29 @@ export class PriorizaocaoChamadoListComponent extends AbstractListController<Cha
 
 
   getChamadosAtribuidos(): void {
-    this.chamadoAtribuidoService.getChamadosAtribuidos().subscribe((chamados: ChamadoAtribuido[]) => {
-      console.log("Chamados atribuídos recebidos:", chamados);
+    this.chamadoAtribuidoService.getChamadosAtribuidos().subscribe((chamados: ListResource<ChamadoAtribuido>) => {
+      console.log("Chamados atribuídos recebidos:", chamados.records);
+
       forkJoin(
-        chamados.map((chamado) => this.chamadoAtribuidoService.findByListOfChamadosAtribuidosFully(chamado))
+        chamados.records.map((chamado) =>
+          this.chamadoAtribuidoService.findByListOfChamadosAtribuidosFully(chamado)
+        )
       ).subscribe((chamadosCompletos: ChamadoAtribuido[]) => {
-        this.chamadosAtribuidos = chamadosCompletos;  // Agora o tipo é ChamadoAtribuido[]
-        console.log("Chamados atribuídos com dados completos:", chamadosCompletos);
+        console.log("Chamados completos:", chamadosCompletos);
+
+        // Atualiza o objeto `records` do `ListResource` com os chamados completos
+        chamados.records = chamadosCompletos;
+
+        // Agora o objeto `ListResource` atualizado está pronto para uso
+        this.chamadosAtribuidos = chamados;
+        console.log("ListResource atualizado com chamados completos:", chamados);
       }, (error) => {
         console.error("Erro ao carregar chamados completos:", error);
       });
     });
   }
+
+
 
 
   customList($event: ChamadoFilter) {

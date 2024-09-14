@@ -6,7 +6,7 @@ import {TecnicoFilter} from "../../../tecnicos/filter/tecnico-filter/tecnico-fil
 
 
 export class ChamadoFilter {
-  nome?: string
+  titulo?: string
 }
 
 

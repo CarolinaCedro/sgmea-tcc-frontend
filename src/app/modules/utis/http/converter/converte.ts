@@ -58,50 +58,31 @@ export function deserializeArray(values, clazz: any, log?: Logg): Array<any> {
   return itens;
 }
 
-export function deserializeListResource(value: any, clazz: any, log?: Logg): ListResource<any> {
-  return value
-  // console.log("Entrou no converte", value);
-  // const list = new ListResource<any>();
-  //
-  // if (isNotNullOrUndefined(value)) {
-  //   try {
-  //     console.log("value records", value?.records);
-  //     // Desserializa apenas o campo "records"
-  //     // list.records = <Array<any>>plainToClass(clazz, value?.records);
-  //     list.records = value?.records;
-  //     console.log("a lista agora", value?.records)
-  //
-  //
-  //     if (value?.records) {
-  //       list.records = plainToClass(clazz, value.records) as Array<any>;
-  //     } else {
-  //       list.records = [];
-  //     }
-  //
-  //     // Ignora completamente o campo "_metadata"
-  //     // list._metadata = null;  // ou simplesmente remova essa linha se não precisar definir explicitamente como null
-  //
-  //     if (isNotNullOrUndefined(log)) {
-  //       log?.d('Payload response', list);
-  //     }
-  //   } catch (error) {
-  //     const errorResult = {
-  //       error: error,
-  //       clazz: clazz,
-  //       payload: value
-  //     };
-  //
-  //     if (isNotNullOrUndefined(log)) {
-  //       log?.e('Error on deserialize', errorResult);
-  //     }
-  //
-  //     throw errorResult;
-  //   }
-  // } else {
-  //   console.log("A lista está vazia");
-  // }
-  //
-  // return list;
+class SrLogg {
+}
+
+export function deserializeListResource(value: any, clazz: any, log?: SrLogg): ListResource<any> {
+  const list = new ListResource<any>();
+
+  if (isNotNullOrUndefined(value)) {
+    try {
+      list.records = <Array<any>>plainToClass(clazz, value.records);
+      // list._metadata = deserialize(MetaData, JSON.stringify(value._metadata));
+      if (isNotNullOrUndefined(log)) {
+        console.log("payload response");
+      }
+    } catch (error) {
+      const errorResult = {};
+      errorResult["error"] = error;
+      errorResult["clazz"] = clazz;
+      errorResult["payload"] = value;
+      if (isNotNullOrUndefined(log)) {
+        console.log("error on deserialize ", errorResult)
+      }
+      throw errorResult;
+    }
+  }
+  return list;
 }
 
 

@@ -11,6 +11,9 @@ import {Funcionario} from "../../../model/funcionario";
 import {EquipamentoService} from "../../equipamento/service/equipamento.service";
 import {FuncionarioService} from "../../funcionario/service/funcionario.service";
 import {ChamadoAtribuido} from "../../../model/chamado-atribuido";
+import {SrQuery} from "../../utis/http/criteria";
+import {ListResource} from "../../utis/http/model/list-resource.model";
+import {isNotNullOrUndefined} from "../../utis/utils";
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +45,22 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
       );
   }
 
+
+  listFully(query?: SrQuery | string, pathVariable?: PathVariable): Observable<ListResource<ChamadoCriado>> {
+    return super.listFully(query, pathVariable)
+      .pipe(
+        mergeMap((result: ListResource<ChamadoCriado>) => {
+          const funcionario = result.records.filter(it => isNotNullOrUndefined(it.funcionario.id) && isNotNullOrUndefined(it.funcionario.id))
+            .map(it => it.funcionario);
+          return forkJoin([
+            this.funcionarioService.findByIds(result.records.map(it => it.funcionario), result)
+          ]).pipe(
+            map(() => result)
+          );
+        })
+      );
+
+  }
 
 
   getChamadosEncerrados(): Observable<any> {
