@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {SgmeaListComponent} from "../../../shared/components/sgmea-list/sgmea-list.component";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
@@ -10,12 +10,12 @@ import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {FuncionarioService} from "../service/funcionario.service";
 import {FuncionarioFilter, FuncionarioFilterComponent} from "../filter/funcionario-filter/funcionario-filter.component";
 import {Subject} from "rxjs";
-import {finalize, takeUntil} from "rxjs/operators";
 import {MatListModule} from "@angular/material/list";
 import {
   SgmeaContainerListComponent
 } from "../../../shared/components/sgmea-container-list/sgmea-container-list.component";
 import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
+import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-funcionario-list',
@@ -30,17 +30,20 @@ import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgm
     FuncionarioFilterComponent,
     MatListModule,
     SgmeaContainerListComponent,
-    SgmeaNoDataComponent
+    SgmeaNoDataComponent,
+    MatPaginatorModule
   ],
   templateUrl: './funcionario-list.component.html',
   styleUrl: './funcionario-list.component.scss'
 })
 export class FuncionarioListComponent extends AbstractListController<Funcionario> implements OnInit {
 
+
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
+
   currentFilter: FuncionarioFilter;
   private cancelRequest: Subject<void> = new Subject();
-
-
 
   constructor(service: FuncionarioService, router: Router, route: ActivatedRoute) {
     super(service, router, route);
@@ -64,4 +67,6 @@ export class FuncionarioListComponent extends AbstractListController<Funcionario
 
 
   }
+
+
 }

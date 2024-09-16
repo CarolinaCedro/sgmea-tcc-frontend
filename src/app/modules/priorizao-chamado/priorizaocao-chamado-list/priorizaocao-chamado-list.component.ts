@@ -23,6 +23,7 @@ import {ChamadoAtribuido} from "../../../model/chamado-atribuido";
 import {forkJoin, Observable} from "rxjs";
 import {tap} from "rxjs/operators";
 import {PriorizacaoChamadoService} from "../service/priorizacao-chamado.service";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-priorizaocao-chamado-list',
@@ -40,7 +41,8 @@ import {PriorizacaoChamadoService} from "../service/priorizacao-chamado.service"
     SgmeaNoDataComponent,
     MatTabsModule,
     JsonPipe,
-    NgClass
+    NgClass,
+    MatPaginatorModule
   ],
   templateUrl: './priorizaocao-chamado-list.component.html',
   styleUrl: './priorizaocao-chamado-list.component.scss'
@@ -76,14 +78,14 @@ export class PriorizaocaoChamadoListComponent extends AbstractListController<Cha
 
         // Agora o objeto `ListResource` atualizado está pronto para uso
         this.chamadosAtribuidos = chamados;
+        this.totalItems = chamados?.records?.length;
+
         console.log("ListResource atualizado com chamados completos:", chamados);
       }, (error) => {
         console.error("Erro ao carregar chamados completos:", error);
       });
     });
   }
-
-
 
 
   customList($event: ChamadoFilter) {

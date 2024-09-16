@@ -35,6 +35,14 @@
 
       </sgmea-container-list>
     </ng-template>
+
+    <mat-paginator class="mt-10 bg-yellow"
+                   [length]="totalItems"
+                   [pageSize]="itemsPorPagina"
+                   [pageSizeOptions]="pageSizeOptions"
+                   (page)="onPageChange($event)"
+                   aria-label="Select page">
+    </mat-paginator>
   } @else {
     <sgmea-no-data/>
   }

@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 import { finalize, Observable, take } from 'rxjs';
 import {SgmeaLoadingService} from "../../../app/shared/components/services/sgmea-loading.service";
 
-export const fuseLoadingInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> =>
+export const sgmeaLoadingInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> =>
 {
     const fuseLoadingService = inject(SgmeaLoadingService);
     let handleRequestsAutomatically = false;

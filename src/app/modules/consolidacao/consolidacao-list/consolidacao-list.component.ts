@@ -18,21 +18,23 @@ import {PriorizacaoChamadoService} from "../../priorizao-chamado/service/prioriz
 import {MatIconModule} from "@angular/material/icon";
 import {ListResource} from "../../utis/http/model/list-resource.model";
 import {ChamadoAtribuidoService} from "../service/chamado-atribuido.service";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-consolidacao-list',
   standalone: true,
-  imports: [
-    SgmeaListComponent,
-    SgmeaContainerListComponent,
-    NgForOf,
-    MatMenuModule,
-    RouterLink,
-    SgmeaNoDataComponent,
-    MatIconModule,
-    JsonPipe,
-    NgClass
-  ],
+    imports: [
+        SgmeaListComponent,
+        SgmeaContainerListComponent,
+        NgForOf,
+        MatMenuModule,
+        RouterLink,
+        SgmeaNoDataComponent,
+        MatIconModule,
+        JsonPipe,
+        NgClass,
+        MatPaginatorModule
+    ],
   templateUrl: './consolidacao-list.component.html',
   styleUrl: './consolidacao-list.component.scss'
 })

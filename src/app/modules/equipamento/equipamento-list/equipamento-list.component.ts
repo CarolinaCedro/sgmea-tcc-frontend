@@ -14,6 +14,7 @@ import {
 import {ChamadoFilterComponent} from "../../chamados/filter/chamado-filter/chamado-filter.component";
 import {EquipamentoFilter, EquipamentoFilterComponent} from "../filter/equipamento-filter/equipamento-filter.component";
 import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-equipamento-list',
@@ -29,7 +30,8 @@ import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgm
         SgmeaContainerListComponent,
         ChamadoFilterComponent,
         EquipamentoFilterComponent,
-        SgmeaNoDataComponent
+        SgmeaNoDataComponent,
+        MatPaginatorModule
     ],
   templateUrl: './equipamento-list.component.html',
   styleUrl: './equipamento-list.component.scss'

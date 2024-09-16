@@ -20,6 +20,7 @@ import {
   DepartamentosFilterComponent
 } from "../filter/departamentos-filter/departamentos-filter.component";
 import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-departamento-list',
@@ -36,7 +37,8 @@ import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgm
         SgmeaContainerListComponent,
         EquipamentoFilterComponent,
         DepartamentosFilterComponent,
-        SgmeaNoDataComponent
+        SgmeaNoDataComponent,
+        MatPaginatorModule
     ],
   templateUrl: './departamento-list.component.html',
   styleUrl: './departamento-list.component.scss'

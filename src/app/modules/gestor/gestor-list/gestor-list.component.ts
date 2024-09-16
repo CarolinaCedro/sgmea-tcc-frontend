@@ -14,6 +14,7 @@ import {
 import {TecnicoFilterComponent} from "../../tecnicos/filter/tecnico-filter/tecnico-filter.component";
 import {GestorFilter, GestorFilterComponent} from "../filter/gestor-filter/gestor-filter.component";
 import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-gestor-list',
@@ -28,7 +29,8 @@ import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgm
         SgmeaContainerListComponent,
         TecnicoFilterComponent,
         GestorFilterComponent,
-        SgmeaNoDataComponent
+        SgmeaNoDataComponent,
+        MatPaginatorModule
     ],
   templateUrl: './gestor-list.component.html',
   styleUrl: './gestor-list.component.scss'

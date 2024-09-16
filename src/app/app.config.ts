@@ -5,7 +5,15 @@ import {routes} from './app.routes';
 import {provideClientHydration} from '@angular/platform-browser';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {provideHttpClient} from "@angular/common/http";
+import {provideSgmea} from "../@sgmea/sgmea.provider";
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideHttpClient(), provideZoneChangeDetection({eventCoalescing: true}), provideRouter(routes), provideClientHydration(), provideAnimationsAsync()]
+  providers: [
+    provideHttpClient(),
+    provideZoneChangeDetection({eventCoalescing: true}),
+    provideRouter(routes),
+    provideClientHydration(),
+    provideAnimationsAsync(),
+    provideSgmea({})
+  ]
 };

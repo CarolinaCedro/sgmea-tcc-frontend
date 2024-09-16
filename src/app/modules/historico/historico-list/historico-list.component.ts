@@ -62,6 +62,7 @@ export class HistoricoListComponent {
 
   loadChamados(): void {
     this.chamadoService.getChamadosEncerrados().subscribe(data => {
+      console.log("aqui o data", data)
       this.chamados = data;
     });
   }
@@ -69,26 +70,26 @@ export class HistoricoListComponent {
   getStatusColor(status: string): 'primary' | 'accent' | 'warn' | 'fechado' {
     switch (status) {
       case 'ABERTO':
-        return 'primary'; // ou qualquer cor desejada
+        return 'primary';
       case 'ENCERRADO':
-        return 'accent'; // ou qualquer cor desejada
+        return 'accent';
       case 'CONCLUIDO':
         return 'fechado';
       default:
-        return 'warn'; // ou qualquer cor padrão desejada
+        return 'warn';
     }
   }
 
   getPriorityColor(priority: string): 'primary' | 'accent' | 'warn' {
     switch (priority) {
       case 'ALTA':
-        return 'warn'; // ou qualquer cor desejada
+        return 'warn';
       case 'BAIXA':
-        return 'accent'; // ou qualquer cor desejada
+        return 'accent';
       case 'MEDIA':
-        return 'primary'; // ou qualquer cor desejada
+        return 'primary';
       default:
-        return 'primary'; // ou qualquer cor padrão desejada
+        return 'primary';
     }
   }
 

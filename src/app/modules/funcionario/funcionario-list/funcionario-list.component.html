@@ -1,10 +1,13 @@
-<sgmea-list [listTitle]="'Funcionarios'" [itensCount]="10" class="w-full">
+<sgmea-list [listTitle]="'Funcionarios'"
+            [itensCount]="10" class="w-full"
+
+>
 
   <funcionario-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>
 
   @if (values?.records && values.records.length > 0) {
 
-    <ng-template let-func let-last="last" ngFor [ngForOf]="values?.records">
+    <ng-template let-func let-last="last" ngFor [ngForOf]="getPaginatedList()">
       <sgmea-container-list [icon]="'fa-solid fa-user-large'" [address]="func?.id">
         <div
           class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ func?.nome }}
@@ -31,8 +34,18 @@
           </button>
         </div>
 
+
       </sgmea-container-list>
+
     </ng-template>
+
+    <mat-paginator class="mt-10 bg-yellow"
+                   [length]="totalItems"
+                   [pageSize]="itemsPorPagina"
+                   [pageSizeOptions]="pageSizeOptions"
+                   (page)="onPageChange($event)"
+                   aria-label="Select page">
+    </mat-paginator>
   } @else {
     <sgmea-no-data/>
   }

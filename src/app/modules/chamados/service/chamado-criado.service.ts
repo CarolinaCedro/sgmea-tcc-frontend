@@ -63,7 +63,7 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
   }
 
 
-  getChamadosEncerrados(): Observable<any> {
+  getChamadosEncerrados(): Observable<any[]> {
     return this.http
       .createRequest()
       .setAuthToken(this.localStorage.getItem(this.TOKEN))
@@ -71,14 +71,16 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
       .url("api/sgmea/v1/chamado/chamados-encerrados")
       .get()
       .pipe(
-        map((result) => {
-          console.log("os results service", result)
-          let list = this.deserializeListResource(result)
-          console.log("a list depois do deserializer", list)
-          return list;
+        map((result: any) => {
+          console.log("os results service", result);
+          let list = this.deserializeListResource(result);
+          console.log("a list depois do deserializer", list);
+
+          // Retorna o array contido na propriedade records
+          return list.records || [];
         }),
         catchError((err) => throwErrorMessage(err, this.log)),
-      )
-
+      );
   }
+
 }

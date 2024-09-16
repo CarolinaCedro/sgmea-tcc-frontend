@@ -17,22 +17,24 @@ import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgm
 import {$contains, $is, $or, $orderByAsc, $query} from "../../utis/http/criteria";
 import {isNotEmpty, isNotNullOrUndefined} from "../../utis/utils";
 import {takeUntil} from "rxjs/operators";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-chamados-list',
   standalone: true,
-  imports: [
-    SgmeaListComponent,
-    NgForOf,
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-    RouterLink,
-    SgmeaContainerListComponent,
-    GestorFilterComponent,
-    ChamadoFilterComponent,
-    SgmeaNoDataComponent
-  ],
+    imports: [
+        SgmeaListComponent,
+        NgForOf,
+        MatButtonModule,
+        MatIconModule,
+        MatMenuModule,
+        RouterLink,
+        SgmeaContainerListComponent,
+        GestorFilterComponent,
+        ChamadoFilterComponent,
+        SgmeaNoDataComponent,
+        MatPaginatorModule
+    ],
   templateUrl: './chamados-list.component.html',
   styleUrl: './chamados-list.component.scss'
 })

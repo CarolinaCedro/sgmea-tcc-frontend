@@ -1,5 +1,5 @@
 import {ActivatedRoute, Router} from '@angular/router';
-import {Directive, inject, OnDestroy, OnInit, Query} from '@angular/core';
+import {AfterViewInit, Directive, inject, Input, OnDestroy, OnInit, Query, ViewChild} from '@angular/core';
 import {take, takeUntil, tap} from 'rxjs/operators';
 import {Observable, Subject} from 'rxjs';
 import {Model} from '../http/model/model';
@@ -11,6 +11,7 @@ import {ListController} from '../models/list-controller.interface';
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationDialogComponent} from "../../../shared/dialog/confirmation-dialog/confirmation-dialog.component";
 import {SrQuery} from "../http/criteria";
+import {MatPaginator} from "@angular/material/paginator";
 
 
 @Directive({
@@ -19,6 +20,11 @@ import {SrQuery} from "../http/criteria";
 export abstract class AbstractListController<T extends Model> implements ListController<T>, OnInit, OnDestroy {
 
   readonly dialog = inject(MatDialog);
+
+  totalItems = 0; // Variável para armazenar o número total de itens
+  itemsPorPagina = 5; // Número de itens exibidos por página
+  pageSizeOptions = [5, 10, 25, 100]; // Opções de tamanhos de página disponíveis
+  currentPage = 1; // Página atual
 
 
   values: ListResource<T>;
@@ -32,6 +38,8 @@ export abstract class AbstractListController<T extends Model> implements ListCon
   isLoandingMore: boolean = false;
   btnMoreData: boolean = true;
   isMore100: number = 100;
+
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
 
   protected constructor(protected service: ModelService<T>,
@@ -50,6 +58,8 @@ export abstract class AbstractListController<T extends Model> implements ListCon
   ngOnInit() {
 
     this.list();
+
+
     // this.layoutService.onScrolledEvent
     //     .pipe(
     //         debounceTime(1000)
@@ -62,6 +72,8 @@ export abstract class AbstractListController<T extends Model> implements ListCon
 
 
   }
+
+
 
 
   //Retorna o nome da lista para identificação.
@@ -89,6 +101,7 @@ export abstract class AbstractListController<T extends Model> implements ListCon
         if (result) {
           console.log('result da list', result);
           this.values = result;
+          this.totalItems = result?.records?.length;
         } else {
           // console.error('Result list is undefined or null');
           return null
@@ -197,7 +210,6 @@ export abstract class AbstractListController<T extends Model> implements ListCon
     });
 
 
-
     dialogRef.afterClosed().subscribe(result => {
       console.log("clicando fora")
       if (result.action === "Confirmar") {
@@ -284,6 +296,21 @@ export abstract class AbstractListController<T extends Model> implements ListCon
   //     // this.eventInfinitScroll.currentScrollPosition = 0;
   //   }
   // }
+
+
+  getPaginatedList(): any[] {
+    // Retorna os usuários correspondentes à página atual
+    const startIndex = (this.currentPage - 1) * this.itemsPorPagina; // Índice de início da página
+    const endIndex = startIndex + this.itemsPorPagina; // Índice de fim da página
+    return this.values.records.slice(startIndex, endIndex); // Retorna uma fatia dos usuários com base nos índices
+  }
+
+  onPageChange(event: any): void {
+    // Atualiza a página atual quando ocorre a mudança de página
+    this.currentPage = event.pageIndex + 1;
+    this.itemsPorPagina = event.pageSize;
+  }
+
 
 
 }

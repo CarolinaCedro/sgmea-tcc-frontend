@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {Subject} from "rxjs/internal/Subject";
 import {coerceBooleanProperty} from "@angular/cdk/coercion";
@@ -9,6 +9,8 @@ import {SgmeaLoadingService} from "../services/sgmea-loading.service";
 @Component({
   selector: 'sgmea-loanding',
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
+  exportAs     : 'sgmeaLoadingBar',
   imports: [
     MatProgressBarModule,
     NgIf

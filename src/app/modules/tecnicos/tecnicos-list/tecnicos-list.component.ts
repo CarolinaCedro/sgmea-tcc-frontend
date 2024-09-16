@@ -14,6 +14,7 @@ import {
 import {FuncionarioFilterComponent} from "../../funcionario/filter/funcionario-filter/funcionario-filter.component";
 import {TecnicoFilter, TecnicoFilterComponent} from "../filter/tecnico-filter/tecnico-filter.component";
 import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 const tecnicos = [
   {id: '1', nome: 'Ana Carolina'},
@@ -44,6 +45,7 @@ const tecnicos = [
         FuncionarioFilterComponent,
         TecnicoFilterComponent,
         SgmeaNoDataComponent,
+        MatPaginatorModule,
     ],
   templateUrl: './tecnicos-list.component.html',
   styleUrl: './tecnicos-list.component.scss',

@@ -15,6 +15,11 @@
   background: white;
 }
 
+mat-paginator {
+  background-color: transparent!important;
+}
+
+
 .text-red {
   color: #EF4444;
   text-shadow: 2px 2px 4px rgba(79, 76, 76, 0.5);
