@@ -3,7 +3,7 @@ import {Observable, of, Subject} from 'rxjs';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AfterViewInit, Directive, EventEmitter, inject, OnDestroy, Output} from '@angular/core';
 import {debounceTime, finalize, map, mergeMap, take, takeUntil} from 'rxjs/operators';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatSnackBar, MatSnackBarConfig} from '@angular/material/snack-bar';
 import {ModelService} from '../http/services/model-service.interface';
 import {Model} from '../http/model/model';
 import {Logg} from '../logger/logger';
@@ -65,11 +65,8 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
 
   mult: boolean = false;
 
-  protected snack: MatSnackBar;
+  snack: MatSnackBar = inject(MatSnackBar);
 
-
-  // TODO : Implementar o service de loanding
-  protected loading: SgmeaLoadingService;
 
   isFormActive: boolean = true;
 
@@ -97,6 +94,18 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
 
 
   }
+
+
+  openSnackBar(message: string) {
+    const config: MatSnackBarConfig = {
+      duration: 2000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+    };
+
+    this.snack.open(message, "Fechar", config);
+  }
+
 
   containsMetadata(): boolean {
     return this.form.contains("metadata") ? isNotNullOrUndefined(this.form.get("metadata").get("domain")) : false;
@@ -140,7 +149,6 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
               if (this.clazz) {
                 this.value = createNew(this.clazz);
               }
-              this.loading.hide()
               this.afterLoadId(this.value);
               this.valuesOnChange.emit(this.value);
             }),
@@ -149,9 +157,9 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
         beforeLoadId = beforeLoadId
           .pipe(
             mergeMap(() => this.service.findByIdFully(params['id'])
-              .pipe(
-                finalize(() => this.loading.hide())
-              ),
+              // .pipe(
+              //   finalize(() => this.loading.hide())
+              // ),
             ),
             map((result: T) => {
               this.value = result;
@@ -205,7 +213,7 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
   * */
   save(value: T) {
     console.log('SAVE', value);
-    this.loading.show();
+    // this.loading.show();
     of(value)
       .pipe(
         map(value => {
@@ -213,13 +221,14 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
           return value;
         }),
         mergeMap(value => {
+          // this.openSnackBar("Registro atualizado' com sucesso!")
           return (isEmpty(value.id)) ? this.service.save(value) : this.service.update(value);
         }),
         map(value => {
           this.afterSave(value);
           return value;
         }),
-        finalize(() => this.loading.hide())
+        // finalize(() => this.loading.hide())
 
       ).subscribe(() => {
       if (this.mult) {
@@ -230,6 +239,7 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
         //     type: "warning"
         // })
       } else {
+        this.openSnackBar("Registro salvo com sucesso!")
         // this._fuseAlertService.show({
         //     message: "Registro salvo com sucesso!",
         //     type: "success"
@@ -253,6 +263,7 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
     Pode exibir um diálogo de confirmação antes de cancelar, se o método viewOnly() estiver disponível.
   * */
   cancel(): void {
+    this.openSnackBar("Operação Cancelada!")
     this.returnList()
   }
 
@@ -291,11 +302,6 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
     //     },
     //     dismissible: false,
     // });
-  }
-
-
-  showErrorsAlerts(error) {
-
   }
 
 

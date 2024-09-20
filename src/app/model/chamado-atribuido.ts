@@ -8,15 +8,6 @@ import {Prioridade} from "./enum/prioridade";
 
 
 export class ChamadoAtribuido extends ModelImplModel {
-  constructor(id: string, chamadoCriado: ChamadoCriado, tecnico: Tecnico, gestor: Gestor, prioridade: Prioridade) {
-    super();
-    this.id = id;
-    this.chamadoCriado = chamadoCriado;
-    this.tecnico = tecnico;
-    this.gestor = gestor;
-    this.prioridade = prioridade;
-
-  }
 
 
   id: string;
@@ -25,7 +16,6 @@ export class ChamadoAtribuido extends ModelImplModel {
   @Type(() => ChamadoCriado)
   chamadoCriado: ChamadoCriado;
 
-  titulo: string
 
   @Transform(value => Model.serialize(value), Model.serializeOpts())
   @Transform(value => Model.deserialize(value, Tecnico), Model.deserializeOpts())
@@ -37,7 +27,15 @@ export class ChamadoAtribuido extends ModelImplModel {
   @Type(() => Gestor)
   gestor: Gestor;
 
-  prioridade: Prioridade;
+  prioridade: Prioridade
 
 
+  constructor(id: string, chamadoCriado: ChamadoCriado, tecnico: Tecnico, gestor: Gestor, prioridade: Prioridade) {
+    super();
+    this.id = id;
+    this.chamadoCriado = chamadoCriado;
+    this.tecnico = tecnico;
+    this.gestor = gestor;
+    this.prioridade = prioridade;
+  }
 }

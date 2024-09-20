@@ -22,7 +22,7 @@ export abstract class AbstractListController<T extends Model> implements ListCon
   readonly dialog = inject(MatDialog);
 
   totalItems = 0; // Variável para armazenar o número total de itens
-  itemsPorPagina = 5; // Número de itens exibidos por página
+  itemsPorPagina = 8; // Número de itens exibidos por página
   pageSizeOptions = [5, 10, 25, 100]; // Opções de tamanhos de página disponíveis
   currentPage = 1; // Página atual
 
@@ -97,9 +97,9 @@ export abstract class AbstractListController<T extends Model> implements ListCon
     this.service
       .listFully(query)
       .subscribe(result => {
-        console.log("vem result ?", result)
+        // console.log("vem result ?", result)
         if (result) {
-          console.log('result da list', result);
+          // console.log('result da list', result);
           this.values = result;
           this.totalItems = result?.records?.length;
         } else {

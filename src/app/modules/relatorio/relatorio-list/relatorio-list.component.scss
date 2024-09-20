@@ -1,0 +1,124 @@
+.max-pdf-view-topbar {
+  background: rgba(213, 208, 208, 0.8);
+  color: white;
+
+  mat-card {
+    border-radius: 30px;
+
+    button {
+      margin-right: 10px;
+    }
+
+    mat-form-field {
+      height: 30px;
+
+      .mat-form-field-infix {
+        border: 0px;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
+
+      .mat-form-field-outline {
+        color: #f5f5f5;
+        //background: blue;
+      }
+
+      .mat-form-field-outline-thick {
+        color: #f5f5f5;
+
+        div {
+          color: white;
+        }
+      }
+    }
+  }
+
+  .max-pdf-view-pages11212 {
+    width: 100%;
+    height: auto;
+    display: block;
+    min-height: 500px;
+    background: rgba(255, 255, 255, 0.55);
+
+  }
+
+  .max-pdf-view-input {
+    //height: 30px;
+    text-align: center;
+
+
+    .mat-form-field-flex > .mat-form-field-infix {
+      padding: 0.4em 0 !important;
+      padding-top: 0px !important;
+      border-top-width: 7px !important;
+      padding-bottom: 2px !important;
+    }
+
+    .mat-form-field-label-wrapper {
+      top: -1.5em;
+    }
+
+    &.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+      transform: translateY(-1.1em) scale(.75);
+      width: 133.33333%;
+      color: white;
+    }
+
+    .mat-form-field-outline {
+      color: white;
+    }
+
+    .mat-select-value-text {
+      color: white;
+    }
+
+    .mat-select-arrow {
+      color: white !important;
+    }
+
+  }
+
+  .placeholder {
+    font-style: italic !important;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+pdf-viewer {
+  display: block;
+  height: 100%;
+  min-height: 100vh;
+  background: rgba(255, 255, 255, 0.55);
+
+  .ng2-pdf-viewer-container {
+    background: rgba(255, 255, 255, 0.55);
+  }
+
+}
+
+.example-chip-list {
+  width: 100%;
+}
+
+.font-text-white {
+  color: white;
+}
+
+.btnSvgContainer {
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.btnSvgContainer button {
+  margin-right: .6rem;
+}
+
+.btnSvgContainer button:hover {
+  background: rgba(22, 111, 173, 0.8);
+}
+

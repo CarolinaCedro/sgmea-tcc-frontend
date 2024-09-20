@@ -43,6 +43,32 @@ export class PriorizaocaoChamadoFormComponent extends AbstractFormController<Cha
       prioridade: [''],
       status: ['']
     }), service, router, route);
+
+
+    this.form.get("titulo").disable()
+    this.form.get("observacoes").disable()
+    this.form.get("status").disable()
+  }
+
+
+  save(value: ChamadoAtribuido) {
+
+    // const prioridade = this.form.get("prioridade").value;
+    //
+    //
+    // console.log("prioridade ", prioridade);
+
+
+    const chamadoAtribuido: any = {
+      chamadoCriado: value.id,
+      tecnico: value?.tecnico?.id,
+      gestor: value?.gestor?.id,
+      prioridade: value?.prioridade
+
+    }
+    console.log("chamado atribuido", chamadoAtribuido)
+
+    super.save(chamadoAtribuido);
   }
 
   containsMetadata(): boolean {

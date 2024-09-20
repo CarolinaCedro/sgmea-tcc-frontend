@@ -2,7 +2,6 @@ import {inject, Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {tap} from "rxjs/operators";
-import * as console from "console";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable({

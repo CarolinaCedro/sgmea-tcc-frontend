@@ -9,18 +9,19 @@
 
       <sgmea-container-list [icon]="'fa-solid fa-clipboard-check'" [address]="chamadoAtribuido?.id">
         <div
-          class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamadoAtribuido?.titulo }}
+          class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamadoAtribuido?.chamadoCriado?.titulo }}
         </div>
 
         <div class="text-gray-500" mat-chip-situation>
-          <small  class="mat-chip-type-visita flex items-center"
-                  [ngClass]="{
+          <small class="mat-chip-type-visita flex items-center"
+                 [ngClass]="{
                                     'baixa': chamadoAtribuido?.prioridade === 'BAIXA',
                                     'alta': chamadoAtribuido?.prioridade  === 'ALTA',
                                     'media': chamadoAtribuido?.prioridade  === 'MEDIA',
+                                    'null': chamadoAtribuido?.prioridade  === null,
                                      }">
 
-            {{ chamadoAtribuido?.prioridade }}
+            {{ chamadoAtribuido?.prioridade ? chamadoAtribuido?.prioridade : "Erro" }}
           </small>
         </div>
 

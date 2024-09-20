@@ -15,8 +15,14 @@
   background: white;
 }
 
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: white !important;
+  border-radius: 5px !important;
+}
+
 mat-paginator {
-  background-color: transparent!important;
+  background-color: transparent !important;
 }
 
 
@@ -26,7 +32,7 @@ mat-paginator {
 }
 
 
-.text-color{
+.text-color {
   color: #65758b;
 }
 
@@ -86,8 +92,6 @@ mat-paginator {
     --primary: 350 100% 40%;
     --primary-foreground: 0 85.7% 97.3%;
   }
-
-
 
 
   .tracking-tight {

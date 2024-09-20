@@ -121,11 +121,24 @@ export abstract class AbstractFormFilterController<T extends object> implements 
             });
     }
 
+  emitValuesChangeFilter(): void {
+    console.log("emit values click")
+    if (this.autoEmitValuesChange) {
+      if (!isEquals(this.value, this.lastValue)) {
+        this.lastValue = Model.cloneObject(this.value, this.clazz) as T;
+        this._valuesChanges.emit(this.value);
+      }
+    } else {
+      this._valuesChanges.emit(this.value);
+    }
+  }
 
-    /*
-    * Este método emite um evento informando que houve uma mudança nos valores do formulário.
-    * Ele compara o valor atual com o último valor emitido e só emite um evento se houver uma diferença.
-    * */
+
+
+  /*
+  * Este método emite um evento informando que houve uma mudança nos valores do formulário.
+  * Ele compara o valor atual com o último valor emitido e só emite um evento se houver uma diferença.
+  * */
     emitValuesChange(): void {
         // console.log("emitValuesChange sendo apertado")
         if (this.autoEmitValuesChange) {

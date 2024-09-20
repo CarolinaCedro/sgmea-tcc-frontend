@@ -17,9 +17,7 @@ import {ListResource} from "../../../modules/utis/http/model/list-resource.model
 })
 export class SgmeaListComponent implements OnInit {
 
-
-
-
+  @Input() viewOnly: boolean = false
 
   @Input() listTitle: string = "Seu título aqui";
   @Input() itensCount!: number;
@@ -39,9 +37,6 @@ export class SgmeaListComponent implements OnInit {
 
   ngOnInit() {
   }
-
-
-
 
 
 }
