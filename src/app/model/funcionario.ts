@@ -2,6 +2,8 @@ import {User} from "./user";
 import {Departamento} from "./departamento";
 import {Transform, Type} from "class-transformer";
 import {Model} from "../modules/utis/http/model/model";
+import {Gestor} from "./gestor";
+import {Perfil} from "./enum/perfil";
 
 
 export class Funcionario extends User {
@@ -19,8 +21,8 @@ export class Funcionario extends User {
   // chamadoCriados: ChamadoCriado[] = [];
 
 
-  constructor(departamento: Departamento, funcao: string) {
-    super();
+  constructor(id: string, nome: string, cpf: string, email: string, gestor: Gestor, perfil: Perfil, senha: string, authorities: [], departamento: Departamento, funcao: string) {
+    super(id, nome, cpf, email, gestor, perfil, senha, authorities);
     this.departamento = departamento;
     this.funcao = funcao;
   }

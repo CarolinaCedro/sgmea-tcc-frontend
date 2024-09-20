@@ -16,6 +16,7 @@ export class AuthService {
 
   public TOKEN: string = "token";
 
+  user: User
 
   constructor(
     private http: HttpService,
@@ -53,6 +54,7 @@ export class AuthService {
       .get()
       .pipe(
         map(res => {
+          this.user = res
           return res;
         }),
         catchError(err => {
@@ -64,6 +66,10 @@ export class AuthService {
   logout() {
     this.localStorageService.clear(); // Limpar o localStorage
     this.router.navigate(['/auth/sign-in']); // Redirecionar para a página de login
+  }
+
+  get userCurrentValue(): User {
+    return this.user;
   }
 
   get isLoged(): boolean {
