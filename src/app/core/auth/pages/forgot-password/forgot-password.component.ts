@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from '@angular
 import {ButtonComponent} from "../../../../shared/components/button/button.component";
 import {HttpClient} from "@angular/common/http";
 import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
+import {NgIf} from "@angular/common";
 
 
 @Component({
@@ -11,12 +12,14 @@ import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
   standalone: true,
-  imports: [FormsModule, RouterLink, ButtonComponent, ReactiveFormsModule],
+  imports: [FormsModule, RouterLink, ButtonComponent, ReactiveFormsModule, NgIf],
 })
 export class ForgotPasswordComponent implements OnInit {
 
   form: FormGroup;
   private _snackBar = inject(MatSnackBar);
+  isLoading: boolean = false;
+
 
 
   constructor(private http: HttpClient, private router: Router, builder: FormBuilder) {
@@ -27,18 +30,22 @@ export class ForgotPasswordComponent implements OnInit {
 
 
   recoveryPassword(email: string) {
-    console.log("email", email)
-    this.http.post('http://localhost:8083/api/sgmea/v1/users/forgot-password', {email: email})
+    this.isLoading = true;
+    this.http.post<void>('http://localhost:8083/api/sgmea/v1/users/forgot-password', {email:email})
       .subscribe(
-        response => {
-          this.openSnackBar('Instruções de recuperação de senha enviadas para seu email.');
+        () => {
+          this.isLoading = false;
+          this.openSnackBar('Instruções de recuperação de senha enviadas para seu e-mail.');
           this.router.navigate(['/auth/sign-in']);
         },
         error => {
+          this.isLoading = false;
+          console.error("Erro ao enviar instruções de recuperação de senha", error);
           this.openSnackBar('Erro ao enviar instruções de recuperação de senha. Verifique o email e tente novamente.');
         }
       );
   }
+
 
   ngOnInit(): void {
   }

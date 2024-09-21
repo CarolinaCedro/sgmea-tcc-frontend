@@ -17,11 +17,11 @@ export const routes: Routes = [
     loadChildren: () => import('../app/core/auth/auth.routes'),
     canActivate: [AuthGuardRouterNoSecurityService]
   },
-
   {
-    path: "recovery-password",
-    loadChildren: () => import('../app/core/security/recovery-password/recovery-password.routes'),
+    path: 'reset-password',
+    loadChildren: () => import('../app/modules/profile/reset-password.routes'),
     canActivate: [AuthGuardRouterNoSecurityService]
+
   },
 
   {
@@ -34,11 +34,16 @@ export const routes: Routes = [
         path: 'dashboard',
         loadChildren: () => import('../app/modules/dashboard/dasboard.routes')
       },
+      {
+        path: 'profile',
+        loadChildren: () => import('../app/modules/profile/profile.routes')
+      },
 
       {
         path: 'chamados',
         loadChildren: () => import('../app/modules/chamados/chamados.routes')
       },
+
 
       {
         path: 'departamentos',

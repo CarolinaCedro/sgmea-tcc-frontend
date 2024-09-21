@@ -6,8 +6,8 @@ import {provideClientHydration} from '@angular/platform-browser';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {HTTP_INTERCEPTORS, provideHttpClient} from "@angular/common/http";
 import {provideSgmea} from "../@sgmea/sgmea.provider";
-import {TokenInterceptor} from "./core/guards/security/token-interceptor.service";
 import {DateAdapter, MAT_DATE_LOCALE, NativeDateAdapter} from "@angular/material/core";
+import {TokenInterceptorService} from "./core/auth/service/token/token-interceptor.service";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideSgmea({}),
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
+      useClass: TokenInterceptorService,
       multi: true
     },
     {provide: DateAdapter, useClass: NativeDateAdapter},

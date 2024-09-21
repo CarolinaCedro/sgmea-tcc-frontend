@@ -8,6 +8,8 @@ import {JwtTokenService} from "../jwt/jwt-token.service";
 import {HttpService} from "../../../../modules/utis/http/services/http.service";
 import {LocalStorageService} from "../../../../modules/utis/localstorage/local-storage.service";
 import {User} from "../../../../model/user";
+import {UpdateUser} from "../../../../model/updateUser";
+import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +26,8 @@ export class AuthService {
     private http: HttpService,
     private localStorageService: LocalStorageService,
     private tokenService: JwtTokenService,
-    private router: Router
+    private router: Router,
+    private snack: MatSnackBar
   ) {
   }
 
@@ -44,6 +47,24 @@ export class AuthService {
           return res;
         }),
         catchError(err => {
+          return throwError(err);
+        })
+      );
+  }
+
+  updateUser(user: UpdateUser): Observable<User> {
+    return this.http
+      .createRequest()
+      .setAuthToken(this.localStorageService.getItem(this.TOKEN))
+      .url('http://localhost:8083/api/sgmea/v1/users/updateUser')
+      .post(user)
+      .pipe(
+        map(res => {
+          this.openSnackBar("Usuário atualizado com sucesso !")
+          return res;
+        }),
+        catchError(err => {
+          this._userRoles.next([]);
           return throwError(err);
         })
       );
@@ -69,6 +90,7 @@ export class AuthService {
         })
       );
   }
+
 
   private updateUserRoles() {
     if (this.user?.authorities) {
@@ -100,5 +122,32 @@ export class AuthService {
   // Getter para acessar as roles diretamente (sincronamente)
   get userRoles(): string[] {
     return this._userRoles.getValue();
+  }
+
+  openSnackBar(message: string) {
+    const config: MatSnackBarConfig = {
+      duration: 2000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+    };
+
+    this.snack.open(message, "Fechar", config);
+  }
+
+  resetPassword(resetPasswordRequest: { newPassword: string; token: string }): Observable<any> {
+    return this.http
+      .createRequest()
+      .url('http://localhost:8083/api/sgmea/v1/users/reset-password')
+      .post(resetPasswordRequest)
+      .pipe(
+        map(res => {
+          this.openSnackBar("Senha atualizada !")
+          return res;
+        }),
+        catchError(err => {
+          this._userRoles.next([]);
+          return throwError(err);
+        })
+      );
   }
 }
