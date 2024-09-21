@@ -4,6 +4,7 @@ export interface MenuItem {
   selected?: boolean;
   active?: boolean;
   items: Array<SubMenuItem>;
+
 }
 
 export interface SubMenuItem {
@@ -12,5 +13,6 @@ export interface SubMenuItem {
   route?: string | null;
   expanded?: boolean;
   active?: boolean;
+  roles?: string[],
   children?: Array<SubMenuItem>;
 }

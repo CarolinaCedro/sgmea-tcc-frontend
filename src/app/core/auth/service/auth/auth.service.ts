@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, throwError} from 'rxjs';
+import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {UserLogin} from '../../../../model/user-login';
 import {Token} from '../model/token';
@@ -15,6 +15,8 @@ import {User} from "../../../../model/user";
 export class AuthService {
 
   public TOKEN: string = "token";
+  private _userRoles = new BehaviorSubject<string[]>([]);  // Armazena e emite as roles do usuário
+  public userRoles$ = this._userRoles.asObservable();
 
   user: User
 
@@ -35,6 +37,7 @@ export class AuthService {
         map(res => {
           if (res.token) {
             this.localStorageService.setItem('token', res.token); // Armazenar o token
+            this.updateUserRoles(); // Atualizar as roles do usuário
             console.log("vamos para home aqui")
             this.router.navigate(['/home/dashboard']); // Redirecionar para a página inicial
           }
@@ -55,16 +58,30 @@ export class AuthService {
       .pipe(
         map(res => {
           this.user = res
+          const roles = res?.authorities?.map(a => a.authority) || [];
+          this._userRoles.next(roles);  // Atualiza as roles
+          this.updateUserRoles();
           return res;
         }),
         catchError(err => {
+          this._userRoles.next([]);
           return throwError(err);
         })
       );
   }
 
+  private updateUserRoles() {
+    if (this.user?.authorities) {
+      const roles = this.user.authorities.map(a => a.authority);
+      this._userRoles.next(roles);
+    } else {
+      this._userRoles.next([]);
+    }
+  }
+
   logout() {
-    this.localStorageService.clear(); // Limpar o localStorage
+    this._userRoles.next([]);
+    this.localStorageService.clear();
     this.router.navigate(['/auth/sign-in']); // Redirecionar para a página de login
   }
 
@@ -78,5 +95,10 @@ export class AuthService {
 
   get toke(): Token {
     return this.tokenService.token;
+  }
+
+  // Getter para acessar as roles diretamente (sincronamente)
+  get userRoles(): string[] {
+    return this._userRoles.getValue();
   }
 }
