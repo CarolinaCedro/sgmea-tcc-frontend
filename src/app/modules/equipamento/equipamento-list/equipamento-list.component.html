@@ -1,4 +1,4 @@
-<sgmea-list [listTitle]="'Equipamentos'" [itensCount]="10" class="w-full">
+<sgmea-list [listTitle]="'Equipamentos'" [itensCount]="values?.records?.length" class="w-full">
 
 
   <equipamento-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>

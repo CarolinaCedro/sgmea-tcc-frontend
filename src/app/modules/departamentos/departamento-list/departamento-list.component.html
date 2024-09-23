@@ -1,4 +1,4 @@
-<sgmea-list [listTitle]="'Departamentos'" [itensCount]="10" class="w-full">
+<sgmea-list [listTitle]="'Departamentos'" [itensCount]="values?.records?.length" class="w-full">
 
   <departamentos-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>
 

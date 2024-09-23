@@ -5,7 +5,7 @@ import {AuthService} from "../../auth/service/auth/auth.service";
 
 
 
-const LOGIN_URL = ["/auth/sign-in"];
+const LOGIN_URL = ["auth/sign-in"];
 
 @Injectable({
   providedIn: "root"

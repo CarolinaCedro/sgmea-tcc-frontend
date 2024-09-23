@@ -1,4 +1,4 @@
-<sgmea-list [listTitle]="'Gestores'" [itensCount]="10" class="w-full">
+<sgmea-list [listTitle]="'Gestores'" [itensCount]="values?.records?.length" class="w-full">
 
 
   <gestor-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>

@@ -38,4 +38,8 @@ export class FuncionarioFilterComponent extends AbstractFormFilterController<Fun
   }
 
 
+  filter() {
+    this.autoEmitValuesChange = true
+    this.emitValuesChange();
+  }
 }

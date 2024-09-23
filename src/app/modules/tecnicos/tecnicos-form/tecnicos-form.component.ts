@@ -12,6 +12,7 @@ import {MatOptionModule} from "@angular/material/core";
 import {GestorAutocompleteDirective} from "../../gestor/directives/gestor-autocomplete.directive";
 import {ListResource} from "../../utis/http/model/list-resource.model";
 import {Gestor} from "../../../model/gestor";
+import {NgxMaskDirective} from "ngx-mask";
 
 @Component({
   selector: 'app-tecnicos-form',
@@ -25,6 +26,7 @@ import {Gestor} from "../../../model/gestor";
     MatOptionModule,
     NgForOf,
     GestorAutocompleteDirective,
+    NgxMaskDirective,
   ],
   templateUrl: './tecnicos-form.component.html',
   styleUrl: './tecnicos-form.component.scss'

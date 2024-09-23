@@ -1,4 +1,4 @@
-<sgmea-list [listTitle]="'Técnicos'" [itensCount]="10" class="w-full">
+<sgmea-list [listTitle]="'Técnicos'" [itensCount]="values?.records?.length" class="w-full">
 
 
   <tecnico-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>

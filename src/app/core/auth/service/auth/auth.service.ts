@@ -60,7 +60,7 @@ export class AuthService {
       .post(user)
       .pipe(
         map(res => {
-          this.openSnackBar("Usuário atualizado com sucesso !")
+          this.router.navigate(['auth/sign-in']);
           return res;
         }),
         catchError(err => {

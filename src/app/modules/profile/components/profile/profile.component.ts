@@ -8,6 +8,7 @@ import {NgClass, NgIf} from "@angular/common";
 import {UpdateUser} from "../../../../model/updateUser";
 import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
 import {Router, RouterLink} from "@angular/router";
+import {NgxMaskDirective} from "ngx-mask";
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +17,8 @@ import {Router, RouterLink} from "@angular/router";
     ReactiveFormsModule,
     ButtonComponent,
     NgIf,
-    NgClass
+    NgClass,
+    NgxMaskDirective
   ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
@@ -103,7 +105,7 @@ export class ProfileComponent implements OnInit {
       console.log("o payload pra update User", user);
       this.authService.updateUser(user).subscribe(res => {
         this.openSnackBar("É necessario relogar no sistema")
-        this.router.navigate(['/home/dashboard']);
+        this.router.navigate(['auth/sign-in']);
       });
     } else {
       console.log("O formulário contém erros ou campos obrigatórios não preenchidos.");
@@ -112,7 +114,7 @@ export class ProfileComponent implements OnInit {
 
   openSnackBar(message: string) {
     const config: MatSnackBarConfig = {
-      duration: 2000,
+      duration: 8000,
       horizontalPosition: 'right',
       verticalPosition: 'top',
     };

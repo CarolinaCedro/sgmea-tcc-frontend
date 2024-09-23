@@ -16,6 +16,7 @@ import {
 } from "../../../shared/components/sgmea-container-list/sgmea-container-list.component";
 import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
+import {finalize, takeUntil} from "rxjs/operators";
 
 @Component({
   selector: 'app-funcionario-list',
@@ -51,19 +52,20 @@ export class FuncionarioListComponent extends AbstractListController<Funcionario
 
 
   customList(filter: FuncionarioFilter) {
-    // this.cancelRequest.next();
-    // this.currentFilter = filter;
-    // (this.service as FuncionarioService)
-    //   .listAdvanced(filter)
-    //   .pipe(
-    //     finalize(() => {
-    //       // this.loading.timeOut(this.nameList());
-    //     }),
-    //     takeUntil(this.unsubscribes),
-    //     takeUntil(this.cancelRequest.asObservable()),
-    //   ).subscribe(result => {
-    //   this.values = result;
-    // }, (err: Error) => console.log(err.message));
+    console.log("filterrrrr", filter)
+    this.cancelRequest.next();
+    this.currentFilter = filter;
+    (this.service as FuncionarioService)
+      .listAdvanced(filter)
+      .pipe(
+        finalize(() => {
+          // this.loading.timeOut(this.nameList());
+        }),
+        takeUntil(this.unsubscribes),
+        takeUntil(this.cancelRequest.asObservable()),
+      ).subscribe(result => {
+      this.values = result;
+    }, (err: Error) => console.log(err.message));
 
 
   }

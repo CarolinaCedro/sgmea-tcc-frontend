@@ -8,6 +8,7 @@ import {HTTP_INTERCEPTORS, provideHttpClient} from "@angular/common/http";
 import {provideSgmea} from "../@sgmea/sgmea.provider";
 import {DateAdapter, MAT_DATE_LOCALE, NativeDateAdapter} from "@angular/material/core";
 import {TokenInterceptorService} from "./core/auth/service/token/token-interceptor.service";
+import {provideEnvironmentNgxMask} from "ngx-mask";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,6 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideAnimationsAsync(),
+    provideEnvironmentNgxMask(),
     provideSgmea({}),
     {
       provide: HTTP_INTERCEPTORS,

@@ -13,6 +13,7 @@ import {Departamento} from "../../../model/departamento";
 import {Gestor} from "../../../model/gestor";
 import {GestorAutocompleteDirective} from "../../gestor/directives/gestor-autocomplete.directive";
 import {BehaviorSubject} from "rxjs";
+import {NgxMaskDirective} from "ngx-mask";
 
 @Component({
   selector: 'app-funcionario-form',
@@ -24,7 +25,8 @@ import {BehaviorSubject} from "rxjs";
     NgForOf,
     DepartamentoAutocompleteDirective,
     GestorAutocompleteDirective,
-    NgIf
+    NgIf,
+    NgxMaskDirective
   ],
   templateUrl: './funcionario-form.component.html',
   styleUrls: ['./funcionario-form.component.scss']

@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 import {AuthService} from "../../auth/service/auth/auth.service";
 
 
-const HOME = ["home"];
+const HOME = ["home/dashboard"];
 
 /**
  * Guardião especifico para a tela de login e cadastro de usuário

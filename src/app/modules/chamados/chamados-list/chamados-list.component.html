@@ -1,4 +1,4 @@
-<sgmea-list [listTitle]="'Chamados Criados'" [itensCount]="10" class="w-full">
+<sgmea-list [listTitle]="'Chamados Criados'" [itensCount]="values?.records?.length" class="w-full">
 
 
   <chamado-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>

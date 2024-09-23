@@ -5,13 +5,15 @@ import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {GestorService} from "../service/gestor.service";
 import {SgmeaFormComponent} from "../../../shared/components/sgmea-form/sgmea-form.component";
+import {NgxMaskDirective} from "ngx-mask";
 
 @Component({
   selector: 'app-gestor-form',
   standalone: true,
   imports: [
     SgmeaFormComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMaskDirective
   ],
   templateUrl: './gestor-form.component.html',
   styleUrls: ['./gestor-form.component.scss']

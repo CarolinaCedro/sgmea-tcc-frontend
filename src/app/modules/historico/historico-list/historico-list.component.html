@@ -1,4 +1,4 @@
-<sgmea-list [listTitle]="'Histórico de Chamados'" class="w-full">
+<sgmea-list [listTitle]="'Histórico de Chamados'" [viewOnly]="true" [itensCount]="chamados?.length" class="w-full">
 
   <historico-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>
 

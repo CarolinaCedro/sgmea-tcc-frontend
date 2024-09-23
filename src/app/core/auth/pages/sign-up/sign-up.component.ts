@@ -7,13 +7,14 @@ import {NewUser} from "../../../../model/newUser";
 import {RouterLink} from "@angular/router";
 import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {NgxMaskDirective} from "ngx-mask";
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule, ButtonComponent, NgClass, NgIf, RouterLink, MatProgressSpinnerModule],
+  imports: [ReactiveFormsModule, ButtonComponent, NgClass, NgIf, RouterLink, MatProgressSpinnerModule, NgxMaskDirective],
 })
 export class SignUpComponent implements OnInit {
 

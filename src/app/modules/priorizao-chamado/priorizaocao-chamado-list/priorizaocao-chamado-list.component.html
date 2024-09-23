@@ -1,4 +1,4 @@
-<sgmea-list [listTitle]="'Chamados em aberto'" [itensCount]="10" class="w-full">
+<sgmea-list [listTitle]="'Chamados em aberto'" [viewOnly]="true" [itensCount]="values?.records?.length" class="w-full">
 
 
   <priorizacao-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>
