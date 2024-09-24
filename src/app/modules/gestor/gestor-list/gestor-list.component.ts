@@ -11,10 +11,13 @@ import {SgmeaListComponent} from "../../../shared/components/sgmea-list/sgmea-li
 import {
     SgmeaContainerListComponent
 } from "../../../shared/components/sgmea-container-list/sgmea-container-list.component";
-import {TecnicoFilterComponent} from "../../tecnicos/filter/tecnico-filter/tecnico-filter.component";
+import {TecnicoFilter, TecnicoFilterComponent} from "../../tecnicos/filter/tecnico-filter/tecnico-filter.component";
 import {GestorFilter, GestorFilterComponent} from "../filter/gestor-filter/gestor-filter.component";
 import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {Subject} from "rxjs";
+import {TecnicoService} from "../../tecnicos/services/tecnico.service";
+import {finalize, takeUntil} from "rxjs/operators";
 
 @Component({
   selector: 'app-gestor-list',
@@ -36,13 +39,31 @@ import {MatPaginatorModule} from "@angular/material/paginator";
   styleUrl: './gestor-list.component.scss'
 })
 export class GestorListComponent extends AbstractListController<Gestor> implements OnInit {
+
+
+  currentFilter: GestorFilter;
+  private cancelRequest: Subject<void> = new Subject();
+
   constructor(service: GestorService, router: Router, route: ActivatedRoute) {
     super(service, router, route);
   }
 
 
-  customList($event: GestorFilter) {
-
+  customList(filter: GestorFilter) {
+    this.cancelRequest.next();
+    this.currentFilter = filter;
+    (this.service as GestorService)
+      .listAdvanced(filter)
+      .pipe(
+        finalize(() => {
+        }),
+        takeUntil(this.unsubscribes),
+        takeUntil(this.cancelRequest.asObservable()),
+      ).subscribe(result => {
+      this.values = result;
+    }, (err: Error) => console.log(err.message));
 
   }
+
+
 }

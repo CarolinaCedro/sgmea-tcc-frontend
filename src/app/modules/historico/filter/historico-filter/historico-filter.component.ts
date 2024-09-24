@@ -30,13 +30,13 @@ export class HistoricoFilterComponent extends AbstractFormFilterController<Histo
   constructor(formBuilder: FormBuilder) {
     super(
       HistoricoFilter, formBuilder.group({
-        nome: []
+        titulo: []
       })
     );
   }
 
   ngOnInit() {
-    this.addListenerForString("nome")
+    this.addListenerForString("titulo")
   }
 
 

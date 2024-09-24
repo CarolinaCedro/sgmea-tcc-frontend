@@ -15,6 +15,10 @@ import {ChamadoFilterComponent} from "../../chamados/filter/chamado-filter/chama
 import {EquipamentoFilter, EquipamentoFilterComponent} from "../filter/equipamento-filter/equipamento-filter.component";
 import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {TecnicoFilter} from "../../tecnicos/filter/tecnico-filter/tecnico-filter.component";
+import {Subject} from "rxjs";
+import {TecnicoService} from "../../tecnicos/services/tecnico.service";
+import {finalize, takeUntil} from "rxjs/operators";
 
 @Component({
   selector: 'app-equipamento-list',
@@ -38,13 +42,27 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 })
 export class EquipamentoListComponent extends AbstractListController<Equipamento> implements OnInit {
 
+  currentFilter: EquipamentoFilter;
+  private cancelRequest: Subject<void> = new Subject();
+
 
   constructor(service: EquipamentoService, router: Router, route: ActivatedRoute) {
     super(service, router, route);
   }
 
-  customList($event: EquipamentoFilter) {
+  customList(filter: EquipamentoFilter) {
 
-
+    this.cancelRequest.next();
+    this.currentFilter = filter;
+    (this.service as EquipamentoService)
+      .listAdvanced(filter)
+      .pipe(
+        finalize(() => {
+        }),
+        takeUntil(this.unsubscribes),
+        takeUntil(this.cancelRequest.asObservable()),
+      ).subscribe(result => {
+      this.values = result;
+    }, (err: Error) => console.log(err.message));
   }
 }

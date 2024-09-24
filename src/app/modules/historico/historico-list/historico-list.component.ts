@@ -3,7 +3,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
-import {MatTableDataSource, MatTableModule} from "@angular/material/table";
+import {MatTableModule} from "@angular/material/table";
 import {DatePipe, NgClass, NgForOf} from "@angular/common";
 import {MatCardModule} from "@angular/material/card";
 import {MatDividerModule} from "@angular/material/divider";
@@ -16,6 +16,9 @@ import {
   PriorizacaoFilterComponent
 } from "../../priorizao-chamado/filter/priorizacao-filter/priorizacao-filter.component";
 import {HistoricoFilter, HistoricoFilterComponent} from "../filter/historico-filter/historico-filter.component";
+import {Subject} from "rxjs";
+import {finalize, takeUntil} from "rxjs/operators";
+import {ChamadoFilter} from "../../chamados/filter/chamado-filter/chamado-filter.component";
 
 
 export interface Chamado {
@@ -52,6 +55,11 @@ export class HistoricoListComponent {
 
   chamados: any[] = [];
   displayedColumns: string[] = ['titulo', 'status', 'dataAbertura', 'dataFechamento', 'responsavel', 'prioridade', 'acoes'];
+
+  currentFilter: HistoricoFilter;
+  private cancelRequest: Subject<void> = new Subject();
+  protected unsubscribes: Subject<void> = new Subject();
+
 
   constructor(private chamadoService: ChamadoCriadoService) {
   }
@@ -97,7 +105,21 @@ export class HistoricoListComponent {
     // Implemente a lógica para ver detalhes
   }
 
-  customList($event: HistoricoFilter) {
+  customList(filter: HistoricoFilter) {
+
+    this.cancelRequest.next();
+    this.currentFilter = filter;
+    (this.chamadoService as ChamadoCriadoService)
+      .listAdvancedByConcluidos(filter)
+      .pipe(
+        finalize(() => {
+        }),
+        takeUntil(this.unsubscribes),
+        takeUntil(this.cancelRequest.asObservable()),
+      ).subscribe(result => {
+      console.log("qual a response", result)
+      this.chamados = result.records ;
+    }, (err: Error) => console.log(err.message));
 
   }
 }

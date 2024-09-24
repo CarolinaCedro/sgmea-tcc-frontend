@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
@@ -20,8 +20,8 @@ import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgm
 import {MatTabsModule} from "@angular/material/tabs";
 import {ListResource} from "../../utis/http/model/list-resource.model";
 import {ChamadoAtribuido} from "../../../model/chamado-atribuido";
-import {forkJoin, Observable} from "rxjs";
-import {tap} from "rxjs/operators";
+import {forkJoin, Subject} from "rxjs";
+import {finalize, takeUntil} from "rxjs/operators";
 import {PriorizacaoChamadoService} from "../service/priorizacao-chamado.service";
 import {MatPaginatorModule} from "@angular/material/paginator";
 
@@ -50,6 +50,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 export class PriorizaocaoChamadoListComponent extends AbstractListController<ChamadoCriado> implements AfterViewInit {
 
   chamadosAtribuidos: ListResource<ChamadoAtribuido>
+  currentFilter: ChamadoFilter;
+  private cancelRequest: Subject<void> = new Subject();
 
 
   constructor(public service: ChamadoCriadoService, private chamadoAtribuidoService: PriorizacaoChamadoService, router: Router, route: ActivatedRoute) {
@@ -88,7 +90,20 @@ export class PriorizaocaoChamadoListComponent extends AbstractListController<Cha
   }
 
 
-  customList($event: ChamadoFilter) {
+  customList(filter?: ChamadoFilter) {
+
+    this.cancelRequest.next();
+    this.currentFilter = filter;
+    (this.service as ChamadoCriadoService)
+      .listAdvanced(filter)
+      .pipe(
+        finalize(() => {
+        }),
+        takeUntil(this.unsubscribes),
+        takeUntil(this.cancelRequest.asObservable()),
+      ).subscribe(result => {
+      this.values = result;
+    }, (err: Error) => console.log(err.message));
 
   }
 }

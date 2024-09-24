@@ -16,8 +16,11 @@ import {ChamadoFilter, ChamadoFilterComponent} from "../filter/chamado-filter/ch
 import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
 import {$contains, $is, $or, $orderByAsc, $query} from "../../utis/http/criteria";
 import {isNotEmpty, isNotNullOrUndefined} from "../../utis/utils";
-import {takeUntil} from "rxjs/operators";
+import {finalize, takeUntil} from "rxjs/operators";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {TecnicoFilter} from "../../tecnicos/filter/tecnico-filter/tecnico-filter.component";
+import {Subject} from "rxjs";
+import {TecnicoService} from "../../tecnicos/services/tecnico.service";
 
 @Component({
   selector: 'app-chamados-list',
@@ -41,38 +44,27 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 export class ChamadosListComponent extends AbstractListController<ChamadoCriado>  implements OnInit, OnDestroy {
 
 
+
+  currentFilter: ChamadoFilter;
+  private cancelRequest: Subject<void> = new Subject();
+
   constructor(service: ChamadoCriadoService, router: Router, route: ActivatedRoute) {
     super(service, router, route);
   }
 
-  customList(term?: ChamadoFilter): void {
-    console.log("caindo aqui")
-    // let query = $query();
-    //
-    // if (isNotNullOrUndefined(term.titulo)) {
-    //   query.and($is("titulo", term.titulo))
-    // }
-    //
-    //
-    // query.and($orderByAsc("dataAbertura"))
-    //
-    //
-    // if (isNotNullOrUndefined(query)) {
-    //   (this.service as ChamadoCriadoService)
-    //     .listFully(query)
-    //     .pipe(takeUntil(this.unsubscribes))
-    //     .subscribe(value => {
-    //       console.log("values", value)
-    //       this.values = value;
-    //     });
-    // } else {
-    //   (this.service as ChamadoCriadoService).listFully()
-    //     .pipe(takeUntil(this.unsubscribes))
-    //     .subscribe(value => {
-    //       console.log("values", value)
-    //       this.values = value;
-    //     });
-    // }
+  customList(filter?: ChamadoFilter): void {
+    this.cancelRequest.next();
+    this.currentFilter = filter;
+    (this.service as ChamadoCriadoService)
+      .listAdvanced(filter)
+      .pipe(
+        finalize(() => {
+        }),
+        takeUntil(this.unsubscribes),
+        takeUntil(this.cancelRequest.asObservable()),
+      ).subscribe(result => {
+      this.values = result;
+    }, (err: Error) => console.log(err.message));
 
 
   }

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {SgmeaListComponent} from '../../../shared/components/sgmea-list/sgmea-list.component';
-import {MatIcon, MatIconModule} from '@angular/material/icon';
-import {MatButtonModule, MatIconButton} from '@angular/material/button';
-import {MatMenu, MatMenuItem, MatMenuModule, MatMenuTrigger} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatMenuModule} from '@angular/material/menu';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {JsonPipe, NgForOf} from '@angular/common';
 import {AbstractListController} from "../../utis/abstract/abstract-list-controller";
@@ -15,6 +15,9 @@ import {FuncionarioFilterComponent} from "../../funcionario/filter/funcionario-f
 import {TecnicoFilter, TecnicoFilterComponent} from "../filter/tecnico-filter/tecnico-filter.component";
 import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {Subject} from "rxjs";
+import {FuncionarioService} from "../../funcionario/service/funcionario.service";
+import {finalize, takeUntil} from "rxjs/operators";
 
 const tecnicos = [
   {id: '1', nome: 'Ana Carolina'},
@@ -33,25 +36,28 @@ const tecnicos = [
 @Component({
   selector: 'app-tecnicos-list',
   standalone: true,
-    imports: [
-        SgmeaListComponent,
-        RouterLink,
-        MatMenuModule,
-        NgForOf,
-        MatIconModule,
-        MatButtonModule,
-        JsonPipe,
-        SgmeaContainerListComponent,
-        FuncionarioFilterComponent,
-        TecnicoFilterComponent,
-        SgmeaNoDataComponent,
-        MatPaginatorModule,
-    ],
+  imports: [
+    SgmeaListComponent,
+    RouterLink,
+    MatMenuModule,
+    NgForOf,
+    MatIconModule,
+    MatButtonModule,
+    JsonPipe,
+    SgmeaContainerListComponent,
+    FuncionarioFilterComponent,
+    TecnicoFilterComponent,
+    SgmeaNoDataComponent,
+    MatPaginatorModule,
+  ],
   templateUrl: './tecnicos-list.component.html',
   styleUrl: './tecnicos-list.component.scss',
 })
 export class TecnicosListComponent extends AbstractListController<Tecnico> implements OnInit {
 
+
+  currentFilter: TecnicoFilter;
+  private cancelRequest: Subject<void> = new Subject();
 
   constructor(service: TecnicoService, router: Router, route: ActivatedRoute) {
     super(service, router, route);
@@ -61,12 +67,21 @@ export class TecnicosListComponent extends AbstractListController<Tecnico> imple
   tecnicos = tecnicos;
 
 
-  remove(tecnico: any) {
-    console.log('remove')
-  }
 
-  customList($event: TecnicoFilter) {
+  customList(filter: TecnicoFilter) {
 
+    this.cancelRequest.next();
+    this.currentFilter = filter;
+    (this.service as TecnicoService)
+      .listAdvanced(filter)
+      .pipe(
+        finalize(() => {
+        }),
+        takeUntil(this.unsubscribes),
+        takeUntil(this.cancelRequest.asObservable()),
+      ).subscribe(result => {
+      this.values = result;
+    }, (err: Error) => console.log(err.message));
 
   }
 }

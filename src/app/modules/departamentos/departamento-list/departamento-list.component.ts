@@ -21,36 +21,53 @@ import {
 } from "../filter/departamentos-filter/departamentos-filter.component";
 import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {finalize, takeUntil} from "rxjs/operators";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-departamento-list',
   standalone: true,
-    imports: [
-        MatButtonModule,
-        MatIconModule,
-        MatMenuModule,
-        NgForOf,
-        SgmeaListComponent,
-        RouterLink,
-        MatDividerModule,
-        SgmeaLoandingComponent,
-        SgmeaContainerListComponent,
-        EquipamentoFilterComponent,
-        DepartamentosFilterComponent,
-        SgmeaNoDataComponent,
-        MatPaginatorModule
-    ],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    NgForOf,
+    SgmeaListComponent,
+    RouterLink,
+    MatDividerModule,
+    SgmeaLoandingComponent,
+    SgmeaContainerListComponent,
+    EquipamentoFilterComponent,
+    DepartamentosFilterComponent,
+    SgmeaNoDataComponent,
+    MatPaginatorModule
+  ],
   templateUrl: './departamento-list.component.html',
   styleUrl: './departamento-list.component.scss'
 })
 export class DepartamentoListComponent extends AbstractListController<Departamento> implements OnInit {
+
+  currentFilter: DepartamentoFilter;
+  private cancelRequest: Subject<void> = new Subject();
 
   constructor(service: DepartamentoService, router: Router, route: ActivatedRoute) {
     super(service, router, route);
   }
 
 
-  customList($event: DepartamentoFilter) {
+  customList(filter?: DepartamentoFilter) {
+    this.cancelRequest.next();
+    this.currentFilter = filter;
+    (this.service as DepartamentoService)
+      .listAdvanced(filter)
+      .pipe(
+        finalize(() => {
+        }),
+        takeUntil(this.unsubscribes),
+        takeUntil(this.cancelRequest.asObservable()),
+      ).subscribe(result => {
+      this.values = result;
+    }, (err: Error) => console.log(err.message));
 
   }
 }

@@ -21,6 +21,7 @@ export abstract class AbstractListController<T extends Model> implements ListCon
 
   readonly dialog = inject(MatDialog);
 
+
   totalItems = 0; // Variável para armazenar o número total de itens
   itemsPorPagina = 8; // Número de itens exibidos por página
   pageSizeOptions = [5, 10, 25, 100]; // Opções de tamanhos de página disponíveis

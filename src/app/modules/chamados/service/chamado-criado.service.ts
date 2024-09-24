@@ -1,19 +1,18 @@
-import {inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {AbstractRestService} from "../../utis/http/services/abstract-rest.service";
 import {ChamadoCriado} from "../../../model/chamado-criado";
 import {HttpService} from "../../utis/http/services/http.service";
 import {forkJoin, Observable} from "rxjs";
-import {catchError, map, mergeMap} from "rxjs/operators";
+import {catchError, map, mergeMap, take} from "rxjs/operators";
 import {throwErrorMessage} from "../../utis/http/model/exception/error-message.model";
-import {LocalStorageService} from "../../utis/localstorage/local-storage.service";
 import {PathVariable} from "../../utis/http/services/model-service.interface";
-import {Funcionario} from "../../../model/funcionario";
 import {EquipamentoService} from "../../equipamento/service/equipamento.service";
 import {FuncionarioService} from "../../funcionario/service/funcionario.service";
-import {ChamadoAtribuido} from "../../../model/chamado-atribuido";
 import {SrQuery} from "../../utis/http/criteria";
 import {ListResource} from "../../utis/http/model/list-resource.model";
-import {isNotNullOrUndefined} from "../../utis/utils";
+import {isNotNullOrUndefined, isString} from "../../utis/utils";
+import {ChamadoFilter} from "../filter/chamado-filter/chamado-filter.component";
+import {HistoricoFilter} from "../../historico/filter/historico-filter/historico-filter.component";
 
 @Injectable({
   providedIn: 'root'
@@ -83,4 +82,49 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
       );
   }
 
+  listAdvanced(filter?: ChamadoFilter | string): Observable<ListResource<ChamadoCriado>> {
+    const request = this.http.createRequest()
+      .usingLog(this.log);
+    if (!isString(filter)) {
+      request.url("/api/sgmea/v1/chamado/list-advanced");
+      if (isNotNullOrUndefined(filter)) {
+        request.appendParamIfNotNullOrUndefined("titulo", (filter as ChamadoFilter).titulo)
+      }
+    } else {
+      request.url(filter as string);
+    }
+    return request.acceptJsonOnly()
+      .setAuthToken(this.localStorage.getItem(this.TOKEN))
+      .get()
+      .pipe(
+        take(1),
+        map(result => this.deserializeListResource(result, ChamadoCriado))
+      )
+      ;
+
+
+  }
+
+  listAdvancedByConcluidos(filter?: HistoricoFilter | string ): Observable<ListResource<ChamadoCriado>>  {
+    const request = this.http.createRequest()
+      .usingLog(this.log);
+    if (!isString(filter)) {
+      request.url("/api/sgmea/v1/chamado/chamados-encerrados/list-advanced");
+      if (isNotNullOrUndefined(filter)) {
+        request.appendParamIfNotNullOrUndefined("titulo", (filter as ChamadoFilter).titulo)
+      }
+    } else {
+      request.url(filter as string);
+    }
+    return request.acceptJsonOnly()
+      .setAuthToken(this.localStorage.getItem(this.TOKEN))
+      .get()
+      .pipe(
+        take(1),
+        map(result => this.deserializeListResource(result, ChamadoCriado))
+      )
+      ;
+
+
+  }
 }
