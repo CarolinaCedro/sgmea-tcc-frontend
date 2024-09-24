@@ -65,6 +65,8 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
 
   mult: boolean = false;
 
+  public isUpdateData: boolean = false;
+
   snack: MatSnackBar = inject(MatSnackBar);
 
 

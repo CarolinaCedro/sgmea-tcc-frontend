@@ -19,7 +19,7 @@ export class RoleGuardService implements CanActivate {
 
     return this.authService.userCurrent.pipe(
       map(user => {
-        if (user && this.hasRole(user.authorities.map(a => a.authority), requiredRoles)) {
+        if (user && this.hasRole(user.authorities, requiredRoles)) { // authorities agora é um array de strings
           return true;
         }
 
@@ -33,7 +33,8 @@ export class RoleGuardService implements CanActivate {
     );
   }
 
-  private hasRole(userRoles: string[], requiredRoles: Role[]): boolean {
-    return requiredRoles.some(role => userRoles.includes(role));
+  private hasRole(userAuthorities: string[], requiredRoles: Role[]): boolean {
+    return requiredRoles.some(role => userAuthorities.includes(role));
   }
+
 }

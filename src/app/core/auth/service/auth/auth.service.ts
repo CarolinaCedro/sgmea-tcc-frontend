@@ -94,7 +94,7 @@ export class AuthService {
 
   private updateUserRoles() {
     if (this.user?.authorities) {
-      const roles = this.user.authorities.map(a => a.authority);
+      const roles = this.user.authorities; // authorities já é um array de strings
       this._userRoles.next(roles);
     } else {
       this._userRoles.next([]);

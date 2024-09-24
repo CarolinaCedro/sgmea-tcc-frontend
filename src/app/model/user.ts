@@ -25,11 +25,11 @@ export class User extends ModelImplModel {
   perfil: Perfil;
   senha: string;
 
-  @Type(() => Authority)
-  authorities: Authority[];
+
+  authorities: [];
 
 
-  constructor(id: string, nome: string, cpf: string, email: string, gestor: Gestor, perfil: Perfil, senha: string, authorities: Authority[]) {
+  constructor(id: string, nome: string, cpf: string, email: string, gestor: Gestor, perfil: Perfil, senha: string, authorities: []) {
     super();
     this.id = id;
     this.nome = nome;

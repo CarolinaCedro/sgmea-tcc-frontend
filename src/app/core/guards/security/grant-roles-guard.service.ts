@@ -2,7 +2,8 @@ import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from "@angular/router";
 import {Observable} from "rxjs";
 import {map, take} from "rxjs/operators";
-import {AuthService} from "../../../modules/auth/service/auth/auth.service";
+import {AuthService} from "../../auth/service/auth/auth.service";
+
 
 const UNAUTHORIZATION_URL = ["unauthorized-exception"];
 

@@ -1,9 +1,9 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {AbstractFormController} from "../../utis/abstract/abstract-form-controller";
 import {Funcionario} from "../../../model/funcionario";
 import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
 import {FuncionarioService} from "../service/funcionario.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {SgmeaFormComponent} from "../../../shared/components/sgmea-form/sgmea-form.component";
 import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {NgForOf, NgIf} from "@angular/common";
@@ -12,8 +12,10 @@ import {ListResource} from "../../utis/http/model/list-resource.model";
 import {Departamento} from "../../../model/departamento";
 import {Gestor} from "../../../model/gestor";
 import {GestorAutocompleteDirective} from "../../gestor/directives/gestor-autocomplete.directive";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, of} from "rxjs";
 import {NgxMaskDirective} from "ngx-mask";
+import {take} from "rxjs/operators";
+import {isNullOrUndefined} from "../../utis/utils";
 
 @Component({
   selector: 'app-funcionario-form',
@@ -31,13 +33,15 @@ import {NgxMaskDirective} from "ngx-mask";
   templateUrl: './funcionario-form.component.html',
   styleUrls: ['./funcionario-form.component.scss']
 })
-export class FuncionarioFormComponent extends AbstractFormController<Funcionario> implements AfterViewInit {
+export class FuncionarioFormComponent extends AbstractFormController<Funcionario> implements AfterViewInit, OnInit {
 
 
   departamentos: ListResource<Departamento>
   gestorSelected: BehaviorSubject<Array<Gestor>> = new BehaviorSubject(new Array<Gestor>());
 
   gestor: ListResource<Gestor>
+
+  notShowPasswordView: boolean = true;
 
   constructor(formBuilder: FormBuilder, service: FuncionarioService, router: Router, route: ActivatedRoute) {
     super(Funcionario, formBuilder.group({
@@ -58,7 +62,30 @@ export class FuncionarioFormComponent extends AbstractFormController<Funcionario
       this.form.get("role").setValue(value);
     });
 
+
   }
+
+
+  ngOnInit() {
+
+    this.route.params.pipe(take(1)).subscribe((params: Params) => {
+      let beforeLoadId = this.beforeLoadId(params['id']);
+      if (isNullOrUndefined(beforeLoadId)) {
+        beforeLoadId = of(null);
+      }
+
+      if (params['id'] === 'new_record') {
+        this.notShowPasswordView = true
+        console.log("novo record")
+      } else {
+        this.notShowPasswordView = false
+      }
+
+    });
+
+
+  }
+
 
   containsMetadata(): boolean {
     return false;
