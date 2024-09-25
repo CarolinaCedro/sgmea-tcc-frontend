@@ -23,11 +23,11 @@ export class RoleGuardService implements CanActivate {
           return true;
         }
 
-        this.router.navigate(['/unauthorized']);
+        this.router.navigate(['/auth/sign-in']);
         return false;
       }),
       catchError(() => {
-        this.router.navigate(['/unauthorized']);
+        this.router.navigate(['/auth/sign-in']);
         return of(false);
       })
     );

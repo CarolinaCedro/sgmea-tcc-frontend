@@ -6,13 +6,16 @@ import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {AbstractFormController} from "../../utis/abstract/abstract-form-controller";
 import {Tecnico} from "../../../model/tecnico";
 import {TecnicoService} from "../services/tecnico.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatOptionModule} from "@angular/material/core";
 import {GestorAutocompleteDirective} from "../../gestor/directives/gestor-autocomplete.directive";
 import {ListResource} from "../../utis/http/model/list-resource.model";
 import {Gestor} from "../../../model/gestor";
 import {NgxMaskDirective} from "ngx-mask";
+import {take} from "rxjs/operators";
+import {isNullOrUndefined} from "../../utis/utils";
+import {of} from "rxjs";
 
 @Component({
   selector: 'app-tecnicos-form',
@@ -32,6 +35,9 @@ import {NgxMaskDirective} from "ngx-mask";
   styleUrl: './tecnicos-form.component.scss'
 })
 export class TecnicosFormComponent extends AbstractFormController<Tecnico> implements AfterViewInit {
+
+  notShowPasswordView: boolean = true;
+
 
   gestor: ListResource<Gestor>;
 
@@ -53,6 +59,25 @@ export class TecnicosFormComponent extends AbstractFormController<Tecnico> imple
       this.form.get("role").setValue(value);
     });
 
+  }
+
+
+  ngOnInit() {
+
+    this.route.params.pipe(take(1)).subscribe((params: Params) => {
+      let beforeLoadId = this.beforeLoadId(params['id']);
+      if (isNullOrUndefined(beforeLoadId)) {
+        beforeLoadId = of(null);
+      }
+
+      if (params['id'] === 'new_record') {
+        this.notShowPasswordView = true
+        console.log("novo record")
+      } else {
+        this.notShowPasswordView = false
+      }
+
+    });
   }
 
   containsMetadata(): boolean {

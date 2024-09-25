@@ -66,8 +66,7 @@
         </div>
 
       </div>
-      <div class="flex flex-col sm:flex-row w-full gap-0 sm:gap-5 pb-5">
-        <!-- Campo Email -->
+      <div *ngIf="notShowPasswordView" class="flex flex-col sm:flex-row w-full gap-0 sm:gap-5 pb-5">
         <div class="form__group w-full">
           <div class="relative">
             <input formControlName="senha"
@@ -105,7 +104,7 @@
         </div>
 
         <!-- Campo Gestor -->
-        <div class="form__group w-full" >
+        <div class="form__group w-full">
           <div class="relative">
             <input formControlName="gestor"
                    type="text"

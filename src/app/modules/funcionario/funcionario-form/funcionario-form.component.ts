@@ -100,25 +100,4 @@ export class FuncionarioFormComponent extends AbstractFormController<Funcionario
   }
 
 
-  addGestorSelected(event: MatAutocompleteSelectedEvent) {
-    // const gestor = new Array<Gestor>();
-    // if (!isEmpty(this.gestorSelected.value)) {
-    //   this.gestorSelected.value.forEach(it => gestor.push(it));
-    // }
-    // gestor.push(event.option.value as Gestor);
-    // if (isNullOrUndefined(this.colaboradoresInclude.value)) {
-    //   const itens = new Array();
-    //   itens.push(event.option.value as Gestor);
-    //   this.colaboradoresInclude.next(itens);
-    // } else {
-    //   const itens = this.colaboradoresInclude.value;
-    //   itens.push(event.option.value as Gestor);
-    //   this.colaboradoresInclude.next(itens);
-    // }
-    // this.colaboradoresInclude.value.forEach(it => {
-    //   this.colaboradoresExclude.next(this.colaboradoresExclude.value.filter(iit => iit.id !== it.id));
-    // });
-    // this.gestorSelected.next(gestor);
-  }
-
 }
