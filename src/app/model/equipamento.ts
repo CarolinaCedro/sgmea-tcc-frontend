@@ -7,19 +7,19 @@ export class Equipamento extends ModelImplModel {
   nome: string;
   descricao: string;
   fabricante: string;
+  patrimonio: string;
   modelo: string;
   emUso: boolean;
 
 
-  constructor(id: string, nome: string, descricao: string, fabricante: string, modelo: string, emUso: boolean) {
+  constructor(id: string, nome: string, descricao: string, fabricante: string, patrimonio: string, modelo: string, emUso: boolean) {
     super();
     this.id = id;
     this.nome = nome;
     this.descricao = descricao;
     this.fabricante = fabricante;
+    this.patrimonio = patrimonio;
     this.modelo = modelo;
     this.emUso = emUso;
   }
-
-
 }

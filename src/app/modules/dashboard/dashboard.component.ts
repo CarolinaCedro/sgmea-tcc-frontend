@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
-import {MatButtonToggle, MatButtonToggleGroup, MatButtonToggleModule} from "@angular/material/button-toggle";
+import {ActivatedRoute, Router, RouterOutlet} from '@angular/router';
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {ApexOptions, NgApexchartsModule} from "ng-apexcharts";
 import {AuthService} from "../../core/auth/service/auth/auth.service";
 import {User} from "../../model/user";
+import {DasboardService} from "./service/dasboard.service";
+import {Dashboard} from "./model/dasboard.model";
 
 // Define um tipo para as chaves de semana
 type TaskDistributionKey = 'this-week' | 'last-week';
@@ -16,24 +18,26 @@ type TaskDistributionKey = 'this-week' | 'last-week';
 })
 export class DashboardComponent implements OnInit {
 
+
   user: User
+  dashData: Dashboard
 
   taskDistribution = {
     overview: {
       'this-week': {
-        new: 3,
-        completed: 10,
+        new: 0,
+        completed: 0,
 
       },
       'last-week': {
-        new: 3,
-        completed: 2,
+        new: 0,
+        completed: 0,
       },
     },
-    labels: ['API', 'Backend', 'Frontend', 'Issues'],
+    labels: ['', '', '', ''],
     series: {
-      'this-week': [15, 20, 38, 27],
-      'last-week': [19, 16, 42, 23],
+      'this-week': [1,2,3],
+      'last-week': [2,4,5],
     },
   };
 
@@ -44,13 +48,22 @@ export class DashboardComponent implements OnInit {
   chartTaskDistribution: ApexOptions;
   data: any;
 
-  constructor(private authservice: AuthService) {
 
+  constructor(private authservice: AuthService, private service: DasboardService, router: Router, route: ActivatedRoute) {
     this.authservice.userCurrent.subscribe(res => {
       this.user = res
     })
 
+    this.service.getDashboardData().subscribe(res => {
+      this.dashData = res
+      console.log("result dashboard", res)
+    })
+
     const selectedWeek = this.taskDistribution.series[this.taskDistributionWeekSelector.value] || [1, 2, 3, 6, 8];
+
+
+    this.taskDistribution.overview["this-week"].new = this.dashData?.chartData?.thisWeek?.new
+    this.taskDistribution.overview["completed"] = this.dashData?.chartData?.completed
 
     this.chartTaskDistribution = {
       chart: {
@@ -65,7 +78,7 @@ export class DashboardComponent implements OnInit {
           enabled: false,
         },
       },
-      labels: this.taskDistribution.labels,
+      labels: [],
       legend: {
         position: 'bottom',
       },
@@ -115,16 +128,8 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this._prepareChartData();
-  }
-
-  private _prepareChartData(): void {
 
   }
 
-  get taskDistributionOverview() {
-    // Utilize o tipo TaskDistributionKey para acessar a chave
-    const key = this.taskDistributionWeekSelector.value as TaskDistributionKey;
-    return this.taskDistribution.overview[key] || {new: 0, completed: 0};
-  }
+
 }

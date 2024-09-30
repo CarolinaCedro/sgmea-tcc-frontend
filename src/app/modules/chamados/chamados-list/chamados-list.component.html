@@ -3,54 +3,123 @@
 
   <chamado-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>
 
+  <mat-tab-group>
+    <mat-tab label="Chamados criados">
+      @if (values?.records && values.records.length > 0) {
+        <ng-template let-chamado let-last="last" ngFor [ngForOf]="values?.records">
+          <sgmea-container-list [icon]="'fa-solid fa-clipboard'" [address]="chamado?.id">
+            <div
+              class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamado?.titulo }}
+            </div>
+            <div class="text-gray-500">
+              <small><b>Funcionario:</b> {{ chamado?.funcionario?.nome }}</small>
+            </div>
+            <div menu-content>
 
 
-  @if (values?.records && values.records.length > 0) {
-
-    <ng-template let-chamado let-last="last" ngFor [ngForOf]="values?.records">
-      <sgmea-container-list [icon]="'fa-solid fa-clipboard'" [address]="chamado?.id">
-        <div
-          class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamado?.titulo }}
-        </div>
-        <div class="text-gray-500">
-          <small><b>Funcionario:</b> {{ chamado?.funcionario?.nome }}</small>
-        </div>
-        <div menu-content>
+              <a mat-menu-item [routerLink]="[chamado.id]" [queryParams]="getCurrentQueryParams()">
+                <mat-icon>edit</mat-icon>
+                <span>Editar</span>
+              </a>
 
 
-          <a mat-menu-item [routerLink]="[chamado.id]" [queryParams]="getCurrentQueryParams()">
-            <mat-icon>edit</mat-icon>
-            <span>Editar</span>
-          </a>
+              <a mat-menu-item [routerLink]="[chamado.id]" [queryParams]="getCurrentQueryParams()">
+                <mat-icon>visibility</mat-icon>
+                <span>Visualizar</span>
+              </a>
+
+              <button mat-menu-item
+
+                      (click)="remove(chamado)">
+                <mat-icon>delete</mat-icon>
+                <span>Remover</span>
+              </button>
+            </div>
+
+          </sgmea-container-list>
+        </ng-template>
+
+        <mat-paginator class="mt-10 bg-yellow"
+                       [length]="totalItems"
+                       [pageSize]="itemsPorPagina"
+                       [pageSizeOptions]="pageSizeOptions"
+                       (page)="onPageChange($event)"
+                       aria-label="Select page">
+        </mat-paginator>
+      } @else {
+        <sgmea-no-data/>
+      }
+    </mat-tab>
+
+    <mat-tab label="Acompanhamento de chamados">
+      @if (chamadosAtribuidos?.records && chamadosAtribuidos.records.length > 0) {
+        <ng-template let-chamado let-last="last" ngFor [ngForOf]="chamadosAtribuidos?.records">
+          <sgmea-container-list [icon]="'fa-solid fa-clipboard'" [address]="chamado?.id">
+            <div
+              class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamado?.chamadoCriado?.titulo }}
+            </div>
+
+            <div class="text-gray-500" mat-chip-situation>
+              <small class="mat-chip-type-visita flex items-center"
+                     [ngClass]="{
+                                    'baixa': chamado?.prioridade === 'BAIXA',
+                                    'alta': chamado?.prioridade  === 'ALTA',
+                                    'media': chamado?.prioridade  === 'MEDIA',
+                                    'null': chamado?.prioridade  === null,
+                                     }">
+
+                {{ chamado?.prioridade ? chamado?.prioridade : "Erro" }}
+              </small>
+            </div>
+
+            <!--            <div class="text-gray-500">-->
+            <!--              <small><b>Prioridade:</b> {{ chamado?.prioridade }}</small>-->
+            <!--            </div>-->
+            <div class="text-gray-500">
+              <small><b>Status:</b> {{ chamado?.chamadoCriado?.status }}</small>
+            </div>
+            <div class="text-gray-500">
+              <small><b>Técnico:</b> {{ chamado?.tecnico?.nome }}</small>
+            </div>
+
+            <div menu-content *ngIf="false">
 
 
-          <a mat-menu-item [routerLink]="[chamado.id]" [queryParams]="getCurrentQueryParams()">
-            <mat-icon>visibility</mat-icon>
-            <span>Visualizar</span>
-          </a>
+              <a mat-menu-item [routerLink]="[chamado.id]" [queryParams]="getCurrentQueryParams()">
+                <mat-icon>edit</mat-icon>
+                <span>Editar</span>
+              </a>
 
-          <button mat-menu-item
 
-                  (click)="remove(chamado)">
-            <mat-icon>delete</mat-icon>
-            <span>Remover</span>
-          </button>
-        </div>
+              <a mat-menu-item [routerLink]="[chamado.id]" [queryParams]="getCurrentQueryParams()">
+                <mat-icon>visibility</mat-icon>
+                <span>Visualizar</span>
+              </a>
 
-      </sgmea-container-list>
-    </ng-template>
+              <button mat-menu-item
 
-    <mat-paginator class="mt-10 bg-yellow"
-                   [length]="totalItems"
-                   [pageSize]="itemsPorPagina"
-                   [pageSizeOptions]="pageSizeOptions"
-                   (page)="onPageChange($event)"
-                   aria-label="Select page">
-    </mat-paginator>
-  } @else {
-    <sgmea-no-data/>
-  }
+                      (click)="remove(chamado)">
+                <mat-icon>delete</mat-icon>
+                <span>Remover</span>
+              </button>
+            </div>
 
+          </sgmea-container-list>
+        </ng-template>
+
+        <mat-paginator class="mt-10 bg-yellow"
+                       [length]="chamadosAtribuidos?.records?.length"
+                       [pageSize]="itemsPorPagina"
+                       [pageSizeOptions]="pageSizeOptions"
+                       (page)="onPageChange($event)"
+                       aria-label="Select page">
+        </mat-paginator>
+      } @else {
+        <sgmea-no-data/>
+      }
+
+    </mat-tab>
+  </mat-tab-group>
 
 
 </sgmea-list>

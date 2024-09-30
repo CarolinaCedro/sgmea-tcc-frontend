@@ -23,9 +23,13 @@ export class EquipamentoFormComponent extends AbstractFormController<Equipamento
       nome: [''],
       descricao: [''],
       fabricante: [''],
+      patrimonio: [''],
       modelo: [''],
       emUso: [false]
     }), service, router, route);
+
+    this.form.get("patrimonio").disabled
+    this.form.get("patrimonio").disable()
   }
 
   containsMetadata(): boolean {

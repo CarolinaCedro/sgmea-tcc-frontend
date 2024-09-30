@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {SgmeaListComponent} from "../../../shared/components/sgmea-list/sgmea-list.component";
-import {NgForOf} from "@angular/common";
+import {JsonPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
@@ -21,34 +21,43 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {TecnicoFilter} from "../../tecnicos/filter/tecnico-filter/tecnico-filter.component";
 import {Subject} from "rxjs";
 import {TecnicoService} from "../../tecnicos/services/tecnico.service";
+import {MatTabsModule} from "@angular/material/tabs";
+import {ChamadoAtribuido} from "../../../model/chamado-atribuido";
+import {ListResource} from "../../utis/http/model/list-resource.model";
+import {ChamadoAtribuidoService} from "../../consolidacao/service/chamado-atribuido.service";
 
 @Component({
   selector: 'app-chamados-list',
   standalone: true,
-    imports: [
-        SgmeaListComponent,
-        NgForOf,
-        MatButtonModule,
-        MatIconModule,
-        MatMenuModule,
-        RouterLink,
-        SgmeaContainerListComponent,
-        GestorFilterComponent,
-        ChamadoFilterComponent,
-        SgmeaNoDataComponent,
-        MatPaginatorModule
-    ],
+  imports: [
+    SgmeaListComponent,
+    NgForOf,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    RouterLink,
+    SgmeaContainerListComponent,
+    GestorFilterComponent,
+    ChamadoFilterComponent,
+    SgmeaNoDataComponent,
+    MatPaginatorModule,
+    MatTabsModule,
+    NgClass,
+    JsonPipe,
+    NgIf
+  ],
   templateUrl: './chamados-list.component.html',
   styleUrl: './chamados-list.component.scss'
 })
-export class ChamadosListComponent extends AbstractListController<ChamadoCriado>  implements OnInit, OnDestroy {
-
+export class ChamadosListComponent extends AbstractListController<ChamadoCriado> implements OnInit, OnDestroy {
 
 
   currentFilter: ChamadoFilter;
   private cancelRequest: Subject<void> = new Subject();
 
-  constructor(service: ChamadoCriadoService, router: Router, route: ActivatedRoute) {
+  chamadosAtribuidos: ListResource<ChamadoAtribuido>
+
+  constructor(service: ChamadoCriadoService, private chamadosAtribuidosService: ChamadoAtribuidoService, router: Router, route: ActivatedRoute) {
     super(service, router, route);
   }
 
@@ -67,5 +76,15 @@ export class ChamadosListComponent extends AbstractListController<ChamadoCriado>
     }, (err: Error) => console.log(err.message));
 
 
+  }
+
+
+  ngOnInit() {
+    super.ngOnInit();
+
+    this.chamadosAtribuidosService.listFully().subscribe(res => {
+      this.chamadosAtribuidos = res
+      console.log("aqui a resposta do chamados atribuidos", res)
+    })
   }
 }

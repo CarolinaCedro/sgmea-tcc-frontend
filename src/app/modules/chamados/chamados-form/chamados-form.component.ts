@@ -1,4 +1,4 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {SgmeaFormComponent} from "../../../shared/components/sgmea-form/sgmea-form.component";
 import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
 import {AbstractFormController} from "../../utis/abstract/abstract-form-controller";
@@ -14,6 +14,7 @@ import {Equipamento} from "../../../model/equipamento";
 import {Funcionario} from "../../../model/funcionario";
 import {FuncionarioAutocompleteDirective} from "../../funcionario/directives/funcionario-autocomplete.directive";
 import {AuthService} from "../../../core/auth/service/auth/auth.service";
+import {User} from "../../../model/user";
 
 @Component({
   selector: 'app-chamados-form',
@@ -30,11 +31,13 @@ import {AuthService} from "../../../core/auth/service/auth/auth.service";
   templateUrl: './chamados-form.component.html',
   styleUrls: ['./chamados-form.component.scss']
 })
-export class ChamadosFormComponent extends AbstractFormController<ChamadoCriado> implements AfterViewInit {
+export class ChamadosFormComponent extends AbstractFormController<ChamadoCriado> implements AfterViewInit, OnInit {
 
   equipamentos: ListResource<Equipamento>;
   funcionarios: ListResource<Funcionario>;
   isStatusDisabled: boolean;
+
+  funcionario: User;
 
 
   constructor(formBuilder: FormBuilder, service: ChamadoCriadoService, router: Router, route: ActivatedRoute, private authService: AuthService) {
@@ -61,6 +64,13 @@ export class ChamadosFormComponent extends AbstractFormController<ChamadoCriado>
       }
     });
 
+  }
+
+
+  ngOnInit() {
+    this.authService.userCurrent.subscribe(res => {
+      this.funcionario = res
+    })
   }
 
   isFormActive = true
