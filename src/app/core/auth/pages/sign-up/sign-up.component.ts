@@ -60,12 +60,13 @@ export class SignUpComponent implements OnInit {
       user.senha = form.get("senha")?.value;
       user.perfil = form.get("perfil")?.value;
       user.role = form.get("role")?.value;
+      console.log("user passado",user)
 
       this.service.newUser(user).subscribe(
         res => {
           console.log("criado", res)
         }, error => {
-          this.openSnackBar(error.message.status)
+          this.openSnackBar(error.message)
         }
       );
     } else {

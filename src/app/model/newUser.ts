@@ -1,5 +1,5 @@
 export class NewUser {
-  id: string;
+  id?: string;
   nome: string;
   cpf: string;
   email: string;
