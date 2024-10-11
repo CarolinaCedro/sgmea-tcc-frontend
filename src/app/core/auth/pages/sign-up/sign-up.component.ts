@@ -62,13 +62,11 @@ export class SignUpComponent implements OnInit {
       user.perfil = Perfil.GESTOR;
       user.role = Perfil.GESTOR;
 
-      console.log("o user passado", user)
-
       this.service.newUser(user).subscribe(
         res => {
           console.log("criado", res)
         }, error => {
-          this.openSnackBar(error.message.status)
+          this.openSnackBar(error.message)
         }
       );
     } else {
