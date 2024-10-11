@@ -11,7 +11,7 @@ export default [
     component: FuncionarioListComponent,
     canActivate: [RoleGuardService],
     data: {
-      roles: [Role.FUNCIONARIO, Role.GESTOR]
+      roles: [ Role.GESTOR]
     }
 
   },
@@ -21,7 +21,7 @@ export default [
     component: FuncionarioFormComponent,
     canActivate: [RoleGuardService],
     data: {
-      roles: [Role.FUNCIONARIO, Role.GESTOR]
+      roles: [ Role.GESTOR]
     }
   },
 ] as Routes;

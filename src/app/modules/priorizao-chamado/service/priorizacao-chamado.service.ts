@@ -67,7 +67,6 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
   }
 
 
-
   findByListOfChamadosAtribuidosFully(chamado: ChamadoAtribuido): Observable<ChamadoAtribuido> {
     console.log("Chamado recebido:", chamado);
 
@@ -95,6 +94,21 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
       .setAuthToken(this.localStorage.getItem(this.TOKEN))
       .usingLog(this.log)
       .url("api/sgmea/v1/chamado/chamados-atribuidos")
+      .get()
+      .pipe(
+        // mergeMap((chamados: any[]) => {
+        //   return of(chamados);
+        // }),
+        catchError((err) => throwErrorMessage(err, this.log))
+      );
+  }
+
+  getChamadosAtribuidosByTec(currentTecnico: string): Observable<ListResource<ChamadoAtribuido>> {
+    return this.http
+      .createRequest()
+      .setAuthToken(this.localStorage.getItem(this.TOKEN))
+      .usingLog(this.log)
+      .url(`api/sgmea/v1/chamado/chamados-atribuidos/byTecnico?currentTecnico=${currentTecnico}`)
       .get()
       .pipe(
         // mergeMap((chamados: any[]) => {

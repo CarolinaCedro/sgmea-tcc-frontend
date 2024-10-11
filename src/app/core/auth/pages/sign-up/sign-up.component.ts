@@ -8,6 +8,7 @@ import {RouterLink} from "@angular/router";
 import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {NgxMaskDirective} from "ngx-mask";
+import {Perfil} from "../../../../model/enum/perfil";
 
 @Component({
   selector: 'app-sign-up',
@@ -58,8 +59,10 @@ export class SignUpComponent implements OnInit {
       user.cpf = form.get("cpf")?.value;
       user.email = form.get("email")?.value;
       user.senha = form.get("senha")?.value;
-      user.perfil = form.get("perfil")?.value;
-      user.role = form.get("role")?.value;
+      user.perfil = Perfil.GESTOR;
+      user.role = Perfil.GESTOR;
+
+      console.log("o user passado", user)
 
       this.service.newUser(user).subscribe(
         res => {

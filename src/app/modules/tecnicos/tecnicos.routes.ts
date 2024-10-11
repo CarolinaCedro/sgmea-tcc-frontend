@@ -11,7 +11,7 @@ export default [
     component: TecnicosListComponent,
     canActivate: [RoleGuardService],
     data: {
-      roles: [Role.TECNICO, Role.GESTOR]
+      roles: [ Role.GESTOR]
     }
   },
 
@@ -20,7 +20,7 @@ export default [
     component: TecnicosFormComponent,
     canActivate: [RoleGuardService],
     data: {
-      roles: [Role.TECNICO, Role.GESTOR]
+      roles: [ Role.GESTOR]
     }
   },
 ] as Routes;

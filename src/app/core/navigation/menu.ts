@@ -16,13 +16,13 @@ export class Menu {
           icon: 'fa-solid fa-user-large',
           label: 'Funcionário',
           route: '/home/funcionario',
-          roles: ['ROLE_ADMIN', 'ROLE_GESTOR', 'ROLE_FUNCIONARIO'],
+          roles: ['ROLE_ADMIN', 'ROLE_GESTOR'],
         },
         {
           icon: 'fa-solid fa-screwdriver-wrench',
           label: 'Técnico',
           route: '/home/tecnico',
-          roles: ['ROLE_ADMIN', 'ROLE_GESTOR', 'ROLE_TECNICO'],
+          roles: ['ROLE_ADMIN', 'ROLE_GESTOR'],
         },
         {
           icon: 'fa-solid fa-user-tie',
