@@ -15,11 +15,15 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
   imports: [FormsModule, ReactiveFormsModule, RouterLink, NgClass, NgIf, ButtonComponent, MatProgressSpinnerModule],
 })
 export class SignInComponent implements OnInit {
+
+
   form!: FormGroup;
   submitted = false;
   passwordTextType!: boolean;
   isNotUserValid: boolean = false;
   showLoanding: boolean = false;
+  hidePassword = true;
+  hideNewPassword = true;
 
 
   constructor(private readonly _formBuilder: FormBuilder, private readonly _router: Router, private authService: AuthService) {
@@ -57,5 +61,9 @@ export class SignInComponent implements OnInit {
       this.showLoanding = false
     });
     console.log('acesso', value);
+  }
+
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
   }
 }
