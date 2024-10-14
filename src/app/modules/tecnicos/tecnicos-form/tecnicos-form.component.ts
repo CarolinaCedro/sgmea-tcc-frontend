@@ -16,6 +16,8 @@ import {NgxMaskDirective} from "ngx-mask";
 import {take} from "rxjs/operators";
 import {isNullOrUndefined} from "../../utis/utils";
 import {of} from "rxjs";
+import {Role} from "../../../core/roles/model/role";
+import {Perfil} from "../../../model/enum/perfil";
 
 @Component({
   selector: 'app-tecnicos-form',
@@ -49,15 +51,15 @@ export class TecnicosFormComponent extends AbstractFormController<Tecnico> imple
       cpf: [''],
       gestor: [''],
       disponibilidade: [true],
-      especialidade: [''],
+      especialidade: ['nenhuma'],
       senha: [''],
-      perfil: [''],
-      role: ['']
+      perfil: [Perfil.TECNICO],
+      role: [Perfil.TECNICO]
     }), service, router, route);
 
-    this.form.get("perfil").valueChanges.subscribe(value => {
-      this.form.get("role").setValue(value);
-    });
+    // this.form.get("perfil").valueChanges.subscribe(value => {
+    //   this.form.get("role").setValue(value);
+    // });
 
   }
 

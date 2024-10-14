@@ -10,6 +10,7 @@ import {take} from "rxjs/operators";
 import {isNullOrUndefined} from "../../utis/utils";
 import {of} from "rxjs";
 import {NgIf} from "@angular/common";
+import {Perfil} from "../../../model/enum/perfil";
 
 @Component({
   selector: 'app-gestor-form',
@@ -33,9 +34,9 @@ export class GestorFormComponent extends AbstractFormController<Gestor> implemen
       cpf: [''],
       email: [''],
       senha: [''],
-      role: [''],
+      role: [Perfil.GESTOR],
       gestor: [''],
-      perfil: [''],
+      perfil: [Perfil.GESTOR],
       areaGestao: [''],
       usuariosAlocados: [[]],
       chamadoAtribuidos: [[]]

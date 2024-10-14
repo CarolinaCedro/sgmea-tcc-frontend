@@ -16,6 +16,7 @@ import {BehaviorSubject, of} from "rxjs";
 import {NgxMaskDirective} from "ngx-mask";
 import {take} from "rxjs/operators";
 import {isNullOrUndefined} from "../../utis/utils";
+import {Perfil} from "../../../model/enum/perfil";
 
 @Component({
   selector: 'app-funcionario-form',
@@ -50,17 +51,17 @@ export class FuncionarioFormComponent extends AbstractFormController<Funcionario
       email: [''],
       gestor: [''],
       senha: [''],
-      role: [''],
-      perfil: [''],
+      role: [Perfil.FUNCIONARIO],
+      perfil: [Perfil.FUNCIONARIO],
       departamento: [''],
       funcao: [''],
       chamadoCriados: [[]]
     }), service, router, route);
 
 
-    this.form.get("perfil").valueChanges.subscribe(value => {
-      this.form.get("role").setValue(value);
-    });
+    // this.form.get("perfil").valueChanges.subscribe(value => {
+    //   this.form.get("role").setValue(value);
+    // });
 
 
   }
