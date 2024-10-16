@@ -1,135 +1,95 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router, RouterOutlet} from '@angular/router';
-import {MatButtonToggleModule} from "@angular/material/button-toggle";
-import {ApexOptions, NgApexchartsModule} from "ng-apexcharts";
-import {AuthService} from "../../core/auth/service/auth/auth.service";
-import {User} from "../../model/user";
-import {DasboardService} from "./service/dasboard.service";
+import { Component, OnInit, Inject } from '@angular/core';
+import { Platform } from '@angular/cdk/platform';
+import {ApexOptions, NgApexchartsModule} from 'ng-apexcharts';
+import { AuthService } from "../../core/auth/service/auth/auth.service";
 import {Dashboard} from "./model/dasboard.model";
+import {DasboardService} from "./service/dasboard.service";
 
-// Define um tipo para as chaves de semana
+// Definir tipo de chave de semana
 type TaskDistributionKey = 'this-week' | 'last-week';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   standalone: true,
-  imports: [RouterOutlet, NgApexchartsModule, MatButtonToggleModule],
+  imports: [
+    NgApexchartsModule
+  ],
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
-
-  user: User
-  dashData: Dashboard
-
+  user: any;
+  dashData: Dashboard;
   taskDistribution = {
     overview: {
-      'this-week': {
-        new: 0,
-        completed: 0,
-
-      },
-      'last-week': {
-        new: 0,
-        completed: 0,
-      },
+      'this-week': { new: 0, completed: 0 },
+      'last-week': { new: 0, completed: 0 },
     },
     labels: ['', '', '', ''],
     series: {
-      'this-week': [1,2,3],
-      'last-week': [2,4,5],
+      'this-week': [1, 2, 3],
+      'last-week': [2, 4, 5],
     },
   };
-
-  taskDistributionWeekSelector = {
-    value: 'this-week' as TaskDistributionKey // Certifique-se de que o valor é do tipo TaskDistributionKey
-  };
-
+  taskDistributionWeekSelector = { value: 'this-week' as TaskDistributionKey };
   chartTaskDistribution: ApexOptions;
-  data: any;
 
+  constructor(
+    private authservice: AuthService,
+    private service: DasboardService,
+    @Inject(Platform) private platform: Platform // Injeção do Platform
+  ) {
+    if (this.platform.isBrowser) {
+      this.loadChart(); // Carregar gráfico apenas no navegador
+    }
 
-  constructor(private authservice: AuthService, private service: DasboardService, router: Router, route: ActivatedRoute) {
     this.authservice.userCurrent.subscribe(res => {
-      this.user = res
-    })
+      this.user = res;
+    });
 
     this.service.getDashboardData().subscribe(res => {
-      this.dashData = res
-      console.log("result dashboard", res)
-    })
+      this.dashData = res;
+      console.log("Result Dashboard", res);
+      if (this.platform.isBrowser) {
+        this.updateChartData();
+      }
+    });
+  }
 
-    const selectedWeek = this.taskDistribution.series[this.taskDistributionWeekSelector.value] || [1, 2, 3, 6, 8];
+  ngOnInit(): void {}
 
-
-    this.taskDistribution.overview["this-week"].new = this.dashData?.chartData?.thisWeek?.new
-    this.taskDistribution.overview["completed"] = this.dashData?.chartData?.completed
-
+  loadChart(): void {
+    // Agora que sabemos que está no navegador, podemos carregar o gráfico
     this.chartTaskDistribution = {
       chart: {
         fontFamily: 'inherit',
         foreColor: 'inherit',
         height: '100%',
         type: 'polarArea',
-        toolbar: {
-          show: false,
-        },
-        zoom: {
-          enabled: false,
-        },
+        toolbar: { show: false },
+        zoom: { enabled: false },
       },
       labels: [],
-      legend: {
-        position: 'bottom',
-      },
+      legend: { position: 'bottom' },
       plotOptions: {
         polarArea: {
-          spokes: {
-            connectorColors: '#e2e8f0',
-          },
-          rings: {
-            strokeColor: '#e2e8f0',
-          },
+          spokes: { connectorColors: '#e2e8f0' },
+          rings: { strokeColor: '#e2e8f0' },
         },
       },
-      series: selectedWeek,
-      states: {
-        hover: {
-          filter: {
-            type: 'darken',
-            value: 0.75,
-          },
-        },
-      },
-      stroke: {
-        width: 2,
-      },
+      series: this.taskDistribution.series['this-week'], // ou conforme a lógica
+      states: { hover: { filter: { type: 'darken', value: 0.75 } } },
+      stroke: { width: 2 },
       theme: {
-        monochrome: {
-          enabled: true,
-          color: '#93C5FD',
-          shadeIntensity: 0.75,
-          shadeTo: 'dark',
-        },
+        monochrome: { enabled: true, color: '#93C5FD', shadeIntensity: 0.75, shadeTo: 'dark' },
       },
-      tooltip: {
-        followCursor: true,
-        theme: 'dark',
-      },
-      yaxis: {
-        labels: {
-          style: {
-            colors: '#64748b',
-          },
-        },
-      },
+      tooltip: { followCursor: true, theme: 'dark' },
+      yaxis: { labels: { style: { colors: '#64748b' } } },
     };
   }
 
-
-  ngOnInit(): void {
-
+  updateChartData(): void {
+    const selectedWeek = this.taskDistribution.series[this.taskDistributionWeekSelector.value] || [1, 2, 3, 6, 8];
+    this.chartTaskDistribution.series = selectedWeek;
   }
-
-
 }
