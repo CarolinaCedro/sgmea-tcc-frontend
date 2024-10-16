@@ -1,8 +1,9 @@
-import { Injectable, OnDestroy, signal } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import {Injectable, OnDestroy, signal} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
 import {MenuItem, SubMenuItem} from "../../../core/models/menu.model";
 import {Menu} from "../../../core/navigation/menu";
+import {AuthService} from "../../../core/auth/service/auth/auth.service";
 
 
 @Injectable({
@@ -13,14 +14,23 @@ export class MenuService implements OnDestroy {
   private _showMobileMenu = signal(false);
   private _pagesMenu = signal<MenuItem[]>([]);
   private _subscription = new Subscription();
+  private userRoles: string[] = [];
 
-  constructor(private router: Router) {
-    /** Set dynamic menu */
-    this._pagesMenu.set(Menu.pages);
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {
+    // Assinando as mudanças nas roles do usuário
+    const rolesSubscription = this.authService.userRoles$.subscribe((roles) => {
+      console.log("Atualizando roles:", roles);
+      // Atualiza o menu baseado nas roles do usuário
+      this._pagesMenu.set(this.filterMenuByRoles(Menu.pages, roles));
+    });
+    this._subscription.add(rolesSubscription);
 
-    let sub = this.router.events.subscribe((event) => {
+    // Acompanhando as mudanças na rota para expandir/contrair menus
+    const routeSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        /** Expand menu base on active route */
         this._pagesMenu().forEach((menu) => {
           let activeGroup = false;
           menu.items.forEach((subMenu) => {
@@ -36,15 +46,17 @@ export class MenuService implements OnDestroy {
         });
       }
     });
-    this._subscription.add(sub);
+    this._subscription.add(routeSubscription);
   }
 
   get showSideBar() {
     return this._showSidebar();
   }
+
   get showMobileMenu() {
     return this._showMobileMenu();
   }
+
   get pagesMenu() {
     return this._pagesMenu();
   }
@@ -52,6 +64,7 @@ export class MenuService implements OnDestroy {
   set showSideBar(value: boolean) {
     this._showSidebar.set(value);
   }
+
   set showMobileMenu(value: boolean) {
     this._showMobileMenu.set(value);
   }
@@ -83,6 +96,21 @@ export class MenuService implements OnDestroy {
       fragment: 'ignored',
       matrixParams: 'ignored',
     });
+  }
+
+
+  // Função para verificar acesso com base nas roles do usuário
+  private hasAccess(roles: string[], userRoles: string[]): boolean {
+    if (!roles) return true;  // Se não há roles, o acesso é permitido a todos
+    return roles.some(role => userRoles.includes(role));
+  }
+
+  // Filtra os itens de menu com base nas roles
+  private filterMenuByRoles(menuItems: MenuItem[], userRoles: string[]): MenuItem[] {
+    return menuItems.map(menuItem => ({
+      ...menuItem,
+      items: menuItem.items.filter(subMenu => this.hasAccess(subMenu.roles, userRoles)) // Filtra os submenus
+    }));
   }
 
   ngOnDestroy(): void {

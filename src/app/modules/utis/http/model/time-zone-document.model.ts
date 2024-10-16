@@ -19,3 +19,10 @@ export class TimeZoneDocument {
    */
   serverCreteTimeZone!: string;
 }
+
+export function instanceOfTimeZoneDocument(value: any): boolean {
+  return Object.prototype.hasOwnProperty.call(value, "currentTimeZone")
+    && Object.prototype.hasOwnProperty.call(value, "createTimeZone")
+    && Object.prototype.hasOwnProperty.call(value, "serverCurrentTimeZone")
+    && Object.prototype.hasOwnProperty.call(value, "serverCreteTimeZone")
+}

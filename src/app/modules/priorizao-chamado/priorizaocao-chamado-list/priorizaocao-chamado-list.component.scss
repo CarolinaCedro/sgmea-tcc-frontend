@@ -1,0 +1,45 @@
+
+.mat-chip-type-visita {
+  background: transparent;
+  border: solid 2px rgba(0, 0, 0, 0.6);
+  color: rgba(0, 0, 0, 0.6);
+  border-radius: 16px;
+  text-align: center;
+  font-weight: 500;
+  padding: 2px 10px;
+}
+
+.mat-button-toggle {
+  border: 1px solid rgb(148 163 184) !important;
+}
+
+
+.solicitado {
+  background: white;
+  border: 1px solid #7a7a7a;
+  color: #7a7a7a;
+}
+
+.aprovado {
+  background: white;
+  border: 1px solid #28a745;
+  color: #28a745;
+}
+
+.rejeitado {
+  background: white;
+  border: 1px solid #7f1d1d;
+  color: #7f1d1d;
+}
+
+.revisado {
+  background: white;
+  border: 1px solid #007bff;
+  color: #007bff;
+}
+
+.pendente {
+  background: white;
+  border: 1px solid #7a7a7a;
+  color: #7a7a7a;
+}

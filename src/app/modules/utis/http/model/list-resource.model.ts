@@ -1,10 +1,6 @@
-import { MetaData } from './metadata.model';
-
-
 export class ListResource<T> {
 
   records: Array<T>;
-  _metadata: MetaData;
 
   constructor() {
     this.records = new Array();
@@ -36,39 +32,11 @@ export class ListResource<T> {
       records = itens as Array<T>;
     } else {
       records = (itens as ListResource<T>).records;
-      this._metadata.add((itens as ListResource<T>)._metadata);
     }
     records.forEach(i => this.push(i));
     return this;
   }
 
-  public hasFirstPage(): boolean {
-    if (_isNullOrUndefined(this._metadata)) {
-      return false;
-    }
-    return this._metadata.hasFirstPage();
-  }
-
-  public hasPreviusPage(): boolean {
-    if (_isNullOrUndefined(this._metadata)) {
-      return false;
-    }
-    return this._metadata.hasPreviusPage();
-  }
-
-  public hasNextPage(): boolean {
-    if (_isNullOrUndefined(this._metadata)) {
-      return false;
-    }
-    return this._metadata.hasNextPage();
-  }
-
-  public hasLastPage(): boolean {
-    if (_isNullOrUndefined(this._metadata)) {
-      return false;
-    }
-    return this._metadata.hasLastPage();
-  }
 
   public getById(id: string): T {
     if (this.isEmpty()) {
@@ -78,12 +46,11 @@ export class ListResource<T> {
     }
   }
 
-  public isComplete(): boolean {
-    return this._metadata.totalRecords === this.records.length;
-  }
+
 }
 
 function _isNullOrUndefined(...value: any[]): boolean {
+  console.log("is null or undefined", value)
   if (value === null || value === undefined) return true;
   let result = true;
   for (let i = 0; i < value.length; i++) {

@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
-  selector: 'app-sgmea-no-data',
+  selector: 'sgmea-no-data',
   standalone: true,
-  imports: [],
+  imports: [
+    MatIconModule
+  ],
   templateUrl: './sgmea-no-data.component.html',
   styleUrl: './sgmea-no-data.component.scss'
 })

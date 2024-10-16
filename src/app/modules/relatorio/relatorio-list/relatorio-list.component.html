@@ -1,0 +1,60 @@
+<sgmea-list [listTitle]="'Relatórios'" [itensCount]="null"  [viewOnly]="true" class="w-full">
+  <relatorio-filter [autoEmitValuesChange]="false"
+    (valuesChanges)="loadingReport($event)"/>
+  <ng-container *ngIf="!reportIsLoaded() else viewPdf">
+    <sgmea-no-data/>
+  </ng-container>
+
+  <ng-template #viewPdf>
+
+    <div class="max-pdf-view-topbar p-3 mb-10">
+
+      <div class="flex w-full bg-red items-center justify-end	">
+
+        <div class="flex items-center ">
+          <div class="flex">
+            <button mat-icon-button matTooltip="Girar a esquerda" (click)="rotate(-90)">
+
+              <i class="fa-solid fa-rotate-left text-base text-black"></i>
+            </button>
+            <button mat-icon-button matTooltip="Girar a direita" (click)="rotate(+90)">
+              <i class="fa-solid fa-rotate-right text-base text-black"></i>
+            </button>
+          </div>
+
+          <div class="flex">
+            <button mat-icon-button matTooltip="Imprimir relatório" (click)="printReport()">
+              <i class="fa-solid fa-print text-base text-black"></i>
+            </button>
+            <button mat-icon-button matTooltip="Baixar relatório" (click)="downloadReport()">
+
+              <i class="fa-solid fa-download text-base text-black"></i>
+            </button>
+          </div>
+        </div>
+
+
+      </div>
+
+
+      <div class=" flex-col sm:flex-row w-full gap-0 sm:gap-5 max-pdf-view-pages">
+
+
+        <pdf-viewer [src]="localReport?.getLocalUrl()"
+                    [original-size]="originalSize"
+                    [(page)]="page"
+                    [rotation]="rotation"
+                    [zoom]="zoom"
+                    (after-load-complete)="afterLoadComplete($event)"
+        ></pdf-viewer>
+
+      </div>
+
+    </div>
+
+
+  </ng-template>
+
+
+</sgmea-list>
+

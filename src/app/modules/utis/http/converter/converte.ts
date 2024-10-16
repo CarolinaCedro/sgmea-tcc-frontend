@@ -1,17 +1,17 @@
-import { deserialize, plainToClass, TransformOptions } from 'class-transformer';
-import { Logg } from '../../logger/logger';
-import { ListResource } from '../model/list-resource.model';
-import { MetaData } from '../model/metadata.model';
+import {deserialize, plainToClass, TransformOptions} from 'class-transformer';
+import {Logg} from '../../logger/logger';
+import {ListResource} from '../model/list-resource.model';
+import {MetaData} from '../model/metadata.model';
 
 
 export abstract class ClassSerialize<T> {
-  public static readonly conf: TransformOptions = { toPlainOnly: true };
+  public static readonly conf: TransformOptions = {toPlainOnly: true};
 
   abstract serialize(value: T): string;
 }
 
 export abstract class ClassDeserialize<T> {
-  public static readonly conf: TransformOptions = { toClassOnly: true };
+  public static readonly conf: TransformOptions = {toClassOnly: true};
 
   abstract deserialize(value: string): T;
 }
@@ -58,29 +58,33 @@ export function deserializeArray(values, clazz: any, log?: Logg): Array<any> {
   return itens;
 }
 
-export function deserializeListResource(value: any, clazz: any, log?: Logg): ListResource<any> {
+class SrLogg {
+}
+
+export function deserializeListResource(value: any, clazz: any, log?: SrLogg): ListResource<any> {
   const list = new ListResource<any>();
 
   if (isNotNullOrUndefined(value)) {
     try {
       list.records = <Array<any>>plainToClass(clazz, value.records);
-      list._metadata = deserialize(MetaData, JSON.stringify(value._metadata));
+      // list._metadata = deserialize(MetaData, JSON.stringify(value._metadata));
       if (isNotNullOrUndefined(log)) {
-        log?.d('payload response', list);
+        console.log("payload response");
       }
     } catch (error) {
       const errorResult = {};
-      errorResult['error'] = error;
-      errorResult['clazz'] = clazz;
-      errorResult['payload'] = value;
+      errorResult["error"] = error;
+      errorResult["clazz"] = clazz;
+      errorResult["payload"] = value;
       if (isNotNullOrUndefined(log)) {
-        log?.e('error on deserialize ', errorResult);
+        console.log("error on deserialize ", errorResult)
       }
       throw errorResult;
     }
   }
   return list;
 }
+
 
 function isNotNullOrUndefined(...value: any[]): boolean {
   if (value === null || value === undefined) return false;

@@ -1,19 +1,32 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Directive, inject, OnDestroy, OnInit, Query } from '@angular/core';
-import { take, takeUntil, tap } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
-import { Model } from '../http/model/model';
-import { ListResource } from '../http/model/list-resource.model';
-import { QueryParam, QueryParamUtilsService } from './query-param/query-param-utils.service';
-import { ModelService } from '../http/services/model-service.interface';
-import { ErrorMessage } from '../http/model/exception/error-message.model';
-import { ListController } from '../models/list-controller.interface';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AfterViewInit, Directive, inject, Input, OnDestroy, OnInit, Query, ViewChild} from '@angular/core';
+import {take, takeUntil, tap} from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
+import {Model} from '../http/model/model';
+import {ListResource} from '../http/model/list-resource.model';
+import {QueryParam, QueryParamUtilsService} from './query-param/query-param-utils.service';
+import {ModelService} from '../http/services/model-service.interface';
+import {ErrorMessage} from '../http/model/exception/error-message.model';
+import {ListController} from '../models/list-controller.interface';
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmationDialogComponent} from "../../../shared/dialog/confirmation-dialog/confirmation-dialog.component";
+import {SrQuery} from "../http/criteria";
+import {MatPaginator} from "@angular/material/paginator";
 
 
 @Directive({
   standalone: true,
 })
 export abstract class AbstractListController<T extends Model> implements ListController<T>, OnInit, OnDestroy {
+
+  readonly dialog = inject(MatDialog);
+
+
+  totalItems = 0; // Variável para armazenar o número total de itens
+  itemsPorPagina = 8; // Número de itens exibidos por página
+  pageSizeOptions = [5, 10, 25, 100]; // Opções de tamanhos de página disponíveis
+  currentPage = 1; // Página atual
+
 
   values: ListResource<T>;
   protected readonly queryService: QueryParamUtilsService;
@@ -26,6 +39,8 @@ export abstract class AbstractListController<T extends Model> implements ListCon
   isLoandingMore: boolean = false;
   btnMoreData: boolean = true;
   isMore100: number = 100;
+
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
 
   protected constructor(protected service: ModelService<T>,
@@ -42,7 +57,10 @@ export abstract class AbstractListController<T extends Model> implements ListCon
   // Método Angular executado quando o componente é inicializado.
   // Inicializa a listagem de recursos e configura um observador para eventos de rolagem da tela.
   ngOnInit() {
-    // this.list();
+
+    this.list();
+
+
     // this.layoutService.onScrolledEvent
     //     .pipe(
     //         debounceTime(1000)
@@ -55,6 +73,8 @@ export abstract class AbstractListController<T extends Model> implements ListCon
 
 
   }
+
+
 
 
   //Retorna o nome da lista para identificação.
@@ -74,73 +94,80 @@ export abstract class AbstractListController<T extends Model> implements ListCon
 
   /* Lista os recursos, opcionalmente aceitando parâmetros de consulta.
   Inicializa a lista de recursos por meio do serviço fornecido. */
-  list(query?: Query | any): void {
+  list(query?: SrQuery | any): void {
     this.service
       .listFully(query)
       .subscribe(result => {
+        // console.log("vem result ?", result)
         if (result) {
-          console.log('result da list', result);
+          // console.log('result da list', result);
           this.values = result;
+          this.totalItems = result?.records?.length;
+        } else {
+          // console.error('Result list is undefined or null');
+          return null
         }
-        return null;
-        //console.log(this.values);
-      }, (err: ErrorMessage) => this.showErrors(err));
+
+      }, (err: ErrorMessage) => {
+        console.log("error", err)
+      });
+
   }
 
 
   /* Carrega a próxima página de recursos.
      Utiliza o serviço para obter a próxima página de recursos e atualiza a lista de recursos. */
-  protected loadNextPage(values: ListResource<T>): void {
-    this.service.listFully(values._metadata.nextPage())
-      .pipe(
-        take(1),
-        takeUntil(this.unsubscribes),
-        tap(records => {
-          console.log('esses recors', records);
-          this.isLoandingMore = false; // Definir como false após o carregamento variável spinner
-          this.btnMoreData = true;
-
-          if (records.records.length < 100) {
-            this.isLoandingMore = false;
-            this.btnMoreData = false;
-            console.log('tamanho', records.records.length);
-          }
-        }),
-      )
-      .subscribe(records => {
-        console.log('como vem esses recors no loadNextPage', records);
-        this.values.pushAll(records);
-        console.log('os valores que vem', records);
-        // this.LayouService.updateScroll();
-      });
-  }
+  // protected loadNextPage(values: ListResource<T>): void {
+  //   this.service.listFully(values._metadata.nextPage())
+  //     .pipe(
+  //       take(1),
+  //       takeUntil(this.unsubscribes),
+  //       tap(records => {
+  //         console.log('esses recors', records);
+  //         this.isLoandingMore = false; // Definir como false após o carregamento variável spinner
+  //         this.btnMoreData = true;
+  //
+  //         if (records.records.length < 100) {
+  //           this.isLoandingMore = false;
+  //           this.btnMoreData = false;
+  //           console.log('tamanho', records.records.length);
+  //         }
+  //       }),
+  //     )
+  //     .subscribe(records => {
+  //       console.log('como vem esses recors no loadNextPage', records);
+  //       this.values.pushAll(records);
+  //       console.log('os valores que vem', records);
+  //       // this.LayouService.updateScroll();
+  //     });
+  // }
 
 
   /*
   * Carrega a próxima página de recursos em uma nova implementação de paginação.
     Funciona de maneira semelhante a loadNextPage, mas com uma lógica específica para uma nova paginação
   * */
-  protected loadNextPageNewPagination(values: ListResource<T>): void {
-    this.service.listFully(values._metadata.nextPage())
-      .pipe(
-        take(1),
-        takeUntil(this.unsubscribes),
-        tap(records => {
-          this.isLoandingMore = false; // Definir como false após o carregamento variável spinner
-          this.btnMoreData = true;
-
-          if (records.records.length < 30) {
-            this.isLoandingMore = false;
-            this.btnMoreData = false;
-            console.log('tamanho', records.records.length);
-          }
-        }),
-      )
-      .subscribe(records => {
-        this.values.pushAll(records);
-        // this.LayouService.updateScroll();
-      });
-  }
+  // protected loadNextPageNewPagination(values: ListResource<T>): void {
+  //   this.service.listFully(values._metadata.nextPage())
+  //     .pipe(
+  //       take(1),
+  //       takeUntil(this.unsubscribes),
+  //       tap(records => {
+  //         this.isLoandingMore = false; // Definir como false após o carregamento variável spinner
+  //         this.btnMoreData = true;
+  //
+  //         if (records.records.length < 30) {
+  //           this.isLoandingMore = false;
+  //           this.btnMoreData = false;
+  //           console.log('tamanho', records.records.length);
+  //         }
+  //       }),
+  //     )
+  //     .subscribe(records => {
+  //       this.values.pushAll(records);
+  //       // this.LayouService.updateScroll();
+  //     });
+  // }
 
 
   /*
@@ -157,7 +184,7 @@ export abstract class AbstractListController<T extends Model> implements ListCon
     Utiliza o Angular Router para navegar para a rota de edição do recurso.
   * */
   edit(value: T): void {
-    this.router.navigate(['../' + value.id], { relativeTo: this.route });
+    this.router.navigate(['../' + value.id], {relativeTo: this.route});
   }
 
 
@@ -166,35 +193,40 @@ export abstract class AbstractListController<T extends Model> implements ListCon
     Exibe um diálogo de confirmação e, se confirmado, remove o recurso usando o serviço.
   * */
   remove(value: T): void {
+    console.log("clicando");
+    this.openDialog({
+      title: 'Confirmação',
+      content: 'Tem certeza que deseja remover este item?',
+      action: 'Confirmar',
+      closeLabel: 'Fechar',
+      data: value
+    });
+  }
 
-    console.log('o valor chegando', value);
-    this.openConfirmationDialog().subscribe(accept => {
-      if (accept) {
-        this.service.delete(value).subscribe(
+  openDialog(data: { title: string, content: string, action: string, closeLabel: string, data: T }): void {
+    console.log("entrou em open dialog")
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: data // Passando todos os dados, incluindo o item `data`
+    });
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("clicando fora")
+      if (result.action === "Confirmar") {
+        console.log("result dentro", result)
+        // Ação confirmada, extraindo o `value` dos dados do diálogo
+        this.service.delete(data?.data).subscribe(
           () => {
-            this.values.records = this.values?.records?.filter(it => it.id !== value.id);
-            // this._fuseAlertService.show({
-            //     message: "O item foi excluído com sucesso",
-            //     type: "success"
-            // })
+            this.values.records = this.values?.records?.filter(it => it.id !== data.data.id);
           },
           (err: ErrorMessage) => {
             console.log('erros', err);
-            this.showErrors(err?.message);
+            this.showErrors(err);
           },
         );
       }
     });
-  }
-
-
-  openConfirmationDialog(): Observable<boolean> {
-    return null;
-    // Open the dialog and save the reference of it
-    // const dialogRef = this._fuseConfirmationService.OpenDeleteAction();
-
-    // Return the afterClosed observable of the dialog reference
-    // return dialogRef.afterClosed();
   }
 
 
@@ -210,8 +242,8 @@ export abstract class AbstractListController<T extends Model> implements ListCon
  * Exibe mensagens de erro.
    Registra o erro no console e pode exibir um diálogo de mensagem de erro.
  * */
-  showErrors(error: any) {
-    console.log('error show error', error);
+  showErrors(error: ErrorMessage) {
+    console.log('error show error', error.message);
 
     // Exibe um diálogo de mensagem de erro
     // this._fuseConfirmationService.open({
@@ -256,15 +288,30 @@ export abstract class AbstractListController<T extends Model> implements ListCon
   }
 
 
-  loadMore() {
-    console.log('clicando');
-    this.btnMoreData = false;
-    this.isLoandingMore = true;
-    if (this.values.hasNextPage()) {
-      this.loadNextPage(this.values);
-      // this.eventInfinitScroll.currentScrollPosition = 0;
-    }
+  // loadMore() {
+  //   console.log('clicando');
+  //   this.btnMoreData = false;
+  //   this.isLoandingMore = true;
+  //   if (this.values.hasNextPage()) {
+  //     this.loadNextPage(this.values);
+  //     // this.eventInfinitScroll.currentScrollPosition = 0;
+  //   }
+  // }
+
+
+  getPaginatedList(): any[] {
+    // Retorna os usuários correspondentes à página atual
+    const startIndex = (this.currentPage - 1) * this.itemsPorPagina; // Índice de início da página
+    const endIndex = startIndex + this.itemsPorPagina; // Índice de fim da página
+    return this.values.records.slice(startIndex, endIndex); // Retorna uma fatia dos usuários com base nos índices
   }
+
+  onPageChange(event: any): void {
+    // Atualiza a página atual quando ocorre a mudança de página
+    this.currentPage = event.pageIndex + 1;
+    this.itemsPorPagina = event.pageSize;
+  }
+
 
 
 }

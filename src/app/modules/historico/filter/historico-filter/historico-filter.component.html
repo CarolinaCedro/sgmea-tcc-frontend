@@ -1,0 +1,22 @@
+<div class="w-full pt-2 pb-5">
+  <form [formGroup]="form">
+    <div class="flex flex-col sm:flex-row w-full gap-0 sm:gap-5 items-center">
+      <div class="relative w-full">
+        <input formControlName="titulo"
+               type="text"
+               id="nome"
+               class="peer block"
+               placeholder=" "/>
+        <label for="nome"
+               class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">
+          Titulo
+        </label>
+      </div>
+
+      <app-button full impact="bold" tone="primary" shape="rounded" size="medium">
+        <i class="pr-1 fa-solid fa-magnifying-glass"></i>
+        Buscar
+      </app-button>
+    </div>
+  </form>
+</div>

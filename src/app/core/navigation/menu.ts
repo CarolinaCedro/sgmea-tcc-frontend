@@ -1,4 +1,4 @@
-import { MenuItem } from '../models/menu.model';
+import {MenuItem} from '../models/menu.model';
 
 export class Menu {
   public static pages: MenuItem[] = [
@@ -7,29 +7,71 @@ export class Menu {
       separator: false,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/chart-pie.svg',
+          icon: 'fa-solid fa-chart-pie',
           label: 'Dashboard',
           route: '/home/dashboard',
+          roles: ['ROLE_ADMIN', 'ROLE_GESTOR', 'ROLE_FUNCIONARIO','ROLE_TECNICO'],
         },
         {
-          icon: 'assets/icons/heroicons/outline/lock-closed.svg',
+          icon: 'fa-solid fa-user-large',
+          label: 'Funcionário',
+          route: '/home/funcionario',
+          roles: ['ROLE_ADMIN', 'ROLE_GESTOR'],
+        },
+        {
+          icon: 'fa-solid fa-screwdriver-wrench',
           label: 'Técnico',
-          route: '/home/tecnicos',
+          route: '/home/tecnico',
+          roles: ['ROLE_ADMIN', 'ROLE_GESTOR'],
         },
         {
-          icon: 'assets/icons/heroicons/outline/moon.svg',
-          label: 'Gerente',
-          route: '/home/auth',
+          icon: 'fa-solid fa-user-tie',
+          label: 'Gestores',
+          route: '/home/gestor',
+          roles: ['ROLE_ADMIN', 'ROLE_GESTOR'],
+
         },
         {
-          icon: 'assets/icons/heroicons/outline/refresh.svg',
+          icon: 'fa-solid fa-clipboard',
           label: 'Chamados',
-          route: '/home/auth',
+          route: '/home/chamados',
+          roles: ['ROLE_ADMIN', 'ROLE_GESTOR', 'ROLE_FUNCIONARIO', 'ROLE_TECNICO'],
         },
         {
-          icon: 'assets/icons/heroicons/outline/lock-closed.svg',
+          icon: 'fa-solid fa-tachograph-digital',
+          label: 'Equipamentos',
+          route: '/home/equipamentos',
+          roles: ['ROLE_ADMIN', 'ROLE_GESTOR'],
+        },
+        {
+          icon: 'fa-solid fa-building-user',
+          label: 'Departamentos',
+          route: '/home/departamentos',
+          roles: ['ROLE_ADMIN', 'ROLE_GESTOR'],
+        },
+        {
+          icon: 'fa-solid fa-clipboard-check',
+          label: 'Priorização chamado',
+          route: '/home/priorizao-chamado',
+          roles: ['ROLE_ADMIN', 'ROLE_GESTOR'],
+        },
+        {
+          icon: 'fa-solid fa-circle-check',
+          label: 'Consolidação chamado',
+          route: '/home/consolidacao-chamado',
+          roles: ['ROLE_ADMIN', 'ROLE_GESTOR', 'ROLE_TECNICO'],
+        },
+        {
+          icon: 'fa-solid fa-clone',
+          label: 'Histórico',
+          route: '/home/historico',
+          roles: ['ROLE_ADMIN', 'ROLE_GESTOR', 'ROLE_FUNCIONARIO','ROLE_TECNICO'],
+        },
+        {
+          icon: 'fa-solid fa-note-sticky',
           label: 'Relatório',
-          route: '/home/auth',
+          route: '/home/relatorio',
+          roles: ['ROLE_ADMIN', 'ROLE_GESTOR', 'ROLE_FUNCIONARIO','ROLE_TECNICO'],
         },
 
       ],

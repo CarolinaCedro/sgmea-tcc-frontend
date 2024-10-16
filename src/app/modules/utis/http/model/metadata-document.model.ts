@@ -13,3 +13,9 @@ export class MetadataDocument {
 
   historic!: Historic;
 }
+export function instanceOfMetadataDocument(value: unknown): boolean {
+  return Object.prototype.hasOwnProperty.call(value, "domain")
+    && Object.prototype.hasOwnProperty.call(value, "timeZones")
+    && Object.prototype.hasOwnProperty.call(value, "versionDocument")
+    && Object.prototype.hasOwnProperty.call(value, "historic")
+}

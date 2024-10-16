@@ -1,1 +1,53 @@
-<p>funcionario-list works!</p>
+<sgmea-list [listTitle]="'Funcionarios'"
+            [itensCount]="values?.records?.length" class="w-full"
+>
+
+  <funcionario-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>
+
+  @if (values?.records && values.records.length > 0) {
+
+    <ng-template let-func let-last="last" ngFor [ngForOf]="getPaginatedList()">
+      <sgmea-container-list [icon]="'fa-solid fa-user-large'" [address]="func?.id">
+        <div
+          class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ func?.nome }}
+        </div>
+        <div menu-content>
+
+
+          <a mat-menu-item [routerLink]="[func.id]" [queryParams]="getCurrentQueryParams()">
+            <mat-icon>edit</mat-icon>
+            <span>Editar</span>
+          </a>
+
+
+          <a mat-menu-item [routerLink]="[func.id]" [queryParams]="getCurrentQueryParams()">
+            <mat-icon>visibility</mat-icon>
+            <span>Visualizar</span>
+          </a>
+
+          <button mat-menu-item
+
+                  (click)="remove(func)">
+            <mat-icon>delete</mat-icon>
+            <span>Remover</span>
+          </button>
+        </div>
+
+
+      </sgmea-container-list>
+
+    </ng-template>
+
+    <mat-paginator class="mt-10 bg-yellow"
+                   [length]="totalItems"
+                   [pageSize]="itemsPorPagina"
+                   [pageSizeOptions]="pageSizeOptions"
+                   (page)="onPageChange($event)"
+                   aria-label="Select page">
+    </mat-paginator>
+  } @else {
+    <sgmea-no-data/>
+  }
+
+
+</sgmea-list>

@@ -1,0 +1,70 @@
+.historico-container {
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+
+}
+
+.filter-section {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.mat-elevation-z8 {
+  margin-top: 20px;
+}
+
+.mat-header-cell {
+  font-weight: bold;
+}
+
+.aberto {
+  color: #007bff;
+}
+
+.fechado {
+  padding: .2rem .5rem;
+  border-radius: 5rem;
+  background-color: green; /* Vermelho para warn */
+  color: white;
+}
+
+
+/* styles.css ou styles do componente específico */
+
+.primary {
+  padding: .2rem .5rem;
+  border-radius: 5rem;
+  background-color: #007bff; /* Azul padrão para primary */
+  color: white;
+}
+
+.accent {
+  padding: .2rem .5rem;
+  border-radius: 5rem;
+  background-color: #65758b; /* Laranja para accent */
+  color: white;
+}
+
+.warn {
+  padding: .2rem .5rem;
+  border-radius: 5rem;
+  background-color: red; /* Vermelho para warn */
+  color: white;
+}
+
+/* Opcional: Se você deseja adicionar um estilo padrão para chips não categorizados */
+.default {
+  padding: .2rem .5rem;
+  border-radius: 5rem;
+  background-color: #e0e0e0; /* Cinza claro para padrão */
+  color: black;
+}

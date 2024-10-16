@@ -1,6 +1,7 @@
 import {SrCriterion} from "./sr-criterion";
 import {SrOperators} from "./sr-operators";
-import {isNotNullOrUndefined, isNullOrUndefined} from "../../utils/commons/sr-commons.model";
+import {isNotNullOrUndefined, isNullOrUndefined} from "../../utils";
+
 
 
 export class SrOr extends SrCriterion {

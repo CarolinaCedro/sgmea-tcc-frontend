@@ -1,15 +1,16 @@
-import { ClassTransformOptions, plainToClass, plainToClassFromExist, TransformOptions } from 'class-transformer';
-import { MetadataDocument } from './metadata-document.model';
-import { isArray, isEmpty, isEquals, isNotNullOrUndefined, isNullOrUndefined, isObject, isString } from '../../utils';
+import {ClassTransformOptions, plainToClass, plainToClassFromExist, TransformOptions} from 'class-transformer';
+import {MetadataDocument} from './metadata-document.model';
+import {isArray, isEmpty, isEquals, isNotNullOrUndefined, isNullOrUndefined, isObject, isString} from '../../utils';
 
 
 export interface Model {
   id: string;
-
   document: MetadataDocument;
 }
 
+
 export namespace Model {
+
 
   export function createNewModel<T extends Model>(type: { new(): T; }): T | null {
     return new type();
@@ -52,7 +53,7 @@ export namespace Model {
   }
 
   export function serializeOpts(): TransformOptions {
-    return { toPlainOnly: true };
+    return {toPlainOnly: true};
   }
 
   export function serialize(model: Model | Array<Model>): string | Array<string> | null {
@@ -67,59 +68,63 @@ export namespace Model {
   }
 
   export function deserializeOpts(): TransformOptions {
-    return { toClassOnly: true };
+    return {toClassOnly: true};
   }
 
-  export function deserialize(value: string | Array<string> | any, type: { new(): Model }): Model | Array<Model> | null {
-    // Se for algo null apenas retornamos
-    if (isNullOrUndefined(value)) return null;
+  export function deserialize(value: string | Array<string> | any, type: any): Model | Array<Model> | null {
+    //se for algo null apenas retornamos
+    // if (isNullOrUndefined(value)) return null;
+    //criando uma nova instancia
+    let model: Model | null = Model.createNewModel(type);
 
-    // Criando uma nova instância
-    let model = Model.createNewModel(type);
-
-    // É uma string?
+    //é uma string?
     if (isString(value)) {
-      // Está vazia?
+      //está vazia ?
       if (isEmpty(value)) {
-        // Apenas atribuimos null
+        //apenas atribuimos null
         model = null;
       } else {
-        // Apenas atribui o valor ao id
-        (model as Model).id = value;
+        //apenas atribui o valor apara o id
+        if (model) {
+          model.id = value;
+        }
       }
     } else if (isArray(value)) {
-      // Especificando o tipo de 'it' como 'any'
       return value.map((it: any) => deserialize(it, type));
     } else if (isObject(value)) {
-      // Se chegou aqui, quer dizer que é um objeto
-      // Realizando o databinding necessário
+      //se chegou aqui, quer dizer que é um objeto
+      //realizando o databinding necessário
       model = databinding(value as any, type) as Model;
     } else {
       model = value;
     }
-
     return model;
   }
 
 
-  // export function cloneObject(value: any, clazz?: any): object | null {
-  //   if (isNullOrUndefined(value)) {
-  //     return null;
-  //   }
-  //   if (isNotNullOrUndefined(clazz)) {
-  //     return databinding(null, value, clazz);
-  //   }
-  //   const clone = {};
-  //
-  //   Object.keys(value).forEach(key => {
-  //     if (isArray(value[key])) {
-  //       clone[key] = new Array(value[key]);
-  //     } else if (isObject(value[key])) {
-  //       clone[key] = cloneObject(value[key]);
-  //     } else {
-  //       clone[key] = value[key];
-  //     }
-  //   });
-  //   return clone;
-  // }
+  export function cloneObject(value: any, clazz?: any): object | null {
+    if (isNullOrUndefined(value)) {
+      return null;
+    }
+    if (isNotNullOrUndefined(clazz)) {
+      return databinding(null, value, clazz);
+    }
+    const clone: { [index: string]: any } = {};
+
+    if (value !== null) {
+      Object.keys(value).forEach((key: any) => {
+        if (isArray(value[key])) {
+          clone[key] = new Array(value[key]);
+        } else if (isObject(value[key])) {
+          clone[key] = cloneObject(value[key]);
+        } else {
+          clone[key] = value[key];
+        }
+      });
+      return clone;
+    }
+
+    return null
+
+  }
 }

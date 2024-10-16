@@ -1,17 +1,18 @@
-import { FormGroup } from '@angular/forms';
-import { Observable, of, Subject } from 'rxjs';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { AfterViewInit, Directive, EventEmitter, inject, OnDestroy, Output } from '@angular/core';
-import { debounceTime, finalize, map, mergeMap, take, takeUntil } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ModelService } from '../http/services/model-service.interface';
-import { Model } from '../http/model/model';
-import { Logg } from '../logger/logger';
-import { isEmpty, isNotNullOrUndefined, isNullOrUndefined } from '../utils';
-import { ErrorMessage } from '../http/model/exception/error-message.model';
-import { FormController } from '../models/form-controller.interface';
-import { FormDeactivateService } from './service/form-deactivate.service';
-import { QueryParamUtilsService } from './query-param/query-param-utils.service';
+import {FormGroup} from '@angular/forms';
+import {Observable, of, Subject} from 'rxjs';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {AfterViewInit, Directive, EventEmitter, inject, OnDestroy, Output} from '@angular/core';
+import {debounceTime, finalize, map, mergeMap, take, takeUntil} from 'rxjs/operators';
+import {MatSnackBar, MatSnackBarConfig} from '@angular/material/snack-bar';
+import {ModelService} from '../http/services/model-service.interface';
+import {Model} from '../http/model/model';
+import {Logg} from '../logger/logger';
+import {isEmpty, isNotNullOrUndefined, isNullOrUndefined} from '../utils';
+import {ErrorMessage} from '../http/model/exception/error-message.model';
+import {FormController} from '../models/form-controller.interface';
+import {FormDeactivateService} from './service/form-deactivate.service';
+import {QueryParamUtilsService} from './query-param/query-param-utils.service';
+import {SgmeaLoadingService} from "../../../shared/components/services/sgmea-loading.service";
 
 
 // const errorConfigCancel: FuseConfirmationConfig = {
@@ -64,11 +65,9 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
 
   mult: boolean = false;
 
-  protected snack: MatSnackBar;
+  public isUpdateData: boolean = false;
 
-
-  // TODO : Implementar o service de loanding
-  // protected loading: FuseLoadingService;
+  snack: MatSnackBar = inject(MatSnackBar);
 
 
   isFormActive: boolean = true;
@@ -93,10 +92,25 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
 
     if (!this.isFormActive) {
       this.form.disable();
-
     }
 
 
+  }
+
+
+  openSnackBar(message: string) {
+    const config: MatSnackBarConfig = {
+      duration: 2000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+    };
+
+    this.snack.open(message, "Fechar", config);
+  }
+
+
+  containsMetadata(): boolean {
+    return this.form.contains("metadata") ? isNotNullOrUndefined(this.form.get("metadata").get("domain")) : false;
   }
 
   /*
@@ -104,6 +118,8 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
     Configura um observador para as alterações no formulário e inicia o carregamento do recurso pelo ID.
   * */
   ngAfterViewInit(): void {
+
+    console.log("is form active ?", this.isFormActive)
 
     //ovindo alterações no formulário e fazendo databing
     this.form.valueChanges
@@ -135,7 +151,6 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
               if (this.clazz) {
                 this.value = createNew(this.clazz);
               }
-              // this.loading.hide()
               this.afterLoadId(this.value);
               this.valuesOnChange.emit(this.value);
             }),
@@ -144,17 +159,16 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
         beforeLoadId = beforeLoadId
           .pipe(
             mergeMap(() => this.service.findByIdFully(params['id'])
-              .pipe(
-                // finalize(() => this.loading.hide()
-                // )
-              ),
+              // .pipe(
+              //   finalize(() => this.loading.hide())
+              // ),
             ),
             map((result: T) => {
               this.value = result;
               this.afterLoadId(this.value);
               this.valuesOnChange.emit(this.value);
               console.log('valueeee', this.value);
-              this.form.patchValue(this.value, { emitEvent: true });
+              this.form.patchValue(this.value, {emitEvent: true});
             }),
           );
       }
@@ -200,7 +214,7 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
     Realiza operações de salvamento e atualização do recurso usando o serviço fornecido.
   * */
   save(value: T) {
-    console.log('caindo aqui', value);
+    console.log('SAVE', value);
     // this.loading.show();
     of(value)
       .pipe(
@@ -209,14 +223,15 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
           return value;
         }),
         mergeMap(value => {
+          // this.openSnackBar("Registro atualizado' com sucesso!")
           return (isEmpty(value.id)) ? this.service.save(value) : this.service.update(value);
         }),
         map(value => {
           this.afterSave(value);
           return value;
         }),
-        finalize(() => this.loading.hide(),
-        ),
+        // finalize(() => this.loading.hide())
+
       ).subscribe(() => {
       if (this.mult) {
         this.form.reset();
@@ -226,6 +241,7 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
         //     type: "warning"
         // })
       } else {
+        this.openSnackBar("Registro salvo com sucesso!")
         // this._fuseAlertService.show({
         //     message: "Registro salvo com sucesso!",
         //     type: "success"
@@ -249,52 +265,12 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
     Pode exibir um diálogo de confirmação antes de cancelar, se o método viewOnly() estiver disponível.
   * */
   cancel(): void {
-    console.log('pq não volta ?????');
-    // if ((this as FormController<T>).viewOnly) {
-    //     (this as FormController<T>).viewOnly().subscribe(value => {
-    //         if (!value) {
-    //             console.log("é viewOnly ???? entrou ")
-    //             // this._fuseConfirmationService.open(
-    //             //     {
-    //             //         title: "Cancelar",
-    //             //         message: "Deseja cancelar está ação ?",
-    //             //         icon: {
-    //             //             show: true,
-    //             //             name: "heroicons_solid:exclamation-triangle",
-    //             //             color: "warning"
-    //             //         },
-    //             //         actions: {
-    //             //             confirm: {
-    //             //                 show: true,
-    //             //                 label: 'Continuar editando',
-    //             //                 color: 'warn',
-    //             //             },
-    //             //
-    //             //             cancel: {
-    //             //                 show: true,
-    //             //                 label: "Cancelar"
-    //             //             }
-    //             //         },
-    //             //         dismissible: true
-    //             //
-    //             //     }
-    //             // ).afterClosed().subscribe(
-    //             //     accept => {
-    //             //         if (accept === "confirmed") {
-    //             //             console.log("fechar modal")
-    //             //         } else {
-    //             //             console.log("cancelado", accept)
-    //             //             this.returnList();
-    //             //
-    //             //         }
-    //             //     }
-    //             // )
-    //
-    //         }
-    //     });
-    // }
-    console.log('não é viewOnly ');
+    this.openSnackBar("Operação Cancelada!")
+    this.returnList()
+  }
 
+  viewOnly(): Observable<boolean> {
+    return of(false)
   }
 
 
@@ -331,11 +307,6 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
   }
 
 
-  showErrorsAlerts(error) {
-
-  }
-
-
   /*
   * Retorna uma instância do controlador de formulário atual.
   * */
@@ -369,7 +340,7 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
         keys.forEach(key => params[key] = this.route.snapshot.queryParamMap.get(key));
       }
       params[key] = value;
-      this.router.navigate([], { queryParams: params });
+      this.router.navigate([], {queryParams: params});
     }
   }
 

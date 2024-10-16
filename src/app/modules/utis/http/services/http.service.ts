@@ -34,11 +34,19 @@ export class Request {
   private _params!: HttpParams;
   private _log!: Logg;
   private _observer!: HttpObserve;
+  private _authToken?: string;
+
 
   constructor(private http: HttpClient) {
     // @ts-ignore
     this._headers = new HttpHeaders();
     this._params = new HttpParams();
+  }
+
+  public setAuthToken(token: string): Request {
+    this._authToken = token;
+    this._headers = this._headers.set('Authorization', `Bearer ${token}`);
+    return this;
   }
 
   public setHeader(key: string, value: string | string[]): Request {
@@ -178,6 +186,7 @@ export class Request {
     this.logURL('POST', this._url, body);
     return this.http
       // @ts-ignore
+
       .post(encodeURI(this._url), body, this.buildOptionsRequest('post'));
   }
 
@@ -208,8 +217,15 @@ export class Request {
     if (type === 'post' || type === 'put') {
       if (!this._headers.has('Content-Type')) {
         this.contentTypeJson();
+        this._headers = this._headers.set('ngrok-skip-browser-warning', "true");
+
+        this._headers = this._headers.set('Access-Control-Allow-Origin', '*');
       }
     }
+    if (this._authToken) {
+      this._headers = this._headers.set('Authorization', `Bearer ${this._authToken}`);
+    }
+
     return {
       headers: this._headers,
       params: this._params,

@@ -1,1 +1,51 @@
-<p>departamento-list works!</p>
+<sgmea-list [listTitle]="'Departamentos'" [itensCount]="values?.records?.length" class="w-full">
+
+  <departamentos-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>
+
+
+
+  @if (values?.records && values.records.length > 0) {
+
+    <ng-template let-departamento let-last="last" ngFor [ngForOf]="values?.records">
+      <sgmea-container-list [icon]="'fa-solid fa-building-user'" [address]="departamento?.id">
+        <div
+          class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ departamento?.nome }}
+        </div>
+        <div menu-content>
+
+
+          <a mat-menu-item [routerLink]="[departamento.id]" [queryParams]="getCurrentQueryParams()">
+            <mat-icon>edit</mat-icon>
+            <span>Editar</span>
+          </a>
+
+
+          <a mat-menu-item [routerLink]="[departamento.id]" [queryParams]="getCurrentQueryParams()" >
+            <mat-icon>visibility</mat-icon>
+            <span>Visualizar</span>
+          </a>
+
+          <button mat-menu-item
+
+                  (click)="remove(departamento)">
+            <mat-icon>delete</mat-icon>
+            <span>Remover</span>
+          </button>
+        </div>
+
+      </sgmea-container-list>
+    </ng-template>
+
+    <mat-paginator class="mt-10 bg-yellow"
+                   [length]="totalItems"
+                   [pageSize]="itemsPorPagina"
+                   [pageSizeOptions]="pageSizeOptions"
+                   (page)="onPageChange($event)"
+                   aria-label="Select page">
+    </mat-paginator>
+  } @else {
+    <sgmea-no-data/>
+  }
+
+
+</sgmea-list>

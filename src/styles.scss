@@ -4,6 +4,43 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+
+.bg {
+  display: flex;
+  margin-top: .5rem;
+  align-items: center;
+  width: 100%;
+  padding: 0 .5rem;
+  border-radius: .5rem;
+  background: white;
+}
+
+.disable{
+  color: #65758b;
+}
+
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: white !important;
+  border-radius: 5px !important;
+}
+
+mat-paginator {
+  background-color: transparent !important;
+}
+
+
+.text-red {
+  color: #EF4444;
+  text-shadow: 2px 2px 4px rgba(79, 76, 76, 0.5);
+}
+
+
+.text-color {
+  color: #65758b;
+}
+
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -59,6 +96,41 @@
     --primary: 350 100% 40%;
     --primary-foreground: 0 85.7% 97.3%;
   }
+
+
+  .tracking-tight {
+    letter-spacing: -0.025em !important;
+  }
+
+  .tracking-tighter {
+    letter-spacing: -0.05em !important;
+  }
+
+  .tracking-wider {
+    letter-spacing: 0.05em !important;
+  }
+
+
+  .bg-card {
+    --tw-bg-opacity: 1 !important;
+    background: white;
+    background-color: rgba(241, 245, 249, var(--tw-bg-opacity)) !important;
+  }
+
+  .bg-default {
+    --tw-bg-opacity: 1 !important;
+    background-color: rgba(241, 245, 249, var(--tw-bg-opacity)) !important;
+  }
+
+  .ring-bg-card {
+    --tw-ring-opacity: 1 !important;
+    --tw-ring-color: rgba(241, 245, 249, var(--tw-ring-opacity)) !important;
+  }
+
+  .bg-hover {
+    background-color: rgba(148, 163, 184, 0.12) !important;
+  }
+
 
   :root[data-theme='blue'] {
     --primary: 221.2 83.2% 53.3%;
@@ -164,5 +236,11 @@
 /** Plugins **/
 @import './assets/styles/apexchart.scss';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
