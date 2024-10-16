@@ -1,6 +1,6 @@
 [
   {
-    "origin": ["*"],
+    "origin": ["http://localhost:4200", "https://8bd1-2804-8aa4-f3bb-db00-f36d-2e8e-c10d-ff7d.ngrok-free.app"],
     "method": ["GET", "POST", "PUT", "DELETE"],
     "maxAgeSeconds": 3600
   }

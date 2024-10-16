@@ -186,6 +186,7 @@ export class Request {
     this.logURL('POST', this._url, body);
     return this.http
       // @ts-ignore
+
       .post(encodeURI(this._url), body, this.buildOptionsRequest('post'));
   }
 
@@ -216,6 +217,9 @@ export class Request {
     if (type === 'post' || type === 'put') {
       if (!this._headers.has('Content-Type')) {
         this.contentTypeJson();
+        this._headers = this._headers.set('ngrok-skip-browser-warning', "true");
+
+        this._headers = this._headers.set('Access-Control-Allow-Origin', '*');
       }
     }
     if (this._authToken) {

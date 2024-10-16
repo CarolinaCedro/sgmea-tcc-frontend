@@ -5,6 +5,7 @@ import {catchError, map} from "rxjs/operators";
 import {Router} from "@angular/router";
 import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
 import {Observable, throwError} from "rxjs";
+import {environment} from "../../../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class SignUpService {
 
   newUser(user: NewUser): Observable<any> {
     return this.http.createRequest()
-      .url("http://localhost:8083/api/sgmea/v1/auth/register")
+      .url(`${environment.apiUrl}/api/sgmea/v1/auth/register`)
       .post(user)
       .pipe(
         map(res => {

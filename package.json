@@ -4,12 +4,15 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "npm run clean && ng serve --host 0.0.0.0 --proxy-config proxy.config-server.js",
+    "start": "npm run clean && ng serve --host 0.0.0.0 --proxy-config proxy.config-server.js --configuration=development",
+    "start:prod": "npm run clean && ng serve --host 0.0.0.0 --proxy-config proxy.config-prod.js --configuration=production",
     "clean": "rm -rf package-lock.json .dist/ dist/",
     "updatepackage": "ncu && ncu -u",
     "reinstall": "rm -rf node_modules/ && npm run clean && npm install --force",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "build:prod": "ng build --configuration=production",
+    "build:dev": "ng build --configuration=development",
+    "watch": "ng build --watch --configuration=development",
     "test": "ng test",
     "serve:ssr:sgmea-tcc-frontend": "node dist/sgmea-tcc-frontend/server/server.mjs"
   },

@@ -10,6 +10,8 @@ import {LocalStorageService} from "../../../../modules/utis/localstorage/local-s
 import {User} from "../../../../model/user";
 import {UpdateUser} from "../../../../model/updateUser";
 import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
+import {HttpHeaders} from "@angular/common/http";
+import {environment} from "../../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root',
@@ -31,10 +33,37 @@ export class AuthService {
   ) {
   }
 
+  //login(user: UserLogin): Observable<any> {
+  //   const headers = new HttpHeaders().set('ngrok-skip-browser-warning', 'true'); // Definindo o cabeçalho correto
+  //
+  //   return this.http
+  //     .post('http://localhost:8083/api/sgmea/v1/auth/login', user, { headers }) // Passando os headers corretamente
+  //     .pipe(
+  //       map(res => {
+  //         if (res.token) {
+  //           this.localStorageService.setItem('token', res.token); // Armazenar o token
+  //           this.updateUserRoles(); // Atualizar as roles do usuário
+  //           console.log("vamos para home aqui");
+  //           this.router.navigate(['/home/dashboard']); // Redirecionar para a página inicial
+  //         }
+  //         return res;
+  //       }),
+  //       catchError(err => {
+  //         return throwError(err);
+  //       })
+  //     );
+  // }
+
+
   login(user: UserLogin): Observable<any> {
+
+    //headers : {
+    //   'ngrok-skip-browser-warning':true
+    // }
+
     return this.http
       .createRequest()
-      .url('http://localhost:8083/api/sgmea/v1/auth/login')
+      .url(`${environment.apiUrl}/api/sgmea/v1/auth/login`)
       .post(user)
       .pipe(
         map(res => {
@@ -52,11 +81,12 @@ export class AuthService {
       );
   }
 
+
   updateUser(user: UpdateUser): Observable<User> {
     return this.http
       .createRequest()
       .setAuthToken(this.localStorageService.getItem(this.TOKEN))
-      .url('http://localhost:8083/api/sgmea/v1/users/updateUser')
+      .url(`${environment.apiUrl}/api/sgmea/v1/users/updateUser`)
       .post(user)
       .pipe(
         map(res => {
@@ -74,7 +104,7 @@ export class AuthService {
     return this.http
       .createRequest()
       .setAuthToken(this.localStorageService.getItem(this.TOKEN))
-      .url('http://localhost:8083/api/sgmea/v1/auth/me')
+      .url(`${environment.apiUrl}/api/sgmea/v1/auth/me`)
       .get()
       .pipe(
         map(res => {
@@ -137,7 +167,7 @@ export class AuthService {
   resetPassword(resetPasswordRequest: { newPassword: string; token: string }): Observable<any> {
     return this.http
       .createRequest()
-      .url('http://localhost:8083/api/sgmea/v1/users/reset-password')
+      .url(`${environment.apiUrl}/api/sgmea/v1/users/reset-password`)
       .post(resetPasswordRequest)
       .pipe(
         map(res => {

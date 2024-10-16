@@ -90,7 +90,7 @@ export class MetaData {
     for (let i = 0; i < this.links.length; i++) {
       if (this.links[i].rel === rel) {
         return this.links[i].href;
-        /*return environment.production ?
+        /*return environment.ts.production ?
           this.links[i].href :
           this.links[i].href.substr(this.links[i].href.indexOf("/api/"))
           ;*/
