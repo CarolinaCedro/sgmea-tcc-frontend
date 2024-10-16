@@ -47,6 +47,7 @@ export class DashboardComponent implements OnInit {
       this.user = res;
     });
 
+    // Subscreve aos dados do dashboard
     this.service.getDashboardData().subscribe(res => {
       this.dashData = res;
       console.log("Result Dashboard", res);
