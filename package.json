@@ -9,7 +9,7 @@
     "clean": "rm -rf package-lock.json .dist/ dist/",
     "updatepackage": "ncu && ncu -u",
     "reinstall": "rm -rf node_modules/ && npm install --legacy-peer-deps",
-    "install": "npm install --force",
+    "install": "npm install --legacy-peer-deps",
     "build": "ng build",
     "build:prod": "ng build --configuration=production",
     "build:dev": "ng build --configuration=development",
