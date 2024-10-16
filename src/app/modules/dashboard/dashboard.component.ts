@@ -18,16 +18,14 @@ type TaskDistributionKey = 'this-week' | 'last-week';
 })
 export class DashboardComponent implements OnInit {
 
-
-  user: User
-  dashData: Dashboard
+  user: User;
+  dashData: Dashboard;
 
   taskDistribution = {
     overview: {
       'this-week': {
         new: 0,
         completed: 0,
-
       },
       'last-week': {
         new: 0,
@@ -36,8 +34,8 @@ export class DashboardComponent implements OnInit {
     },
     labels: ['', '', '', ''],
     series: {
-      'this-week': [1,2,3],
-      'last-week': [2,4,5],
+      'this-week': [1, 2, 3],
+      'last-week': [2, 4, 5],
     },
   };
 
@@ -48,23 +46,37 @@ export class DashboardComponent implements OnInit {
   chartTaskDistribution: ApexOptions;
   data: any;
 
-
   constructor(private authservice: AuthService, private service: DasboardService, router: Router, route: ActivatedRoute) {
+    // Subscreve ao usuário atual
     this.authservice.userCurrent.subscribe(res => {
-      this.user = res
-    })
+      this.user = res;
+    });
 
+    // Subscreve aos dados do dashboard
     this.service.getDashboardData().subscribe(res => {
-      this.dashData = res
-      console.log("result dashboard", res)
-    })
+      this.dashData = res;
+      console.log("result dashboard", res);
 
-    const selectedWeek = this.taskDistribution.series[this.taskDistributionWeekSelector.value] || [1, 2, 3, 6, 8];
+      // Atualiza os dados de distribuição de tarefas com os dados recebidos
+      this.taskDistribution.overview["this-week"].new = this.dashData?.chartData?.thisWeek?.new || 0;
+      this.taskDistribution.overview["this-week"].completed = this.dashData?.chartData?.thisWeek?.completed || 0;
+      this.taskDistribution.overview["last-week"].new = this.dashData?.chartData?.lastWeek?.new || 0;
+      this.taskDistribution.overview["last-week"].completed = this.dashData?.chartData?.lastWeek?.completed || 0;
 
+      // Atualiza o gráfico com base nos novos dados
+      const selectedWeek = this.taskDistribution.series[this.taskDistributionWeekSelector.value] || [1, 2, 3];
+      this.updateChart(selectedWeek);
+    });
 
-    this.taskDistribution.overview["this-week"].new = this.dashData?.chartData?.thisWeek?.new
-    this.taskDistribution.overview["completed"] = this.dashData?.chartData?.completed
+    // Inicializa o gráfico com valores padrão
+    const selectedWeek = this.taskDistribution.series[this.taskDistributionWeekSelector.value] || [1, 2, 3];
+    this.updateChart(selectedWeek);
+  }
 
+  ngOnInit(): void {}
+
+  // Função para atualizar o gráfico de distribuição de tarefas
+  private updateChart(seriesData: number[]) {
     this.chartTaskDistribution = {
       chart: {
         fontFamily: 'inherit',
@@ -78,7 +90,7 @@ export class DashboardComponent implements OnInit {
           enabled: false,
         },
       },
-      labels: [],
+      labels: this.taskDistribution.labels,
       legend: {
         position: 'bottom',
       },
@@ -92,7 +104,7 @@ export class DashboardComponent implements OnInit {
           },
         },
       },
-      series: selectedWeek,
+      series: seriesData, // Passa os dados atualizados
       states: {
         hover: {
           filter: {
@@ -125,11 +137,4 @@ export class DashboardComponent implements OnInit {
       },
     };
   }
-
-
-  ngOnInit(): void {
-
-  }
-
-
 }

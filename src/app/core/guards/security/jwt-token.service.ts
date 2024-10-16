@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
-import {Token} from "../model";
-import {LocalStorageService} from "../../../../modules/utils/local-storage/local-storage.service";
+import {LocalStorageService} from "../../../modules/utis/localstorage/local-storage.service";
+import {Token} from "../../auth/service/model/token";
+
 
 @Injectable({
   providedIn: "root"
@@ -13,15 +14,15 @@ export class JwtTokenService {
   }
 
   get token(): Token {
-    return new Token(this.storage.get(JwtTokenService.TOKEN_KEY));
+    return new Token(this.storage.getItem(JwtTokenService.TOKEN_KEY));
   }
 
   set token(value: Token) {
-    value ? this.storage.set(JwtTokenService.TOKEN_KEY, value.getToken()) : this.storage.remove(JwtTokenService.TOKEN_KEY);
+    value ? this.storage.setItem(JwtTokenService.TOKEN_KEY, value.getToken()) : this.storage.removeItem(JwtTokenService.TOKEN_KEY);
   }
 
   public containsToken(): boolean {
-    return this.storage.get(JwtTokenService.TOKEN_KEY) != null;
+    return this.storage.getItem(JwtTokenService.TOKEN_KEY) != null;
   }
 
 }

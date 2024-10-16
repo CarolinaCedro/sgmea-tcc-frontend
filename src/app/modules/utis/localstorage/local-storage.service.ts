@@ -5,26 +5,51 @@ import { Injectable } from '@angular/core';
 })
 export class LocalStorageService {
 
-  constructor() {
+  constructor() {}
+
+  // Método para verificar se estamos no ambiente de navegador
+  isLocalStorageAvailable(): boolean {
+    return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
   }
 
   setItem(key: string, value: string): void {
-    localStorage.setItem(key, value);
+    if (this.isLocalStorageAvailable()) {
+      localStorage.setItem(key, value);
+    } else {
+      console.warn('LocalStorage is not available.');
+    }
   }
 
   getItem(key: string): string | null {
-    return localStorage.getItem(key);
+    if (this.isLocalStorageAvailable()) {
+      return localStorage.getItem(key);
+    } else {
+      console.warn('LocalStorage is not available.');
+      return null;
+    }
   }
 
   clearLocalStorage(): void {
-    localStorage.clear();
+    if (this.isLocalStorageAvailable()) {
+      localStorage.clear();
+    } else {
+      console.warn('LocalStorage is not available.');
+    }
   }
 
   removeItem(key: string): void {
-    localStorage.removeItem(key);
+    if (this.isLocalStorageAvailable()) {
+      localStorage.removeItem(key);
+    } else {
+      console.warn('LocalStorage is not available.');
+    }
   }
 
   clear(): void {
-    localStorage.clear();
+    if (this.isLocalStorageAvailable()) {
+      localStorage.clear();
+    } else {
+      console.warn('LocalStorage is not available.');
+    }
   }
 }
