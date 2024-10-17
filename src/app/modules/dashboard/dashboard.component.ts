@@ -1,9 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { Platform } from '@angular/cdk/platform';
-import {ApexOptions, NgApexchartsModule} from 'ng-apexcharts';
 import { AuthService } from "../../core/auth/service/auth/auth.service";
-import {Dashboard} from "./model/dasboard.model";
-import {DasboardService} from "./service/dasboard.service";
+import { Dashboard } from "./model/dasboard.model";
+import { DasboardService } from "./service/dasboard.service";
+import { Component, Inject, OnInit } from "@angular/core";
+import { ApexOptions, NgApexchartsModule } from "ng-apexcharts";
+import { Platform } from "@angular/cdk/platform";
+import {NgIf} from "@angular/common";
 
 // Definir tipo de chave de semana
 type TaskDistributionKey = 'this-week' | 'last-week';
@@ -13,13 +14,14 @@ type TaskDistributionKey = 'this-week' | 'last-week';
   templateUrl: './dashboard.component.html',
   standalone: true,
   imports: [
-    NgApexchartsModule
+    NgApexchartsModule,
+    NgIf
   ],
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
   user: any;
-  dashData: Dashboard;
+  dashData: Dashboard = {} as Dashboard; // Inicializando para evitar undefined
   taskDistribution = {
     overview: {
       'this-week': { new: 0, completed: 0 },
@@ -44,12 +46,12 @@ export class DashboardComponent implements OnInit {
     }
 
     this.authservice.userCurrent.subscribe(res => {
-      this.user = res;
+      this.user = res ?? {}; // Garante que res tenha um valor válido
     });
 
     // Subscreve aos dados do dashboard
     this.service.getDashboardData().subscribe(res => {
-      this.dashData = res;
+      this.dashData = res ?? {} as Dashboard; // Garante que dashData não seja undefined
       console.log("Result Dashboard", res);
       if (this.platform.isBrowser) {
         this.updateChartData();
@@ -70,7 +72,7 @@ export class DashboardComponent implements OnInit {
         toolbar: { show: false },
         zoom: { enabled: false },
       },
-      labels: [],
+      labels: [""],
       legend: { position: 'bottom' },
       plotOptions: {
         polarArea: {
@@ -78,7 +80,7 @@ export class DashboardComponent implements OnInit {
           rings: { strokeColor: '#e2e8f0' },
         },
       },
-      series: this.taskDistribution.series['this-week'], // ou conforme a lógica
+      series: this.taskDistribution.series['this-week'] ?? [0], // Verifica se os dados da série existem
       states: { hover: { filter: { type: 'darken', value: 0.75 } } },
       stroke: { width: 2 },
       theme: {
@@ -90,7 +92,7 @@ export class DashboardComponent implements OnInit {
   }
 
   updateChartData(): void {
-    const selectedWeek = this.taskDistribution.series[this.taskDistributionWeekSelector.value] || [1, 2, 3, 6, 8];
+    const selectedWeek = this.taskDistribution.series[this.taskDistributionWeekSelector.value] ?? [0, 0, 0];
     this.chartTaskDistribution.series = selectedWeek;
   }
 }

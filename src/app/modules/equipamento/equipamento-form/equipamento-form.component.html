@@ -25,6 +25,7 @@
             <input formControlName="nome"
                    type="text"
                    id="nome"
+                   [ngClass]="{ 'is__invalid-input': submitted && f['nome'].errors }"
                    class="peer block"
                    placeholder=" "/>
             <label for="nome"
@@ -32,6 +33,11 @@
               Nome
             </label>
           </div>
+
+          <div *ngIf="submitted && f['nome'].errors" class="is__invalid-error">
+            <div *ngIf="f['nome'].errors?.['required']">Campo obrigatório</div>
+          </div>
+
         </div>
         <div class="form__group w-full">
           <div class="relative">
@@ -84,6 +90,7 @@
             <input formControlName="patrimonio"
                    type="text"
                    id="patrimonio"
+                   required
                    class="peer block disable"
                    placeholder=" "/>
             <label for="patrimonio"

@@ -27,9 +27,9 @@ export class SignUpComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private service: SignUpService) {
     this.form = this.formBuilder.group({
-      nome: [''],
-      email: [''],
-      cpf: [''],
+      nome: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      cpf: ['', [Validators.required]],
       perfil: [''],
       role: [''],
       senha: ['', [Validators.required]],
@@ -66,11 +66,11 @@ export class SignUpComponent implements OnInit {
         res => {
           console.log("criado", res)
         }, error => {
-          this.openSnackBar(error.message)
+          this.openSnackBar(error?.error?.message)
         }
       );
     } else {
-      console.log("Formulário inválido");
+      this.openSnackBar("Atenção: O formulário não pode conter campos nulos. Por favor, preencha todos os campos obrigatórios.");
     }
 
   }

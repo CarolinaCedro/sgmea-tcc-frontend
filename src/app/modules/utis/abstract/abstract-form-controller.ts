@@ -2,7 +2,7 @@ import {FormGroup} from '@angular/forms';
 import {Observable, of, Subject} from 'rxjs';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AfterViewInit, Directive, EventEmitter, inject, OnDestroy, Output} from '@angular/core';
-import {debounceTime, finalize, map, mergeMap, take, takeUntil} from 'rxjs/operators';
+import {debounceTime, map, mergeMap, take, takeUntil} from 'rxjs/operators';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material/snack-bar';
 import {ModelService} from '../http/services/model-service.interface';
 import {Model} from '../http/model/model';
@@ -12,7 +12,6 @@ import {ErrorMessage} from '../http/model/exception/error-message.model';
 import {FormController} from '../models/form-controller.interface';
 import {FormDeactivateService} from './service/form-deactivate.service';
 import {QueryParamUtilsService} from './query-param/query-param-utils.service';
-import {SgmeaLoadingService} from "../../../shared/components/services/sgmea-loading.service";
 
 
 // const errorConfigCancel: FuseConfirmationConfig = {
@@ -61,7 +60,13 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
 
   protected unsubscribes: Subject<void> = new Subject();
 
+  passwordTextType!: boolean;
+  hidePassword = true;
+
   form: FormGroup;
+
+  submitted = false;
+
 
   mult: boolean = false;
 
@@ -81,6 +86,7 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
   valuesOnChange: EventEmitter<T>;
 
   readonly log: Logg = Logg.of('AbstractFormController');
+  private disablePatrimonioIfEditing: boolean;
 
 
   constructor(protected clazz: any, form: FormGroup, service: ModelService<T>, protected router: Router, protected route: ActivatedRoute) {
@@ -95,6 +101,15 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
     }
 
 
+  }
+
+
+  get f() {
+    return this.form.controls;
+  }
+
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
   }
 
 
@@ -171,6 +186,7 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
               this.form.patchValue(this.value, {emitEvent: true});
             }),
           );
+
       }
 
       beforeLoadId.subscribe((result: T) => {

@@ -23,7 +23,7 @@
           <button mat-button (click)="formController.cancel()">Cancelar</button>
 
           <app-button full impact="bold" tone="primary"  shape="rounded" size="medium"
-                  [disabled]="!formController.form.valid" (click)="formController.save(formController.value)"
+                  [disabled]="formController.form.valid" (click)="formController.save(formController.value)"
           >
             Salvar
           </app-button>

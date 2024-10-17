@@ -5,6 +5,7 @@ import {ButtonComponent} from "../../../../shared/components/button/button.compo
 import {HttpClient} from "@angular/common/http";
 import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
 import {NgIf} from "@angular/common";
+import {environment} from "../../../../../environments/environment";
 
 
 @Component({
@@ -21,7 +22,6 @@ export class ForgotPasswordComponent implements OnInit {
   isLoading: boolean = false;
 
 
-
   constructor(private http: HttpClient, private router: Router, builder: FormBuilder) {
     this.form = builder.group({
       email: ['']
@@ -31,7 +31,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   recoveryPassword(email: string) {
     this.isLoading = true;
-    this.http.post<void>('http://localhost:8083/api/sgmea/v1/users/forgot-password', {email:email})
+    this.http.post<void>(`${environment.apiUrl}/api/sgmea/v1/users/forgot-password`, {email: email})
       .subscribe(
         () => {
           this.isLoading = false;
@@ -41,7 +41,7 @@ export class ForgotPasswordComponent implements OnInit {
         error => {
           this.isLoading = false;
           console.error("Erro ao enviar instruções de recuperação de senha", error);
-          this.openSnackBar('Erro ao enviar instruções de recuperação de senha. Verifique o email e tente novamente.');
+          this.openSnackBar(error?.error?.message);
         }
       );
   }

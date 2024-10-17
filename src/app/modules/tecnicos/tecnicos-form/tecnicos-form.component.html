@@ -22,6 +22,8 @@
               class="ml-2 text-sm text-muted-foreground">
               Disponibilidade
             </label>
+
+
           </div>
         </div>
       </div>
@@ -70,6 +72,8 @@
         <div class="form__group w-full">
           <div class="relative">
             <input formControlName="senha"
+                   [type]="hidePassword ? 'password' : 'text'"
+                   [ngClass]="{ 'is__invalid-input': submitted && f['senha'].errors }"
                    type="password"
                    id="senha"
                    class="peer block"
@@ -78,6 +82,12 @@
                    class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">
               Senha
             </label>
+            <button
+              type="button"
+              class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+              (click)="togglePasswordVisibility()">
+              <i class="fas" [ngClass]="{'fa-eye': hidePassword, 'fa-eye-slash': !hidePassword}"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -137,25 +147,25 @@
       <div class="flex flex-col sm:flex-row w-full gap-0 sm:gap-5 pb-5">
 
 
-<!--        <div class="form__group w-full">-->
-<!--          <div class="relative">-->
-<!--            <select-->
-<!--              id="perfil"-->
-<!--              class="peer block appearance-none"-->
-<!--              formControlName="perfil"-->
-<!--            >-->
-<!--              <option value="" disabled selected hidden></option>-->
-<!--              <option value="GESTOR">Gestor</option>-->
-<!--              <option value="FUNCIONARIO">Funcionário</option>-->
-<!--              <option value="TECNICO">Técnico</option>-->
-<!--            </select>-->
-<!--            <label-->
-<!--              for="perfil"-->
-<!--              class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">-->
-<!--              Perfil-->
-<!--            </label>-->
-<!--          </div>-->
-<!--        </div>-->
+        <!--        <div class="form__group w-full">-->
+        <!--          <div class="relative">-->
+        <!--            <select-->
+        <!--              id="perfil"-->
+        <!--              class="peer block appearance-none"-->
+        <!--              formControlName="perfil"-->
+        <!--            >-->
+        <!--              <option value="" disabled selected hidden></option>-->
+        <!--              <option value="GESTOR">Gestor</option>-->
+        <!--              <option value="FUNCIONARIO">Funcionário</option>-->
+        <!--              <option value="TECNICO">Técnico</option>-->
+        <!--            </select>-->
+        <!--            <label-->
+        <!--              for="perfil"-->
+        <!--              class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary">-->
+        <!--              Perfil-->
+        <!--            </label>-->
+        <!--          </div>-->
+        <!--        </div>-->
 
       </div>
 
