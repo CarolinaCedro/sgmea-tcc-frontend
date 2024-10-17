@@ -61,4 +61,20 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
+
+  <div class="sm:hidden"> <!-- Oculto no desktop -->
+    <div *ngFor="let chamado of chamados" class="p-4 border-b">
+      <div class="font-bold">{{ chamado?.titulo }}</div>
+      <div class="text-sm text-muted-foreground">
+        <span>Status: <small [ngClass]="getStatusColor(chamado?.status)">{{ chamado?.status }}</small></span>
+        <span class="block">Data Abertura: {{ chamado?.dataAbertura ? chamado?.dataAbertura : "Não informado" }}</span>
+        <span class="block">Responsável: {{ chamado?.funcionario?.nome }}</span>
+        <span class="block">Prioridade: <small
+          [ngClass]="getPriorityColor(chamado?.prioridade)">{{ chamado?.prioridade }}</small></span>
+        <button mat-button color="primary" (click)="verDetalhes(chamado)" class="mt-2">Ver Detalhes</button>
+      </div>
+    </div>
+
+  </div>
+
 </sgmea-list>

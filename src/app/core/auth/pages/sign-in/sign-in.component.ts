@@ -35,32 +35,34 @@ export class SignInComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this._formBuilder.group({
-      nome: ['', [Validators.required, Validators.email]],
+      nome: ['', [Validators.required]],
       senha: ['', Validators.required],
     });
   }
+
 
   get f() {
     return this.form.controls;
   }
 
-  togglePasswordTextType() {
-    this.passwordTextType = !this.passwordTextType;
-  }
-
-
   login(value: UserLogin) {
+    this.submitted = true;
+    if (this.form.invalid) {
+      return;
+    }
 
-    this.showLoanding = true
-    this.authService.login(value).subscribe((res) => {
-      console.log('conseguiu logar', res);
-      this.showLoanding = false
-    }, error => {
-      this.isNotUserValid = true;
-      this.form.enable()
-      this.showLoanding = false
-    });
-    console.log('acesso', value);
+    this.showLoanding = true;
+    this.authService.login(value).subscribe(
+      res => {
+        console.log('conseguiu logar', res);
+        this.showLoanding = false;
+      },
+      error => {
+        console.log("error", error?.error?.message)
+        this.isNotUserValid = true;
+        this.showLoanding = false;
+      }
+    );
   }
 
   togglePasswordVisibility(): void {
