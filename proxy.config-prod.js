@@ -1,7 +1,7 @@
 const PROXY_CONFIG = [
   {
     context: ["/api"],
-    target: "http://ec2-3-81-92-145.compute-1.amazonaws.com:8083", // Altere para o seu servidor de produção
+    target: "http://ec2-3-208-47-127.compute-1.amazonaws.com:8083", // Altere para o seu servidor de produção
     secure: false, // Defina como true se o servidor de produção usar HTTPS
     logLevel: "debug",
     changeOrigin: true,
