@@ -9,7 +9,7 @@ import {Equipamento} from "../../../model/equipamento";
 import {EquipamentoService} from "../service/equipamento.service";
 import {JsonPipe, NgForOf} from "@angular/common";
 import {
-    SgmeaContainerListComponent
+  SgmeaContainerListComponent
 } from "../../../shared/components/sgmea-container-list/sgmea-container-list.component";
 import {ChamadoFilterComponent} from "../../chamados/filter/chamado-filter/chamado-filter.component";
 import {EquipamentoFilter, EquipamentoFilterComponent} from "../filter/equipamento-filter/equipamento-filter.component";
@@ -19,24 +19,26 @@ import {TecnicoFilter} from "../../tecnicos/filter/tecnico-filter/tecnico-filter
 import {Subject} from "rxjs";
 import {TecnicoService} from "../../tecnicos/services/tecnico.service";
 import {finalize, takeUntil} from "rxjs/operators";
+import {MatTabsModule} from "@angular/material/tabs";
 
 @Component({
   selector: 'app-equipamento-list',
   standalone: true,
-    imports: [
-        SgmeaListComponent,
-        MatButtonModule,
-        MatIconModule,
-        MatMenuModule,
-        RouterLink,
-        NgForOf,
-        JsonPipe,
-        SgmeaContainerListComponent,
-        ChamadoFilterComponent,
-        EquipamentoFilterComponent,
-        SgmeaNoDataComponent,
-        MatPaginatorModule
-    ],
+  imports: [
+    SgmeaListComponent,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    RouterLink,
+    NgForOf,
+    JsonPipe,
+    SgmeaContainerListComponent,
+    ChamadoFilterComponent,
+    EquipamentoFilterComponent,
+    SgmeaNoDataComponent,
+    MatPaginatorModule,
+    MatTabsModule
+  ],
   templateUrl: './equipamento-list.component.html',
   styleUrl: './equipamento-list.component.scss'
 })
@@ -64,5 +66,10 @@ export class EquipamentoListComponent extends AbstractListController<Equipamento
       ).subscribe(result => {
       this.values = result;
     }, (err: Error) => console.log(err.message));
+  }
+
+  inativated(id: string) {
+    console.log('inativado', id)
+
   }
 }

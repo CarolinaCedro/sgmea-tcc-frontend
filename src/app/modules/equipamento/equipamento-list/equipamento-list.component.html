@@ -3,49 +3,62 @@
 
   <equipamento-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>
 
+  <mat-tab-group>
+    <mat-tab label="Equipamentos">
+      @if (values?.records && values.records.length > 0) {
+        <ng-template let-equipamento let-last="last" ngFor [ngForOf]="values?.records">
+          <sgmea-container-list [icon]="'fa-solid fa-tachograph-digital'" [address]="equipamento?.id">
+            <div
+              class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ equipamento?.nome }}
+            </div>
+            <div menu-content>
 
 
-  @if (values?.records && values.records.length > 0) {
-    <ng-template let-equipamento let-last="last" ngFor [ngForOf]="values?.records">
-      <sgmea-container-list [icon]="'fa-solid fa-tachograph-digital'" [address]="equipamento?.id">
-        <div
-          class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ equipamento?.nome }}
-        </div>
-        <div menu-content>
+              <a mat-menu-item [routerLink]="[equipamento.id]" [queryParams]="getCurrentQueryParams()">
+                <mat-icon>edit</mat-icon>
+                <span>Editar</span>
+              </a>
 
 
-          <a mat-menu-item [routerLink]="[equipamento.id]" [queryParams]="getCurrentQueryParams()">
-            <mat-icon>edit</mat-icon>
-            <span>Editar</span>
-          </a>
+              <a mat-menu-item [routerLink]="[equipamento.id]" [queryParams]="getCurrentQueryParams()">
+                <mat-icon>visibility</mat-icon>
+                <span>Visualizar</span>
+              </a>
+
+              <button mat-menu-item
+
+                      (click)="remove(equipamento)">
+                <mat-icon>delete</mat-icon>
+                <span>Remover</span>
+              </button>
 
 
-          <a mat-menu-item [routerLink]="[equipamento.id]" [queryParams]="getCurrentQueryParams()">
-            <mat-icon>visibility</mat-icon>
-            <span>Visualizar</span>
-          </a>
+              <button mat-menu-item
+                      (click)="inativated(equipamento?.id)">
+                <mat-icon>block</mat-icon>
+                <span>Inativar</span>
+              </button>
 
-          <button mat-menu-item
+            </div>
 
-                  (click)="remove(equipamento)">
-            <mat-icon>delete</mat-icon>
-            <span>Remover</span>
-          </button>
-        </div>
+          </sgmea-container-list>
+        </ng-template>
+        <mat-paginator class="mt-10 bg-yellow"
+                       [length]="totalItems"
+                       [pageSize]="itemsPorPagina"
+                       [pageSizeOptions]="pageSizeOptions"
+                       (page)="onPageChange($event)"
+                       aria-label="Select page">
+        </mat-paginator>
+      } @else {
+        <sgmea-no-data/>
+      }
+    </mat-tab>
 
-      </sgmea-container-list>
-    </ng-template>
-    <mat-paginator class="mt-10 bg-yellow"
-                   [length]="totalItems"
-                   [pageSize]="itemsPorPagina"
-                   [pageSizeOptions]="pageSizeOptions"
-                   (page)="onPageChange($event)"
-                   aria-label="Select page">
-    </mat-paginator>
-  } @else {
-    <sgmea-no-data/>
-  }
+    <mat-tab label="Controle de inativados">
 
+    </mat-tab>
+  </mat-tab-group>
 
 
 </sgmea-list>

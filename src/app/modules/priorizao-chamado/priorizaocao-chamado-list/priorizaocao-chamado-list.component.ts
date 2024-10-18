@@ -24,6 +24,7 @@ import {forkJoin, Subject} from "rxjs";
 import {finalize, takeUntil} from "rxjs/operators";
 import {PriorizacaoChamadoService} from "../service/priorizacao-chamado.service";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @Component({
   selector: 'app-priorizaocao-chamado-list',
@@ -42,7 +43,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     MatTabsModule,
     JsonPipe,
     NgClass,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatExpansionModule
   ],
   templateUrl: './priorizaocao-chamado-list.component.html',
   styleUrl: './priorizaocao-chamado-list.component.scss'

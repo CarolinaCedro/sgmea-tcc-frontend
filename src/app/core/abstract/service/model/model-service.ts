@@ -32,11 +32,4 @@ export interface ModelService<T> {
 
   count(pathVariable?: PathVariable): Observable<number>;
 
-  // list(query?: SrQuery | string, pathVariable?: PathVariable): Observable<ListResource<T>>;
-  //
-  // listFully(query?: SrQuery | string, pathVariable?: PathVariable): Observable<ListResource<T>>;
-  //
-  // listAll(query?: SrQuery | string, pathVariable?: PathVariable): Observable<ListResource<T>>;
-  //
-  // listAllFully(query?: SrQuery | string, pathVariable?: PathVariable): Observable<ListResource<T>>;
 }

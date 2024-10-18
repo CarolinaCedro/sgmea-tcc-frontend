@@ -11,13 +11,18 @@ import {isNotNullOrUndefined} from "../../utis/utils";
 import {ChamadoCriadoService} from "../../chamados/service/chamado-criado.service";
 import {TecnicoService} from "../../tecnicos/services/tecnico.service";
 import {GestorService} from "../../gestor/service/gestor.service";
+import {EquipamentoService} from "../../equipamento/service/equipamento.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChamadoAtribuidoService extends AbstractRestService<ChamadoAtribuido> {
 
-  constructor(http: HttpService, private chamadoCriadoService: ChamadoCriadoService, private tecnicoService: TecnicoService, private gestorService: GestorService) {
+  constructor(http: HttpService, private chamadoCriadoService: ChamadoCriadoService,
+              private tecnicoService: TecnicoService,
+              private gestorService: GestorService,
+              private equipamentoService: EquipamentoService
+  ) {
     super(ChamadoAtribuido, "api/sgmea/v1/chamado/chamados-atribuidos", http);
   }
 

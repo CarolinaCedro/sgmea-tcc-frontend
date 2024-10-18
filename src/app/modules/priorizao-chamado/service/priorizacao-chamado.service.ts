@@ -22,7 +22,8 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
 
   constructor(http: HttpService, private gestorService: GestorService, private chamadoCriadoService: ChamadoCriadoService,
               private funcionarioService: FuncionarioService,
-              private tecnicoService: TecnicoService
+              private tecnicoService: TecnicoService,
+              private equipamentoService: EquipamentoService
   ) {
     super(ChamadoCriado, "api/sgmea/v1/chamado", http)
   }
@@ -67,7 +68,7 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
   }
 
 
-  findByListOfChamadosAtribuidosFully(chamado: ChamadoAtribuido): Observable<ChamadoAtribuido> {
+  findByListOfChamadosAtribuidosFully(chamado?: ChamadoAtribuido): Observable<ChamadoAtribuido> {
     console.log("Chamado recebido:", chamado);
 
     // Verificar se os IDs estão corretos

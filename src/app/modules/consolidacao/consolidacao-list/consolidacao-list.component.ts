@@ -18,6 +18,9 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {AuthService} from "../../../core/auth/service/auth/auth.service";
 import {User} from "../../../model/user";
 import {Perfil} from "../../../model/enum/perfil";
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatButtonModule} from "@angular/material/button";
+import {ButtonComponent} from "../../../shared/components/button/button.component";
 
 @Component({
   selector: 'app-consolidacao-list',
@@ -32,7 +35,10 @@ import {Perfil} from "../../../model/enum/perfil";
     MatIconModule,
     JsonPipe,
     NgClass,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatExpansionModule,
+    MatButtonModule,
+    ButtonComponent
   ],
   templateUrl: './consolidacao-list.component.html',
   styleUrl: './consolidacao-list.component.scss'
@@ -53,60 +59,68 @@ export class ConsolidacaoListComponent extends AbstractListController<ChamadoAtr
 
   ngAfterViewInit() {
     this.getCurrentUser()
-    console.log('current user',this.currentUser)
-    this.getChamadosAtribuidos()
+    console.log('current user', this.currentUser)
+
+
+    setTimeout(() => {
+      this.getChamadosAtribuidos();
+    }, 30000);
+
   }
 
 
   getChamadosAtribuidos(): void {
 
-    // if (this.currentUser.perfil === "TECNICO") {
-    //   console.log('é tecnico')
-      // const idTec = this.currentUser.id;
-      //
-      // this.chamadoAtribuidoService.getChamadosAtribuidosByTec(idTec).subscribe((chamados: ListResource<ChamadoAtribuido>) => {
-      //   console.log("Chamados atribuídos by tecn recebidos:", chamados.records);
-      //
-      //   forkJoin(
-      //     chamados.records.map((chamado) =>
-      //       this.chamadoAtribuidoService.findByListOfChamadosAtribuidosFully(chamado)
-      //     )
-      //   ).subscribe((chamadosCompletos: ChamadoAtribuido[]) => {
-      //     console.log("Chamados completos:", chamadosCompletos);
-      //
-      //     // Atualiza o objeto `records` do `ListResource` com os chamados completos
-      //     chamados.records = chamadosCompletos;
-      //
-      //     // Agora o objeto `ListResource` atualizado está pronto para uso
-      //     this.chamadosAtribuidos = chamados;
-      //     console.log("ListResource atualizado com chamados completos:", chamados);
-      //   }, (error) => {
-      //     console.error("Erro ao carregar chamados completos:", error);
-      //   });
-      // });
+    if (this.currentUser?.perfil === "TECNICO") {
+      console.log('é tecnico')
+      const idTec = this.currentUser.id;
 
-    // }
+      this.chamadoAtribuidoService.getChamadosAtribuidosByTec(idTec).subscribe((chamados: ListResource<ChamadoAtribuido>) => {
+        console.log("Chamados atribuídos by tecn recebidos:", chamados.records);
 
-    this.chamadoAtribuidoService.getChamadosAtribuidos().subscribe((chamados: ListResource<ChamadoAtribuido>) => {
-      console.log("Chamados atribuídos recebidos:", chamados.records);
+        forkJoin(
+          chamados.records.map((chamado) =>
+            this.chamadoAtribuidoService.findByListOfChamadosAtribuidosFully(chamado)
+          )
+        ).subscribe((chamadosCompletos: ChamadoAtribuido[]) => {
+          console.log("Chamados completos:", chamadosCompletos);
 
-      forkJoin(
-        chamados.records.map((chamado) =>
-          this.chamadoAtribuidoService.findByListOfChamadosAtribuidosFully(chamado)
-        )
-      ).subscribe((chamadosCompletos: ChamadoAtribuido[]) => {
-        console.log("Chamados completos:", chamadosCompletos);
+          // Atualiza o objeto `records` do `ListResource` com os chamados completos
+          chamados.records = chamadosCompletos;
 
-        // Atualiza o objeto `records` do `ListResource` com os chamados completos
-        chamados.records = chamadosCompletos;
-
-        // Agora o objeto `ListResource` atualizado está pronto para uso
-        this.chamadosAtribuidos = chamados;
-        console.log("ListResource atualizado com chamados completos:", chamados);
-      }, (error) => {
-        console.error("Erro ao carregar chamados completos:", error);
+          // Agora o objeto `ListResource` atualizado está pronto para uso
+          this.chamadosAtribuidos = chamados;
+          console.log("ListResource atualizado com chamados completos:", chamados);
+        }, (error) => {
+          console.error("Erro ao carregar chamados completos:", error);
+        });
       });
-    });
+
+    } else {
+      console.log("é gestor")
+      this.chamadoAtribuidoService.getChamadosAtribuidos().subscribe((chamados: ListResource<ChamadoAtribuido>) => {
+        console.log("Chamados atribuídos recebidos:", chamados.records);
+
+        forkJoin(
+          chamados.records.map((chamado) =>
+            this.chamadoAtribuidoService.findByListOfChamadosAtribuidosFully(chamado)
+          )
+        ).subscribe((chamadosCompletos: ChamadoAtribuido[]) => {
+          console.log("Chamados completos:", chamadosCompletos);
+
+          // Atualiza o objeto `records` do `ListResource` com os chamados completos
+          chamados.records = chamadosCompletos;
+
+          // Agora o objeto `ListResource` atualizado está pronto para uso
+          this.chamadosAtribuidos = chamados;
+          console.log("ListResource atualizado com chamados completos:", chamados);
+        }, (error) => {
+          console.error("Erro ao carregar chamados completos:", error);
+        });
+      });
+    }
+
+
   }
 
 

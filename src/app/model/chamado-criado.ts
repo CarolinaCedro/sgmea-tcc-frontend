@@ -30,6 +30,7 @@ export class ChamadoCriado extends ModelImplModel {
   funcionario: Funcionario;
 
 
+
   constructor(id: string, dataAbertura: Date, dataFechamento: Date, status: string, alocado: boolean, equipamento: Equipamento, titulo: string, observacaoConsolidacao: string, observacoes: string, funcionario: Funcionario) {
     super();
     this.id = id;

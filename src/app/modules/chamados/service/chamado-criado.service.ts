@@ -52,7 +52,8 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
           const funcionario = result.records.filter(it => isNotNullOrUndefined(it.funcionario.id) && isNotNullOrUndefined(it.funcionario.id))
             .map(it => it.funcionario);
           return forkJoin([
-            this.funcionarioService.findByIds(result.records.map(it => it.funcionario), result)
+            this.funcionarioService.findByIds(result.records.map(it => it.funcionario), result),
+            this.equipamentoService.findByIds(result.records.map(it => it.equipamento), result),
           ]).pipe(
             map(() => result)
           );
@@ -105,7 +106,7 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
 
   }
 
-  listAdvancedByConcluidos(filter?: HistoricoFilter | string ): Observable<ListResource<ChamadoCriado>>  {
+  listAdvancedByConcluidos(filter?: HistoricoFilter | string): Observable<ListResource<ChamadoCriado>> {
     const request = this.http.createRequest()
       .usingLog(this.log);
     if (!isString(filter)) {
