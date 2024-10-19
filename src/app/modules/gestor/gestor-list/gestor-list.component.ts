@@ -18,23 +18,25 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {Subject} from "rxjs";
 import {TecnicoService} from "../../tecnicos/services/tecnico.service";
 import {finalize, takeUntil} from "rxjs/operators";
+import {CpfMaskPipe} from "../../../shared/pipes/cpf-mask.pipe";
 
 @Component({
   selector: 'app-gestor-list',
   standalone: true,
-    imports: [
-        MatButtonModule,
-        MatIconModule,
-        MatMenuModule,
-        NgForOf,
-        SgmeaListComponent,
-        RouterLink,
-        SgmeaContainerListComponent,
-        TecnicoFilterComponent,
-        GestorFilterComponent,
-        SgmeaNoDataComponent,
-        MatPaginatorModule
-    ],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    NgForOf,
+    SgmeaListComponent,
+    RouterLink,
+    SgmeaContainerListComponent,
+    TecnicoFilterComponent,
+    GestorFilterComponent,
+    SgmeaNoDataComponent,
+    MatPaginatorModule,
+    CpfMaskPipe
+  ],
   templateUrl: './gestor-list.component.html',
   styleUrl: './gestor-list.component.scss'
 })

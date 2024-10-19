@@ -1,7 +1,14 @@
-<!-- formulário de login -->
+<!-- Formulário de login -->
 <form class="my-10 space-y-6" [formGroup]="form">
+
+  <!-- Logo para mobile -->
+  <div class="flex justify-center mb-6 md:hidden">
+    <h1 class="text-3xl text-primary font-bold">S<b class="text-red-500">G</b>MEA</h1> <!-- Logo texto no mobile -->
+  </div>
+
+
   <div class="text-center">
-    <h2 class="mb-1 text-3xl font-semibold text-foreground">Bem-vindo de Volta <span class="text-primary">!</span></h2>
+    <h2 class="mb-1 text-2xl font-semibold text-foreground">Bem-vindo de Volta <span class="text-red-500">!</span></h2>
     <p class="text-sm text-muted-foreground">Insira suas credenciais para acessar sua conta.</p>
   </div>
 
@@ -11,9 +18,8 @@
         <input
           type="email"
           id="nome"
-          [ngClass]="{ 'is__invalid-input': submitted && f['nome'].errors }"
+          required
           class="peer block"
-          placeholder=" "
           formControlName="nome"
         />
         <label
@@ -22,18 +28,15 @@
           Endereço de e-mail
         </label>
       </div>
-      <div *ngIf="submitted && f['nome'].errors" class="is__invalid-error">
-        <div *ngIf="f['nome'].errors?.['required']">Campo obrigatório</div>
-        <div *ngIf="f['nome'].errors?.['email']">O e-mail deve ser um endereço válido</div>
-      </div>
+      <small class="text-red-500" *ngIf="submitted && f['nome'].errors?.['required']">O campo e-mail é obrigatório.</small>
     </div>
-
 
     <div class="form__group">
       <div class="relative">
         <input
           [type]="hidePassword ? 'password' : 'text'"
           id="senha"
+          required
           [ngClass]="{ 'is__invalid-input': submitted && f['senha'].errors }"
           class="peer block"
           placeholder=" "
@@ -51,14 +54,8 @@
           <i class="fas" [ngClass]="{'fa-eye': hidePassword, 'fa-eye-slash': !hidePassword}"></i>
         </button>
       </div>
+      <small class="text-red-500" *ngIf="submitted && f['senha'].errors?.['required']">O campo senha é obrigatório.</small>
     </div>
-
-
-    <div *ngIf="submitted && f['senha'].errors" class="is__invalid-error">
-      <div *ngIf="f['senha'].errors?.['required']">Campo obrigatório</div>
-    </div>
-
-
   </div>
 
   <div *ngIf="isNotUserValid" class="w-full flex justify-center">
@@ -67,10 +64,7 @@
     </small>
   </div>
 
-
   <div class="mb-2 flex items-center justify-between space-x-3">
-
-
     <app-button routerLink="/auth/forgot-password" impact="none" tone="primary" shape="rounded" size="small">
       Esqueceu sua senha?
     </app-button>
@@ -79,7 +73,7 @@
   <!-- Botão de Envio -->
   <div>
     <app-button full impact="bold" tone="primary" shape="rounded" (click)="login(form.value)" size="medium">
-      <span class="pr-2" >Entrar</span>
+      <span class="pr-2">Entrar</span>
       <mat-progress-spinner
         *ngIf="showLoanding"
         [diameter]="24"

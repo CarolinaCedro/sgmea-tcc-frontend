@@ -20,7 +20,8 @@
             "outputPath": "dist/sgmea-tcc-frontend",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "prerender": false, "ssr": false,
+            "prerender": false,
+            "ssr": false,
             "polyfills": [
               "zone.js"
             ],
@@ -31,7 +32,6 @@
                 "glob": "_redirects",
                 "input": "src",
                 "output": "/"
-
               }
             ],
             "styles": [
@@ -92,14 +92,15 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/assets",
+              "src/favicon.ico",
               {
-
                 "glob": "**/*",
-                "input": "public"
+                "input": "public",
+                "output": "/assets"
               }
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/azure-blue.css",
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": []

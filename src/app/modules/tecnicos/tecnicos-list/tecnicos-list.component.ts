@@ -18,6 +18,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {Subject} from "rxjs";
 import {FuncionarioService} from "../../funcionario/service/funcionario.service";
 import {finalize, takeUntil} from "rxjs/operators";
+import {NgxMaskPipe} from "ngx-mask";
 
 const tecnicos = [
   {id: '1', nome: 'Ana Carolina'},
@@ -36,20 +37,21 @@ const tecnicos = [
 @Component({
   selector: 'app-tecnicos-list',
   standalone: true,
-  imports: [
-    SgmeaListComponent,
-    RouterLink,
-    MatMenuModule,
-    NgForOf,
-    MatIconModule,
-    MatButtonModule,
-    JsonPipe,
-    SgmeaContainerListComponent,
-    FuncionarioFilterComponent,
-    TecnicoFilterComponent,
-    SgmeaNoDataComponent,
-    MatPaginatorModule,
-  ],
+    imports: [
+        SgmeaListComponent,
+        RouterLink,
+        MatMenuModule,
+        NgForOf,
+        MatIconModule,
+        MatButtonModule,
+        JsonPipe,
+        SgmeaContainerListComponent,
+        FuncionarioFilterComponent,
+        TecnicoFilterComponent,
+        SgmeaNoDataComponent,
+        MatPaginatorModule,
+        NgxMaskPipe,
+    ],
   templateUrl: './tecnicos-list.component.html',
   styleUrl: './tecnicos-list.component.scss',
 })

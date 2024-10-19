@@ -11,9 +11,25 @@
         <div
           class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ gestor?.nome }}
         </div>
+
+        <div class="text-gray-500">
+          <small>{{ gestor?.email }}</small>
+        </div>
+
+        <div class="text-gray-500">
+          <small>{{ gestor?.cpf | cpfMask }}</small>
+        </div>
+
+
+        <div mat-chip-situation>
+          <div class="bg-primary text-white px-2 py-1 rounded-full shadow-lg">
+            <div class="text-sm  text-white">
+              <small><b>{{ gestor?.areaGestao ? gestor?.areaGestao : "N/I" }}</b></small>
+            </div>
+          </div>
+        </div>
+
         <div menu-content>
-
-
           <a mat-menu-item [routerLink]="[gestor.id]" [queryParams]="getCurrentQueryParams()">
             <mat-icon>edit</mat-icon>
             <span>Editar</span>

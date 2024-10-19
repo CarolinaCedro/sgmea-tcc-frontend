@@ -1,8 +1,8 @@
 import {AfterViewInit, Component} from '@angular/core';
 import {SgmeaFormComponent} from '../../../shared/components/sgmea-form/sgmea-form.component';
 import {MatInputModule} from '@angular/material/input';
-import {NgForOf, NgIf} from '@angular/common';
-import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
+import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AbstractFormController} from "../../utis/abstract/abstract-form-controller";
 import {Tecnico} from "../../../model/tecnico";
 import {TecnicoService} from "../services/tecnico.service";
@@ -32,6 +32,7 @@ import {Perfil} from "../../../model/enum/perfil";
     NgForOf,
     GestorAutocompleteDirective,
     NgxMaskDirective,
+    NgClass,
   ],
   templateUrl: './tecnicos-form.component.html',
   styleUrl: './tecnicos-form.component.scss'

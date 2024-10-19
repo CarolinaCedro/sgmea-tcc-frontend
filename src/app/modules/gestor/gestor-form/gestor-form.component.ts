@@ -9,7 +9,7 @@ import {NgxMaskDirective} from "ngx-mask";
 import {take} from "rxjs/operators";
 import {isNullOrUndefined} from "../../utis/utils";
 import {of} from "rxjs";
-import {NgIf} from "@angular/common";
+import {NgClass, NgIf} from "@angular/common";
 import {Perfil} from "../../../model/enum/perfil";
 
 @Component({
@@ -19,7 +19,8 @@ import {Perfil} from "../../../model/enum/perfil";
     SgmeaFormComponent,
     ReactiveFormsModule,
     NgxMaskDirective,
-    NgIf
+    NgIf,
+    NgClass
   ],
   templateUrl: './gestor-form.component.html',
   styleUrls: ['./gestor-form.component.scss']

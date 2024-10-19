@@ -17,6 +17,9 @@ import {
 import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import {finalize, takeUntil} from "rxjs/operators";
+import {CpfMaskPipe} from "../../../shared/pipes/cpf-mask.pipe";
+import {NgxMaskPipe} from "ngx-mask";
+import {MatChipsModule} from "@angular/material/chips";
 
 @Component({
   selector: 'app-funcionario-list',
@@ -32,7 +35,10 @@ import {finalize, takeUntil} from "rxjs/operators";
     MatListModule,
     SgmeaContainerListComponent,
     SgmeaNoDataComponent,
-    MatPaginatorModule
+    MatPaginatorModule,
+    CpfMaskPipe,
+    NgxMaskPipe,
+    MatChipsModule
   ],
   templateUrl: './funcionario-list.component.html',
   styleUrl: './funcionario-list.component.scss'

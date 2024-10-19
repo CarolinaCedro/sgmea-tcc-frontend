@@ -11,9 +11,12 @@
         <div
           class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ departamento?.nome }}
         </div>
+
+        <div class="text-gray-500">
+          <small>{{departamento?.descricao}}</small>
+        </div>
+
         <div menu-content>
-
-
           <a mat-menu-item [routerLink]="[departamento.id]" [queryParams]="getCurrentQueryParams()">
             <mat-icon>edit</mat-icon>
             <span>Editar</span>

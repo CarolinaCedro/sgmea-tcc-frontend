@@ -1,9 +1,9 @@
-<div class="flex justify-center  w-full p-6 sm:p-10 text-left">
-  <div class="w-8/12 flex flex-col p-8 pb-4 bg-white rounded-2xl shadow overflow-hidden">
+<div class="flex justify-center w-full p-6 sm:p-10 text-left">
+  <div class="w-full md:w-8/12 flex flex-col p-8 pb-4 bg-white rounded-2xl shadow overflow-hidden">
     <!-- Main -->
     <div class="flex-auto items-center">
       <!-- Header -->
-      <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-3 px-2 md:px-0 border-b">
+      <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-3 px-2 md:px-0 border-b gap-y-4">
         <!-- Title -->
         <div>
           <div class="text-4xl font-extrabold tracking-tight leading-none flex justify-between">
@@ -18,13 +18,13 @@
         <ng-content/>
       </div>
       <mat-divider/>
-      <mat-card-actions>
-        <div class="p-2 flex justify-end flex-wrap">
-          <button mat-button (click)="formController.cancel()">Cancelar</button>
 
-          <app-button full impact="bold" tone="primary"  shape="rounded" size="medium"
-                  [disabled]="!formController.form.valid" (click)="formController.save(formController.value)"
-          >
+      <mat-card-actions>
+        <div class="p-2 flex flex-col sm:flex-row justify-between sm:justify-end flex-wrap gap-y-2 w-full">
+          <button mat-button class="w-full sm:w-auto sm:mr-2" (click)="formController.cancel()">Cancelar</button>
+
+          <app-button full impact="bold" tone="primary" shape="rounded" size="medium"
+                      [disabled]="formController.form.valid" (click)="formController.save(formController.value)">
             Salvar
           </app-button>
 
@@ -33,4 +33,3 @@
     </div>
   </div>
 </div>
-

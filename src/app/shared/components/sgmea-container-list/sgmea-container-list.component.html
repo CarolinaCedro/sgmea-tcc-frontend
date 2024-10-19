@@ -1,5 +1,5 @@
 <a class="z-20 flex items-center  py-2 cursor-pointer border-b">
-  <a class="flex justify-between w-full mr-4 sm:mr-8" [routerLink]="address">
+  <div class="flex justify-between w-full mr-4 sm:mr-8">
     <div class="flex items-center">
 
       <div class="flex flex-0 items-center justify-center w-10 h-10 rounded-full overflow-hidden">
@@ -8,7 +8,7 @@
           @if (img) {
             <img [src]="img" alt="img">
           } @else {
-            <i class="text-primary"  [class]="icon"></i>
+            <i class="text-primary" [class]="icon"></i>
 
 
           }
@@ -20,14 +20,14 @@
       </div>
     </div>
 
-  </a>
+  </div>
 
 
   <div class="flex items-center">
     <ng-content select="[mat-chip-situation]"></ng-content>
   </div>
 
-  <div class="flex items-center">
+  <div *ngIf="dontShowMatMenu" class="flex items-center">
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>
     </button>

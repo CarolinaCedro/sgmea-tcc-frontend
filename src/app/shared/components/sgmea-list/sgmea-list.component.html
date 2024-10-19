@@ -1,38 +1,32 @@
 <div class="list-container w-full">
+  <!-- Header da lista -->
   <div class="flex flex-col sm:flex-row md:flex-col justify-between py-4 px-4 md:px-4 border-b">
-    <div class="sm:flex-row items-start sm:items-center">
-      <div class="text-2xl md:text-4xl font-extrabold  tracking-tight leading-none">{{ listTitle }}</div>
-      <div class="ml-0.5 sm:ml-2 font-medium text-color text-secondary">
-        @if (itensCount > 0) {
-          <small>{{ itensCount }} {{ listTitle.toLocaleLowerCase() }}</small>
-
-        } @else {
-          <small> 0 {{ listTitle.toLocaleLowerCase() }}</small>
-        }
+    <div class="flex flex-col sm:flex-col items-start sm:items-start">
+      <div class="text-xl sm:text-2xl md:text-4xl font-extrabold tracking-tight leading-none">
+        {{ listTitle }}
       </div>
-
-      <div class="min-w-0 ml-4">
+      <div class="ml-0.5 sm:ml-2 font-medium text-color text-secondary">
+        <small>
+          {{ itensCount > 0 ? itensCount : 0 }} {{ listTitle.toLocaleLowerCase() }}
+        </small>
+      </div>
+      <div class="min-w-0 ml-0 sm:ml-4">
         <ng-content></ng-content>
       </div>
     </div>
 
-
-    <div class="flex items-center">
+    <!-- Botão de adicionar novo registro e chips -->
+    <div class="flex items-center mt-4 sm:mt-0">
       <ng-content select="[mat-chip-situation]"></ng-content>
+      <button *ngIf="!viewOnly" (click)="newRecordOnClick()"
+              class="ml-0 sm:ml-4 bg-primary mr-2 custom-button flex items-center justify-center h-12 w-12">
+        <i class="fa-solid fa-plus text-white text-xl"></i>
+      </button>
     </div>
-
-    <button *ngIf="!viewOnly" (click)="newRecordOnClick()"
-            class="mt-4 sm:mt-0 ml-0 sm:ml-4 bg-primary mr-2 custom-button flex items-center justify-center h-12 w-12">
-      <i class="fa-solid fa-plus text-white text-xl"></i>
-    </button>
-
-
   </div>
 
-  <div class="list-container w-full px-16 py-2 ">
+  <!-- Conteúdo da lista -->
+  <div class="list-container w-full px-4 sm:px-8 py-2">
     <ng-content/>
-
   </div>
-
-
 </div>

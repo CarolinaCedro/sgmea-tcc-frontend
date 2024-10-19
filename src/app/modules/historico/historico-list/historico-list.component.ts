@@ -4,7 +4,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
 import {MatTableModule} from "@angular/material/table";
-import {DatePipe, NgClass, NgForOf} from "@angular/common";
+import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {MatCardModule} from "@angular/material/card";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatIconModule} from "@angular/material/icon";
@@ -19,6 +19,7 @@ import {HistoricoFilter, HistoricoFilterComponent} from "../filter/historico-fil
 import {Subject} from "rxjs";
 import {finalize, takeUntil} from "rxjs/operators";
 import {ChamadoFilter} from "../../chamados/filter/chamado-filter/chamado-filter.component";
+import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
 
 
 export interface Chamado {
@@ -46,7 +47,9 @@ export interface Chamado {
     SgmeaListComponent,
     MatChipsModule,
     PriorizacaoFilterComponent,
-    HistoricoFilterComponent
+    HistoricoFilterComponent,
+    NgIf,
+    SgmeaNoDataComponent
   ],
   templateUrl: './historico-list.component.html',
   styleUrl: './historico-list.component.scss'

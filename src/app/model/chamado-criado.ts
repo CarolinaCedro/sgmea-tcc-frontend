@@ -20,6 +20,7 @@ export class ChamadoCriado extends ModelImplModel {
   @Transform(value => Model.deserialize(value, Equipamento), Model.deserializeOpts())
   @Type(() => Equipamento)
   equipamento: Equipamento;
+
   titulo: string;
   observacaoConsolidacao: string;
   observacoes: string;
@@ -28,6 +29,7 @@ export class ChamadoCriado extends ModelImplModel {
   @Transform(value => Model.deserialize(value, Funcionario), Model.deserializeOpts())
   @Type(() => Funcionario)
   funcionario: Funcionario;
+
 
 
   constructor(id: string, dataAbertura: Date, dataFechamento: Date, status: string, alocado: boolean, equipamento: Equipamento, titulo: string, observacaoConsolidacao: string, observacoes: string, funcionario: Funcionario) {

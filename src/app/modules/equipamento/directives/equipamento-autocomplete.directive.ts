@@ -28,13 +28,6 @@ export class EquipamentoAutocompleteDirective extends AbstractAutoCompleteDirect
 
   @Input("equipamentosAutocomplete")
   matAutoComplete: MatAutocomplete;
-  itemSelected: Equipamento;
-  @Output()
-  onItemSelectedEvent: EventEmitter<Equipamento> = new EventEmitter<Equipamento>();
-
-  @Output()
-  onItensFiltered: EventEmitter<Array<Equipamento> | ListResource<Equipamento>> = new EventEmitter<Array<Equipamento> | ListResource<Equipamento>>();
-
 
 
   constructor(elementRef: ElementRef, form: NgControl, trigger: MatAutocompleteTrigger, private service: EquipamentoService) {
@@ -44,11 +37,11 @@ export class EquipamentoAutocompleteDirective extends AbstractAutoCompleteDirect
 
   filter(term?: string): Observable<Array<Equipamento> | ListResource<Equipamento>> {
     //this.loandingService.showTopBar();
-    const q = $query($orderByAsc("descricao"), $limit(40));
+    const q = $query($orderByAsc("nome"), $limit(40));
     if (isNotNullOrUndefined(term)) {
       q.and(
         $or(
-          $contains("descricao", term)
+          $contains("nome", term)
         )
       );
     }
@@ -64,7 +57,7 @@ export class EquipamentoAutocompleteDirective extends AbstractAutoCompleteDirect
 
   display(equipamento: Equipamento): string {
     if (isNotNullOrUndefined(equipamento)) {
-      return isString(equipamento) ? null : equipamento.descricao;
+      return isString(equipamento) ? null : equipamento.nome;
     }
     return null;
   }

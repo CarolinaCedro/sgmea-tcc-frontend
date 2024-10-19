@@ -1,64 +1,86 @@
 <sgmea-list [listTitle]="'Histórico de Chamados'" [viewOnly]="true" [itensCount]="chamados?.length" class="w-full">
 
-  <historico-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>
+  <historico-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"></historico-filter>
 
-  <mat-table [dataSource]="chamados" class="mat-elevation-z8">
 
-    <!-- Título -->
-    <ng-container matColumnDef="titulo">
-      <mat-header-cell *matHeaderCellDef> Título</mat-header-cell>
-      <mat-cell *matCellDef="let chamado"> {{ chamado?.titulo }}</mat-cell>
-    </ng-container>
+  @if (chamados?.length > 0) {
+    <div class="hidden sm:block"> <!-- Oculto no mobile -->
+      <mat-table [dataSource]="chamados" class="mat-elevation-z8">
 
-    <!-- Status -->
-    <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef> Status</mat-header-cell>
-      <mat-cell *matCellDef="let chamado">
-        <small [ngClass]="getStatusColor(chamado?.status)">
-          {{ chamado.status }}
-        </small>
-      </mat-cell>
-    </ng-container>
+        <!-- Colunas da tabela -->
+        <ng-container matColumnDef="titulo">
+          <mat-header-cell *matHeaderCellDef> Título</mat-header-cell>
+          <mat-cell *matCellDef="let chamado"> {{ chamado?.titulo }}</mat-cell>
+        </ng-container>
 
-    <!-- Data de Abertura -->
-    <ng-container matColumnDef="dataAbertura">
-      <mat-header-cell *matHeaderCellDef> Data de Abertura</mat-header-cell>
-      <mat-cell *matCellDef="let chamado"> {{ chamado?.dataAbertura ? chamado?.dataAbertura : "Não informado" }}
-      </mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef> Status</mat-header-cell>
+          <mat-cell *matCellDef="let chamado">
+            <small [ngClass]="getStatusColor(chamado?.status)">
+              {{ chamado?.status }}
+            </small>
+          </mat-cell>
+        </ng-container>
 
-    <!-- Data de Fechamento -->
-    <ng-container matColumnDef="dataFechamento">
-      <mat-header-cell *matHeaderCellDef> Data de Fechamento</mat-header-cell>
-      <mat-cell *matCellDef="let chamado"> {{ chamado?.dataFechamento ? chamado?.dataFechamento : 'Não fechado' }}
-      </mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="dataAbertura">
+          <mat-header-cell *matHeaderCellDef> Data de Abertura</mat-header-cell>
+          <mat-cell *matCellDef="let chamado">
+            {{ chamado?.dataAbertura ? chamado?.dataAbertura : "Não informado" }}
+          </mat-cell>
+        </ng-container>
 
-    <!-- Responsável -->
-    <ng-container matColumnDef="responsavel">
-      <mat-header-cell *matHeaderCellDef> Responsável</mat-header-cell>
-      <mat-cell *matCellDef="let chamado"> {{ chamado?.funcionario?.nome }}</mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="dataFechamento">
+          <mat-header-cell *matHeaderCellDef> Data de Fechamento</mat-header-cell>
+          <mat-cell *matCellDef="let chamado">
+            {{ chamado?.dataFechamento ? chamado?.dataFechamento : 'Não fechado' }}
+          </mat-cell>
+        </ng-container>
 
-    <!-- Prioridade -->
-    <ng-container matColumnDef="prioridade">
-      <mat-header-cell *matHeaderCellDef> Prioridade</mat-header-cell>
-      <mat-cell *matCellDef="let chamado">
-        <small [ngClass]="getPriorityColor(chamado?.prioridade)">
-          {{ chamado?.prioridade }}
-        </small>
-      </mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="responsavel">
+          <mat-header-cell *matHeaderCellDef> Responsável</mat-header-cell>
+          <mat-cell *matCellDef="let chamado"> {{ chamado?.funcionario?.nome }}</mat-cell>
+        </ng-container>
 
-    <!-- Ações -->
-    <ng-container matColumnDef="acoes">
-      <mat-header-cell *matHeaderCellDef> Ações</mat-header-cell>
-      <mat-cell *matCellDef="let chamado">
-        <button mat-button color="primary" (click)="verDetalhes(chamado)">Ver Detalhes</button>
-      </mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="prioridade">
+          <mat-header-cell *matHeaderCellDef> Prioridade</mat-header-cell>
+          <mat-cell *matCellDef="let chamado">
+            <small [ngClass]="getPriorityColor(chamado?.prioridade)">
+              {{ chamado?.prioridade }}
+            </small>
+          </mat-cell>
+        </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
+        <ng-container matColumnDef="acoes">
+          <mat-header-cell *matHeaderCellDef> Ações</mat-header-cell>
+          <mat-cell *matCellDef="let chamado">
+            <button mat-button color="primary" (click)="verDetalhes(chamado)">Ver Detalhes</button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+
+    <!-- Lista para mobile -->
+    <div class="block sm:hidden"> <!-- Oculto no desktop -->
+      <div *ngFor="let chamado of chamados" class="p-4 border-b">
+        <div class="font-bold">{{ chamado?.titulo }}</div>
+        <div class="text-sm text-muted-foreground">
+          <span>Status: <small [ngClass]="getStatusColor(chamado?.status)">{{ chamado?.status }}</small></span>
+          <span
+            class="block">Data de Abertura: {{ chamado?.dataAbertura ? chamado?.dataAbertura : "Não informado" }}</span>
+          <span class="block">Responsável: {{ chamado?.funcionario?.nome }}</span>
+          <span class="block">Prioridade:
+            <small [ngClass]="getPriorityColor(chamado?.prioridade)">{{ chamado?.prioridade }}</small>
+          </span>
+          <button mat-button color="primary" (click)="verDetalhes(chamado)" class="mt-2">Ver Detalhes</button>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <sgmea-no-data/>
+  }
+
+
 </sgmea-list>

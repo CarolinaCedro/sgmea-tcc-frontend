@@ -11,9 +11,26 @@
         <div
           class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ func?.nome }}
         </div>
+
+
+        <div class="text-gray-500">
+          <small>{{ func?.email }}</small>
+        </div>
+
+        <div class="text-gray-500">
+          <small>{{ func?.cpf | mask: '000.000.000-00' }}</small>
+        </div>
+
+        <div mat-chip-situation>
+          <div class="bg-primary text-white px-4 py-1 rounded-full shadow-lg">
+            <div class=" text-white">
+              <small><b>{{ func?.funcao ? func?.funcao : "N/I" }}</b></small>
+            </div>
+          </div>
+
+        </div>
+
         <div menu-content>
-
-
           <a mat-menu-item [routerLink]="[func.id]" [queryParams]="getCurrentQueryParams()">
             <mat-icon>edit</mat-icon>
             <span>Editar</span>

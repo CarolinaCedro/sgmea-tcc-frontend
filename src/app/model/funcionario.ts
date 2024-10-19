@@ -15,10 +15,6 @@ export class Funcionario extends User {
   departamento?: Departamento;
 
   funcao?: string;
-  // @Transform(value => Model.serialize(value), Model.serializeOpts())
-  // @Transform(value => Model.deserialize(value, ChamadoCriado), Model.deserializeOpts())
-  // @Type(() => ChamadoCriado)
-  // chamadoCriados: ChamadoCriado[] = [];
 
 
   constructor(id: string, nome: string, cpf: string, email: string, gestor: Gestor, perfil: Perfil, senha: string, authorities: [], departamento: Departamento, funcao: string) {

@@ -7,40 +7,92 @@
   @if (chamadosAtribuidos?.records && chamadosAtribuidos?.records.length > 0) {
     <ng-template let-chamadoAtribuido let-last="last" ngFor [ngForOf]="chamadosAtribuidos?.records">
 
-      <sgmea-container-list [icon]="'fa-solid fa-clipboard-check'" [address]="chamadoAtribuido?.id">
-        <div
-          class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamadoAtribuido?.chamadoCriado?.titulo }}
-        </div>
+      <div class="m-3">
+        <mat-expansion-panel class="z-20 py-5  flex items-center py-2 border-b">
+          <mat-expansion-panel-header>
+            <div class="flex justify-between w-full mr-4 sm:mr-8">
+              <div class="flex items-center space-x-4">
+                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-600">
+                  <i class="text-lg fa-solid fa-circle-check"></i>
+                </div>
 
-        <div class="text-gray-500" mat-chip-situation>
-          <small class="mat-chip-type-visita flex items-center"
-                 [ngClass]="{
+                <div class="min-w-0 ml-4">
+                  <div class="text-base font-semibold text-gray-800 leading-6 truncate">
+                    {{ chamadoAtribuido?.chamadoCriado?.titulo }}
+                  </div>
+                  <div class="text-sm text-gray-500">
+                    Criado por <span class="font-medium">{{ chamadoAtribuido?.chamadoCriado?.funcionario?.nome }}</span>
+                    em <span>{{ chamadoAtribuido?.chamadoCriado?.dataAbertura }}</span>
+                  </div>
+                  <div class="text-sm text-gray-500 mt-1">
+                    Status: <span class="font-medium text-green-600">{{ chamadoAtribuido?.chamadoCriado?.status }}</span>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- Menu -->
+              <div class="flex items-center">
+                <div class="px-4 py-2">
+                  <div class="text-gray-500" mat-chip-situation>
+                    <small class="mat-chip-type-visita flex items-center"
+                           [ngClass]="{
                                     'baixa': chamadoAtribuido?.prioridade === 'BAIXA',
                                     'alta': chamadoAtribuido?.prioridade  === 'ALTA',
                                     'media': chamadoAtribuido?.prioridade  === 'MEDIA',
                                     'null': chamadoAtribuido?.prioridade  === null,
                                      }">
 
-            {{ chamadoAtribuido?.prioridade ? chamadoAtribuido?.prioridade : "Erro" }}
-          </small>
-        </div>
+                      {{ chamadoAtribuido?.prioridade ? chamadoAtribuido?.prioridade : "Erro" }}
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel-header>
+          <div class="p-4 mt-5 bg-gray-50 rounded-lg">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="space-y-2">
+                <div class="text-sm">
+                  <strong>Equipamento:</strong> {{ chamadoAtribuido?.chamadoCriado?.equipamento?.nome }}
+                </div>
+                <div class="text-sm">
+                  <strong>Observações:</strong> {{ chamadoAtribuido?.chamadoCriado?.observacoes }}
+                </div>
+                <div class="text-sm">
+                  <strong>Data de Abertura:</strong> {{ chamadoAtribuido?.chamadoCriado?.dataAbertura }}
+                </div>
+              </div>
 
-        <div menu-content>
+              <div class="space-y-2">
+                <div class="text-sm">
+                  <strong>Técnico Responsável:</strong> {{ chamadoAtribuido?.tecnico?.nome }}
+                  ({{ chamadoAtribuido?.tecnico?.perfil }})
+                </div>
+                <div class="text-sm">
+                  <strong>Gestor:</strong> {{ chamadoAtribuido?.gestor?.nome }} ({{ chamadoAtribuido?.gestor?.perfil }})
+                </div>
+              </div>
+            </div>
 
-          <a mat-menu-item [routerLink]="[chamadoAtribuido.id]" [queryParams]="getCurrentQueryParams()">
-            <mat-icon>visibility</mat-icon>
-            <span>Consolidar</span>
-          </a>
 
-          <button mat-menu-item
+            <div class="mt-6 flex justify-end">
+              <app-button
+                [routerLink]="[chamadoAtribuido.id]"
+                [queryParams]="getCurrentQueryParams()"
+                full impact="bold" tone="primary" shape="rounded" size="medium">
+                Consolidar chamado
+              </app-button>
+              <button>
+              </button>
+            </div>
 
-                  (click)="remove(chamadoAtribuido)">
-            <mat-icon>delete</mat-icon>
-            <span>Remover</span>
-          </button>
-        </div>
+          </div>
 
-      </sgmea-container-list>
+        </mat-expansion-panel>
+      </div>
+
+
     </ng-template>
     <mat-paginator class="mt-10 bg-yellow"
                    [length]="totalItems"

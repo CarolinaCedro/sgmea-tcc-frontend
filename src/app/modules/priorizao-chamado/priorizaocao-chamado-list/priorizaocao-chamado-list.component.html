@@ -9,7 +9,19 @@
         <ng-template let-chamado let-last="last" ngFor [ngForOf]="values?.records">
 
           <sgmea-container-list [icon]="'fa-solid fa-clipboard-check'" [address]="chamado?.id">
-            <div class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamado?.titulo }}
+            <div class="  sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamado?.titulo }}
+            </div>
+
+            <div class=" text-gray-500">
+              <small>{{ chamado?.equipamento?.nome }}</small>
+            </div>
+
+            <div mat-chip-situation>
+              <div class="bg-green-700 text-white px-2 py-1 rounded-full shadow-lg">
+                <div class="  text-white">
+                  <small><b>{{ chamado?.status ? chamado?.status : "N/I" }}</b></small>
+                </div>
+              </div>
             </div>
 
 
@@ -55,10 +67,28 @@
 
           <sgmea-container-list [icon]="'fa-solid fa-clipboard-check'" [address]="chamadoAtribuido?.id">
             <div
-              class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamadoAtribuido?.chamadoCriado?.titulo }}
+              class="  sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamadoAtribuido?.chamadoCriado?.titulo }}
             </div>
-            <div menu-content>
 
+            <div class=" text-gray-500">
+              <small>{{ chamadoAtribuido?.chamadoCriado?.dataAbertura }}</small>
+            </div>
+
+            <div class=" text-gray-500">
+              <small>{{ chamadoAtribuido?.chamadoCriado?.titulo }}</small>
+            </div>
+
+            <div mat-chip-situation>
+              <div class="w-full bg-purple-500 text-white px-2 py-1 rounded-full shadow-lg overflow-hidden">
+                <div class=" text-white truncate">
+                  <small><b>{{ chamadoAtribuido?.tecnico?.nome ? chamadoAtribuido?.tecnico?.nome : "N/I" }}</b></small>
+                </div>
+              </div>
+
+            </div>
+
+
+            <div menu-content>
               <a mat-menu-item [routerLink]="[chamadoAtribuido.id]" [queryParams]="getCurrentQueryParams()">
                 <mat-icon>visibility</mat-icon>
                 <span>Visualizar</span>
