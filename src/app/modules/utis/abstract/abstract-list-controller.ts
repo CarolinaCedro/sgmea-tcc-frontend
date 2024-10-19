@@ -12,6 +12,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationDialogComponent} from "../../../shared/dialog/confirmation-dialog/confirmation-dialog.component";
 import {SrQuery} from "../http/criteria";
 import {MatPaginator} from "@angular/material/paginator";
+import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
 
 
 @Directive({
@@ -32,6 +33,8 @@ export abstract class AbstractListController<T extends Model> implements ListCon
   protected readonly queryService: QueryParamUtilsService;
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
+  private _snackBar = inject(MatSnackBar);
+
 
 
   protected unsubscribes: Subject<void> = new Subject();
@@ -59,19 +62,6 @@ export abstract class AbstractListController<T extends Model> implements ListCon
   ngOnInit() {
 
     this.list();
-
-
-    // this.layoutService.onScrolledEvent
-    //     .pipe(
-    //         debounceTime(1000)
-    //     ).subscribe(event => {
-    //     if (this.values.hasNextPage()) {
-    //         console.log("chega aqui ?")
-    //         this.loadNextPage(this.values);
-    //     }
-    // });
-
-
   }
 
 
@@ -115,59 +105,7 @@ export abstract class AbstractListController<T extends Model> implements ListCon
   }
 
 
-  /* Carrega a próxima página de recursos.
-     Utiliza o serviço para obter a próxima página de recursos e atualiza a lista de recursos. */
-  // protected loadNextPage(values: ListResource<T>): void {
-  //   this.service.listFully(values._metadata.nextPage())
-  //     .pipe(
-  //       take(1),
-  //       takeUntil(this.unsubscribes),
-  //       tap(records => {
-  //         console.log('esses recors', records);
-  //         this.isLoandingMore = false; // Definir como false após o carregamento variável spinner
-  //         this.btnMoreData = true;
-  //
-  //         if (records.records.length < 100) {
-  //           this.isLoandingMore = false;
-  //           this.btnMoreData = false;
-  //           console.log('tamanho', records.records.length);
-  //         }
-  //       }),
-  //     )
-  //     .subscribe(records => {
-  //       console.log('como vem esses recors no loadNextPage', records);
-  //       this.values.pushAll(records);
-  //       console.log('os valores que vem', records);
-  //       // this.LayouService.updateScroll();
-  //     });
-  // }
 
-
-  /*
-  * Carrega a próxima página de recursos em uma nova implementação de paginação.
-    Funciona de maneira semelhante a loadNextPage, mas com uma lógica específica para uma nova paginação
-  * */
-  // protected loadNextPageNewPagination(values: ListResource<T>): void {
-  //   this.service.listFully(values._metadata.nextPage())
-  //     .pipe(
-  //       take(1),
-  //       takeUntil(this.unsubscribes),
-  //       tap(records => {
-  //         this.isLoandingMore = false; // Definir como false após o carregamento variável spinner
-  //         this.btnMoreData = true;
-  //
-  //         if (records.records.length < 30) {
-  //           this.isLoandingMore = false;
-  //           this.btnMoreData = false;
-  //           console.log('tamanho', records.records.length);
-  //         }
-  //       }),
-  //     )
-  //     .subscribe(records => {
-  //       this.values.pushAll(records);
-  //       // this.LayouService.updateScroll();
-  //     });
-  // }
 
 
   /*
@@ -244,29 +182,6 @@ export abstract class AbstractListController<T extends Model> implements ListCon
  * */
   showErrors(error: ErrorMessage) {
     console.log('error show error', error.message);
-
-    // Exibe um diálogo de mensagem de erro
-    // this._fuseConfirmationService.open({
-    //     title: "Erro",
-    //     message: error.message,
-    //     icon: {
-    //         show: true,
-    //         name: "cancel",
-    //         color: "warning"
-    //     },
-    //     actions: {
-    //         confirm: {
-    //             show: true,
-    //             label: "Fechar",
-    //             color: "warn"
-    //         },
-    //         cancel: {
-    //             show: false,
-    //             label: "Fechar"
-    //         }
-    //     },
-    //     dismissible: true
-    // });
   }
 
 
@@ -288,17 +203,6 @@ export abstract class AbstractListController<T extends Model> implements ListCon
   }
 
 
-  // loadMore() {
-  //   console.log('clicando');
-  //   this.btnMoreData = false;
-  //   this.isLoandingMore = true;
-  //   if (this.values.hasNextPage()) {
-  //     this.loadNextPage(this.values);
-  //     // this.eventInfinitScroll.currentScrollPosition = 0;
-  //   }
-  // }
-
-
   getPaginatedList(): any[] {
     // Retorna os usuários correspondentes à página atual
     const startIndex = (this.currentPage - 1) * this.itemsPorPagina; // Índice de início da página
@@ -312,6 +216,15 @@ export abstract class AbstractListController<T extends Model> implements ListCon
     this.itemsPorPagina = event.pageSize;
   }
 
+  openSnackBar(message: string) {
+    const config: MatSnackBarConfig = {
+      duration: 3000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+    };
+
+    this._snackBar.open(message, "Fechar", config);
+  }
 
 
 }

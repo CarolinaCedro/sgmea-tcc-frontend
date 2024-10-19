@@ -2,11 +2,16 @@ import {Injectable} from '@angular/core';
 import {AbstractRestService} from "../../utis/http/services/abstract-rest.service";
 import {Equipamento} from "../../../model/equipamento";
 import {HttpService} from "../../utis/http/services/http.service";
-import {Observable} from "rxjs";
+import {forkJoin, Observable, of, pipe} from "rxjs";
 import {ListResource} from "../../utis/http/model/list-resource.model";
 import {EquipamentoFilter} from "../filter/equipamento-filter/equipamento-filter.component";
 import {isNotNullOrUndefined, isString} from "../../utis/utils";
-import {map, take} from "rxjs/operators";
+import {catchError, map, mergeMap, take} from "rxjs/operators";
+import {request} from "express";
+import {SrQuery} from "../../utis/http/criteria";
+import {PathVariable} from "../../utis/http/services/model-service.interface";
+import {throwErrorMessage} from "../../utis/http/model/exception/error-message.model";
+import {ChamadoAtribuido} from "../../../model/chamado-atribuido";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +25,50 @@ export class EquipamentoService extends AbstractRestService<Equipamento> {
 
   protected getNameOfService(): string {
     return "EquipamentoService";
+  }
+
+
+
+
+  list(query?: SrQuery | string, pathVariable?: PathVariable): Observable<ListResource<Equipamento>> {
+    return of([query])
+      .pipe(
+        map(() => this.buildServiceUrl("/api/sgmea/v1/equipamento/allEquipamentosActive")),
+        mergeMap(url =>
+          this.http
+            .createRequest()
+            .usingLog(this.log)
+            .setAuthToken(this.localStorage.getItem(this.TOKEN))
+            .url(url)
+            .get()
+            .pipe(
+              map((result) => this.deserializeListResource(result)),
+              catchError((err) => throwErrorMessage(err, this.log))
+            )
+        )
+      );
+  }
+
+  getAllEquipamentosInactive(): Observable<any> {
+    return this.http.createRequest()
+      .setAuthToken(this.localStorage.getItem(this.TOKEN))
+      .url("/api/sgmea/v1/equipamento/allEquipamentoIsNotActive")
+      .get()
+      .pipe(
+        take(1),
+        map(result => this.deserializeListResource(result, Equipamento))
+      );
+  }
+
+  inactiveEquipamento(equipamento: string): Observable<any> {
+    return this.http.createRequest()
+      .setAuthToken(this.localStorage.getItem(this.TOKEN))
+      .url(`/api/sgmea/v1/equipamento/inative/${equipamento}`)
+      .post()
+      .pipe(
+        take(1),
+        map(result => result)
+      );
   }
 
   listAdvanced(filter: EquipamentoFilter | string): Observable<ListResource<Equipamento>> {
@@ -39,8 +88,7 @@ export class EquipamentoService extends AbstractRestService<Equipamento> {
       .pipe(
         take(1),
         map(result => this.deserializeListResource(result, Equipamento))
-      )
-      ;
+      );
 
   }
 }

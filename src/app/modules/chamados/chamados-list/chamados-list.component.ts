@@ -25,6 +25,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {ChamadoAtribuido} from "../../../model/chamado-atribuido";
 import {ListResource} from "../../utis/http/model/list-resource.model";
 import {ChamadoAtribuidoService} from "../../consolidacao/service/chamado-atribuido.service";
+import {CpfMaskPipe} from "../../../shared/pipes/cpf-mask.pipe";
 
 @Component({
   selector: 'app-chamados-list',
@@ -44,7 +45,8 @@ import {ChamadoAtribuidoService} from "../../consolidacao/service/chamado-atribu
     MatTabsModule,
     NgClass,
     JsonPipe,
-    NgIf
+    NgIf,
+    CpfMaskPipe
   ],
   templateUrl: './chamados-list.component.html',
   styleUrl: './chamados-list.component.scss'

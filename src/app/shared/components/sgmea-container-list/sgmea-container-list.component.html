@@ -27,7 +27,7 @@
     <ng-content select="[mat-chip-situation]"></ng-content>
   </div>
 
-  <div class="flex items-center">
+  <div *ngIf="dontShowMatMenu" class="flex items-center">
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>
     </button>

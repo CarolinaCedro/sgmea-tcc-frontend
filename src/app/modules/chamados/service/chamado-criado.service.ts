@@ -3,7 +3,7 @@ import {AbstractRestService} from "../../utis/http/services/abstract-rest.servic
 import {ChamadoCriado} from "../../../model/chamado-criado";
 import {HttpService} from "../../utis/http/services/http.service";
 import {forkJoin, Observable} from "rxjs";
-import {catchError, map, mergeMap, take} from "rxjs/operators";
+import {catchError, map, mergeMap, take, tap} from "rxjs/operators";
 import {throwErrorMessage} from "../../utis/http/model/exception/error-message.model";
 import {PathVariable} from "../../utis/http/services/model-service.interface";
 import {EquipamentoService} from "../../equipamento/service/equipamento.service";
@@ -13,6 +13,7 @@ import {ListResource} from "../../utis/http/model/list-resource.model";
 import {isNotNullOrUndefined, isString} from "../../utis/utils";
 import {ChamadoFilter} from "../filter/chamado-filter/chamado-filter.component";
 import {HistoricoFilter} from "../../historico/filter/historico-filter/historico-filter.component";
+import {GestorService} from "../../gestor/service/gestor.service";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,10 @@ import {HistoricoFilter} from "../../historico/filter/historico-filter/historico
 export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
 
 
-  constructor(http: HttpService, private equipamentoService: EquipamentoService, private funcionarioService: FuncionarioService) {
+  constructor(http: HttpService, private equipamentoService: EquipamentoService,
+              private funcionarioService: FuncionarioService,
+              private gestorFuncionario: GestorService
+  ) {
     super(ChamadoCriado, "api/sgmea/v1/chamado", http)
   }
 
@@ -45,21 +49,47 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
   }
 
 
+  // listFully(query?: SrQuery | string, pathVariable?: PathVariable): Observable<ListResource<ChamadoCriado>> {
+  //   return super.listFully(query, pathVariable)
+  //     .pipe(
+  //       mergeMap((result: ListResource<ChamadoCriado>) => {
+  //         const chamadoCriado = result.records.filter(it => isNotNullOrUndefined(it) && isNotNullOrUndefined(it))
+  //           .map(it => it);
+  //         return forkJoin([
+  //
+  //           this.equipamentoService.findByIds(result.records.map(it => it.equipamento), result),
+  //           this.funcionarioService.findByIds(result.records.map(it => it.funcionario), result),
+  //         ]).pipe(
+  //           map(() => result)
+  //         );
+  //       })
+  //     );
+  //
+  // }
+
+
   listFully(query?: SrQuery | string, pathVariable?: PathVariable): Observable<ListResource<ChamadoCriado>> {
     return super.listFully(query, pathVariable)
       .pipe(
         mergeMap((result: ListResource<ChamadoCriado>) => {
-          const funcionario = result.records.filter(it => isNotNullOrUndefined(it.funcionario.id) && isNotNullOrUndefined(it.funcionario.id))
+
+          const funcionarios = result.records
+            .filter(it => isNotNullOrUndefined(it.funcionario))
             .map(it => it.funcionario);
+
+          const equipamentos = result.records
+            .filter(it => isNotNullOrUndefined(it.equipamento))
+            .map(it => it.equipamento);
+
           return forkJoin([
             this.funcionarioService.findByIds(result.records.map(it => it.funcionario), result),
             this.equipamentoService.findByIds(result.records.map(it => it.equipamento), result),
           ]).pipe(
-            map(() => result)
+            tap(() => console.log("tá desserializando não ?", result)),  // Use tap para logging
+            map(res => this.deserializeListResource(res, ChamadoCriado))
           );
         })
       );
-
   }
 
 
@@ -72,18 +102,28 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
       .get()
       .pipe(
         map((result: any) => {
-          console.log("os results service", result);
-          let list = this.deserializeListResource(result);
-          console.log("a list depois do deserializer", list);
+            console.log("os results service", result);
+            let list = this.deserializeListResource(result);
+            console.log("a list depois do deserializer", list);
 
-          // Retorna o array contido na propriedade records
-          return list.records || [];
-        }),
+            // Retorna o array contido na propriedade records
+            return list.records || [];
+          },
+          mergeMap((result: any) =>
+            forkJoin([
+              this.funcionarioService.findByIds(result.records.map(it => it.funcionario), result),
+              this.equipamentoService.findByIds(result.records.map(it => it.equipamento), result),
+            ]).pipe(
+              map(() => this.deserializeListResource(result, ChamadoCriado))
+            )
+          )
+        ),
         catchError((err) => throwErrorMessage(err, this.log)),
       );
   }
 
   listAdvanced(filter?: ChamadoFilter | string): Observable<ListResource<ChamadoCriado>> {
+
     const request = this.http.createRequest()
       .usingLog(this.log);
     if (!isString(filter)) {
@@ -99,10 +139,16 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
       .get()
       .pipe(
         take(1),
-        map(result => this.deserializeListResource(result, ChamadoCriado))
-      )
-      ;
-
+        map(result => this.deserializeListResource(result, ChamadoCriado)),
+        mergeMap((result: ListResource<ChamadoCriado>) =>
+          forkJoin([
+            this.funcionarioService.findByIds(result.records.map(it => it.funcionario), result),
+            this.equipamentoService.findByIds(result.records.map(it => it.equipamento), result),
+          ]).pipe(
+            map(() => this.deserializeListResource(result, ChamadoCriado))
+          )
+        )
+      );
 
   }
 
@@ -123,9 +169,6 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
       .pipe(
         take(1),
         map(result => this.deserializeListResource(result, ChamadoCriado))
-      )
-      ;
-
-
+      );
   }
 }

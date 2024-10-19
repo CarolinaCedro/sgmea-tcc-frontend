@@ -20,6 +20,7 @@ export class ChamadoCriado extends ModelImplModel {
   @Transform(value => Model.deserialize(value, Equipamento), Model.deserializeOpts())
   @Type(() => Equipamento)
   equipamento: Equipamento;
+
   titulo: string;
   observacaoConsolidacao: string;
   observacoes: string;

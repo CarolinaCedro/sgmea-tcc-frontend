@@ -10,9 +10,22 @@
         <div
           class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ tec?.nome }}
         </div>
+
+        <div class="text-gray-500">
+          <small>{{ tec?.email }}</small>
+        </div>
+
+
+        <div mat-chip-situation>
+          <div class="bg-primary text-white px-2 py-1 rounded-full shadow-lg">
+            <div class=" text-white">
+              <small><b>{{ tec?.especialidades ? tec?.especialidades : "N/A" }}</b></small>
+            </div>
+          </div>
+        </div>
+
+
         <div menu-content>
-
-
           <a mat-menu-item [routerLink]="[tec.id]" [queryParams]="getCurrentQueryParams()">
             <mat-icon>edit</mat-icon>
             <span>Editar</span>

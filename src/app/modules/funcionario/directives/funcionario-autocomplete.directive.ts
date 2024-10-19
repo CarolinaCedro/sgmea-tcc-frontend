@@ -1,7 +1,7 @@
 import {AbstractAutoCompleteDirective} from "../../../core/abstract/auto-complete/abstract-auto-complete.directive";
-import {AfterViewInit, ChangeDetectorRef, Directive, ElementRef, Input, OnInit} from "@angular/core";
+import {ChangeDetectorRef, Directive, ElementRef, Input} from "@angular/core";
 import {MatAutocomplete, MatAutocompleteTrigger} from "@angular/material/autocomplete";
-import {Observable, Subject} from "rxjs";
+import {Observable} from "rxjs";
 import {NgControl} from "@angular/forms";
 import {isNotNullOrUndefined, isString} from "../../utis/utils";
 import {map} from "rxjs/operators";

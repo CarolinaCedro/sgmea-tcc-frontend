@@ -14,6 +14,8 @@ import {TecnicoService} from "../../tecnicos/services/tecnico.service";
 import {throwErrorMessage} from "../../utis/http/model/exception/error-message.model";
 import {serialize} from "class-transformer";
 import {ListResource} from "../../utis/http/model/list-resource.model";
+import {SrQuery} from "../../utis/http/criteria";
+import {query} from "express";
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +32,7 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
 
 
   findByIdFully(id: any, pathVariable?: PathVariable): Observable<ChamadoAtribuido> {
+    console.log("cai findByIdFully")
     return super.findByIdFully(id, pathVariable)
       .pipe(
         mergeMap(chamado =>
@@ -69,6 +72,8 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
 
 
   findByListOfChamadosAtribuidosFully(chamado?: ChamadoAtribuido): Observable<ChamadoAtribuido> {
+    console.log("cai findByListOfChamadosAtribuidosFully")
+
     console.log("Chamado recebido:", chamado);
 
     // Verificar se os IDs estão corretos
@@ -97,14 +102,12 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
       .url("api/sgmea/v1/chamado/chamados-atribuidos")
       .get()
       .pipe(
-        // mergeMap((chamados: any[]) => {
-        //   return of(chamados);
-        // }),
-        catchError((err) => throwErrorMessage(err, this.log))
+        map((result) => this.deserializeListResource(result, ChamadoAtribuido))
       );
   }
 
   getChamadosAtribuidosByTec(currentTecnico: string): Observable<ListResource<ChamadoAtribuido>> {
+
     return this.http
       .createRequest()
       .setAuthToken(this.localStorage.getItem(this.TOKEN))
@@ -112,10 +115,7 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
       .url(`api/sgmea/v1/chamado/chamados-atribuidos/byTecnico?currentTecnico=${currentTecnico}`)
       .get()
       .pipe(
-        // mergeMap((chamados: any[]) => {
-        //   return of(chamados);
-        // }),
-        catchError((err) => throwErrorMessage(err, this.log))
+        map((result) => this.deserializeListResource(result, ChamadoAtribuido))
       );
   }
 

@@ -12,11 +12,23 @@
               class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamado?.titulo }}
             </div>
             <div class="text-gray-500">
-              <small><b>Funcionario:</b> {{ chamado?.funcionario?.nome }}</small>
+              <small><b>Aberto por : </b> {{ chamado?.funcionario?.nome }}</small>
             </div>
+
+            <div class=" text-gray-500">
+              <small>{{ chamado?.dataAbertura }}</small>
+            </div>
+
+            <div mat-chip-situation>
+              <div class="bg-green-700 text-white px-2 py-1 rounded-full shadow-lg">
+                <div class="  text-white">
+                  <small>{{ chamado?.status ? chamado?.status : "N/I" }}</small>
+                </div>
+              </div>
+            </div>
+
+
             <div menu-content>
-
-
               <a mat-menu-item [routerLink]="[chamado.id]" [queryParams]="getCurrentQueryParams()">
                 <mat-icon>edit</mat-icon>
                 <span>Editar</span>
@@ -72,9 +84,6 @@
               </small>
             </div>
 
-            <!--            <div class="text-gray-500">-->
-            <!--              <small><b>Prioridade:</b> {{ chamado?.prioridade }}</small>-->
-            <!--            </div>-->
             <div class="text-gray-500">
               <small><b>Status:</b> {{ chamado?.chamadoCriado?.status }}</small>
             </div>

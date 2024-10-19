@@ -7,4 +7,10 @@ export class Departamento extends ModelImplModel {
   descricao: string;
 
 
+  constructor(id: string, nome: string, descricao: string) {
+    super();
+    this.id = id;
+    this.nome = nome;
+    this.descricao = descricao;
+  }
 }

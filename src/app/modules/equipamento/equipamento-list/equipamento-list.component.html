@@ -11,9 +11,25 @@
             <div
               class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ equipamento?.nome }}
             </div>
+
+            <div class="text-gray-500">
+              <small> <b>Fabricante: </b>{{ equipamento?.fabricante }}</small>
+            </div>
+
+            <div class="text-gray-500">
+              <small> <b>Modelo: </b>{{ equipamento?.modelo }}</small>
+            </div>
+
+
+            <div mat-chip-situation>
+              <div class="bg-green-700 text-white px-2 py-1 rounded-full shadow-lg">
+                <div class="text-sm  text-white">
+                  <small>{{ equipamento?.emUso ? "Ativo" : "" }}</small>
+                </div>
+              </div>
+            </div>
+
             <div menu-content>
-
-
               <a mat-menu-item [routerLink]="[equipamento.id]" [queryParams]="getCurrentQueryParams()">
                 <mat-icon>edit</mat-icon>
                 <span>Editar</span>
@@ -56,6 +72,42 @@
     </mat-tab>
 
     <mat-tab label="Controle de inativados">
+
+      @if (equipamentosInativos?.records && equipamentosInativos.records.length > 0) {
+        <ng-template let-equipamento let-last="last" ngFor [ngForOf]="equipamentosInativos?.records">
+          <sgmea-container-list [dontShowMatMenu]="false" [icon]="'fa-solid fa-tachograph-digital'"
+                                [address]="equipamento?.id">
+            <div
+              class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ equipamento?.nome }}
+            </div>
+
+            <div class="text-gray-500">
+              <small>
+                <b>Patrimônio: </b>{{ equipamento?.patrimonio ? equipamento?.patrimonio : "Não informado" }}</small>
+            </div>
+
+
+            <div mat-chip-situation>
+              <div class="bg-red-700  text-white px-2 py-1 rounded-full shadow-lg">
+                <div class="text-sm  text-white">
+                  <small>{{ !equipamento?.emUso ? "Inativo" : "" }}</small>
+                </div>
+              </div>
+            </div>
+
+
+          </sgmea-container-list>
+        </ng-template>
+        <mat-paginator class="mt-10 bg-yellow"
+                       [length]="totalItems"
+                       [pageSize]="itemsPorPagina"
+                       [pageSizeOptions]="pageSizeOptions"
+                       (page)="onPageChange($event)"
+                       aria-label="Select page">
+        </mat-paginator>
+      } @else {
+        <sgmea-no-data/>
+      }
 
     </mat-tab>
   </mat-tab-group>

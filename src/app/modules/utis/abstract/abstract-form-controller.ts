@@ -231,40 +231,48 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
   * */
   save(value: T) {
     console.log('SAVE', value);
-    // this.loading.show();
-    of(value)
-      .pipe(
-        map(value => {
-          this.beforeSave(value);
-          return value;
-        }),
-        mergeMap(value => {
-          // this.openSnackBar("Registro atualizado' com sucesso!")
-          return (isEmpty(value.id)) ? this.service.save(value) : this.service.update(value);
-        }),
-        map(value => {
-          this.afterSave(value);
-          return value;
-        }),
-        // finalize(() => this.loading.hide())
+    if (this.form.valid) {
+      of(value)
+        .pipe(
+          map(value => {
+            this.beforeSave(value);
+            return value;
+          }),
+          mergeMap(value => {
+            // this.openSnackBar("Registro atualizado' com sucesso!")
+            return (isEmpty(value.id)) ? this.service.save(value) : this.service.update(value);
+          }),
+          map(value => {
+            this.afterSave(value);
+            return value;
+          }),
+          // finalize(() => this.loading.hide())
 
-      ).subscribe(() => {
-      if (this.mult) {
-        this.form.reset();
-        this.value = createNew(this.clazz);
-        // this._fuseAlertService.show({
-        //     message: "Operação cancelada com sucesso.",
-        //     type: "warning"
-        // })
-      } else {
-        this.openSnackBar("Registro salvo com sucesso!")
-        // this._fuseAlertService.show({
-        //     message: "Registro salvo com sucesso!",
-        //     type: "success"
-        // })
-        this.returnList();
-      }
-    }, (err) => this.showErrorsDialog(err));
+        ).subscribe(() => {
+        if (this.mult) {
+          this.form.reset();
+          this.value = createNew(this.clazz);
+          // this._fuseAlertService.show({
+          //     message: "Operação cancelada com sucesso.",
+          //     type: "warning"
+          // })
+        } else {
+          this.openSnackBar("Registro salvo com sucesso!")
+          // this._fuseAlertService.show({
+          //     message: "Registro salvo com sucesso!",
+          //     type: "success"
+          // })
+          this.returnList();
+        }
+      }, (err) => {
+        this.openSnackBar(err?.details?.message)
+        console.log('Error: ', err?.details?.message)
+
+      });
+    } else {
+      this.openSnackBar("Por favor, preencha todos os campos obrigatórios antes de continuar.");
+    }
+
   }
 
 

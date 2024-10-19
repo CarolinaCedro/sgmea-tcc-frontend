@@ -54,6 +54,7 @@ export class EquipamentoFormComponent extends AbstractFormController<Equipamento
 
       if (params['id'] === 'new_record') {
         console.log("Criando novo registro");
+        this.form.get("emUso").setValue(true)
 
 
       } else {

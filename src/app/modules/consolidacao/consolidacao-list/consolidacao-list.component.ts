@@ -9,7 +9,7 @@ import {JsonPipe, NgClass, NgForOf} from "@angular/common";
 import {MatMenuModule} from "@angular/material/menu";
 import {SgmeaNoDataComponent} from "../../../shared/components/sgmea-no-data/sgmea-no-data.component";
 import {ChamadoAtribuido} from "../../../model/chamado-atribuido";
-import {forkJoin, Observable} from "rxjs";
+import {forkJoin, Observable, Subscription} from "rxjs";
 import {PriorizacaoChamadoService} from "../../priorizao-chamado/service/priorizacao-chamado.service";
 import {MatIconModule} from "@angular/material/icon";
 import {ListResource} from "../../utis/http/model/list-resource.model";
@@ -63,8 +63,8 @@ export class ConsolidacaoListComponent extends AbstractListController<ChamadoAtr
 
 
     setTimeout(() => {
-      this.getChamadosAtribuidos();
-    }, 30000);
+    this.getChamadosAtribuidos();
+    }, 1000);
 
   }
 
@@ -124,9 +124,10 @@ export class ConsolidacaoListComponent extends AbstractListController<ChamadoAtr
   }
 
 
-  getCurrentUser(): Observable<User> {
-
-    return this.authService.userCurrent;
+  getCurrentUser(): Subscription {
+    return this.authService.userCurrent.subscribe(res => {
+      this.currentUser = res
+    });
   }
 
 

@@ -5,7 +5,6 @@ import {HttpService} from "../../utis/http/services/http.service";
 import {ChamadoAtribuido} from "../../../model/chamado-atribuido";
 import {Observable, of} from "rxjs";
 import {PathVariable} from "../../utis/http/services/model-service.interface";
-import {serialize} from "class-transformer";
 import {catchError, map, mergeMap, take} from "rxjs/operators";
 import {throwErrorMessage} from "../../utis/http/model/exception/error-message.model";
 

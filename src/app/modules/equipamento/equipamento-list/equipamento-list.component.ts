@@ -20,6 +20,7 @@ import {Subject} from "rxjs";
 import {TecnicoService} from "../../tecnicos/services/tecnico.service";
 import {finalize, takeUntil} from "rxjs/operators";
 import {MatTabsModule} from "@angular/material/tabs";
+import {ListResource} from "../../utis/http/model/list-resource.model";
 
 @Component({
   selector: 'app-equipamento-list',
@@ -45,12 +46,23 @@ import {MatTabsModule} from "@angular/material/tabs";
 export class EquipamentoListComponent extends AbstractListController<Equipamento> implements OnInit {
 
   currentFilter: EquipamentoFilter;
+  equipamentosInativos: ListResource<Equipamento>;
+
   private cancelRequest: Subject<void> = new Subject();
 
 
-  constructor(service: EquipamentoService, router: Router, route: ActivatedRoute) {
+  constructor(public service: EquipamentoService, router: Router, route: ActivatedRoute) {
     super(service, router, route);
   }
+
+  ngOnInit() {
+    super.ngOnInit();
+    this.service.getAllEquipamentosInactive().subscribe(res => {
+      this.equipamentosInativos = res
+    })
+  }
+
+
 
   customList(filter: EquipamentoFilter) {
 
@@ -68,8 +80,41 @@ export class EquipamentoListComponent extends AbstractListController<Equipamento
     }, (err: Error) => console.log(err.message));
   }
 
-  inativated(id: string) {
-    console.log('inativado', id)
+  inativated(id: string): void {
+    if (!id) {
+      console.error('ID do equipamento inválido.');
+      return;
+    }
 
+    this.service.inactiveEquipamento(id).subscribe({
+      next: (res) => {
+        this.openSnackBar("Equipamento Inativado com sucesso");
+        console.log('Equipamento inativado com sucesso:', id);
+
+        // Recarregar a lista de equipamentos
+        this.refreshEquipamentoList();
+      },
+      error: (err) => {
+        console.error('Erro ao inativar o equipamento:', err);
+        this.openSnackBar("Falha ao inativar o equipamento. Tente novamente.");
+      }
+    });
   }
+
+  refreshEquipamentoList(): void {
+    if (this.currentFilter) {
+      // Se houver um filtro aplicado, usa-o para recarregar a lista
+      this.customList(this.currentFilter);
+    } else {
+      // Caso não haja filtro, carregue os equipamentos inativos ou ativos conforme necessário
+      this.service.list().subscribe(res => {
+        this.values = res;
+      }, (err) => console.error('Erro ao carregar os equipamentos:', err));
+      this.service.getAllEquipamentosInactive().subscribe(res => {
+        this.equipamentosInativos = res;
+      }, (err) => console.error('Erro ao carregar os equipamentos:', err));
+    }
+  }
+
+
 }
