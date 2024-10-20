@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import {Component, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 
