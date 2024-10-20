@@ -16,7 +16,7 @@ const PROXY_CONFIG = [
       proxyRes.headers['Access-Control-Allow-Origin'] = '*';
       proxyRes.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS';
       proxyRes.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, X-Requested-With';
-      proxyRes.headers['Access-Control-Allow-Credentials'] = 'true';  // Se cookies forem necessários
+      proxyRes.headers['Access-Control-Allow-Credentials'] = 'true';
     }
   }
 ];
