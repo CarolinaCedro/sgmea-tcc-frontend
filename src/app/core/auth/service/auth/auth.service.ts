@@ -63,7 +63,7 @@ export class AuthService {
 
     return this.http
       .createRequest()
-      .url(`${environment.apiUrl}/api/sgmea/v1/auth/login`)
+      .url(`${environment.apiUrl}api/sgmea/v1/auth/login`)
       .post(user)
       .pipe(
         map(res => {
@@ -86,7 +86,7 @@ export class AuthService {
     return this.http
       .createRequest()
       .setAuthToken(this.localStorageService.getItem(this.TOKEN))
-      .url(`${environment.apiUrl}/api/sgmea/v1/users/updateUser`)
+      .url(`${environment.apiUrl}api/sgmea/v1/users/updateUser`)
       .post(user)
       .pipe(
         map(res => {
@@ -104,7 +104,7 @@ export class AuthService {
     return this.http
       .createRequest()
       .setAuthToken(this.localStorageService.getItem(this.TOKEN))
-      .url(`${environment.apiUrl}/api/sgmea/v1/auth/me`)
+      .url(`${environment.apiUrl}api/sgmea/v1/auth/me`)
       .get()
       .pipe(
         map(res => {
@@ -167,7 +167,7 @@ export class AuthService {
   resetPassword(resetPasswordRequest: { newPassword: string; token: string }): Observable<any> {
     return this.http
       .createRequest()
-      .url(`${environment.apiUrl}/api/sgmea/v1/users/reset-password`)
+      .url(`${environment.apiUrl}api/sgmea/v1/users/reset-password`)
       .post(resetPasswordRequest)
       .pipe(
         map(res => {

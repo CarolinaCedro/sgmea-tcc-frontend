@@ -26,7 +26,7 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
               private funcionarioService: FuncionarioService,
               private gestorFuncionario: GestorService
   ) {
-    super(ChamadoCriado, `${environment.apiUrl}api/sgmea/v1/chamado`, http)
+    super(ChamadoCriado, `${environment.apiUrl}/api/sgmea/v1/chamado`, http)
   }
 
   protected getNameOfService(): string {

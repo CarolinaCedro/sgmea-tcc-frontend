@@ -10,7 +10,7 @@ import {environment} from "../../../../environments/environment";
 export class DasboardService {
 
   public TOKEN: string = "token";
-  private apiUrl = `${environment.apiUrl}//api/sgmea/v1/dashboard`;
+  private apiUrl = `${environment.apiUrl}/api/sgmea/v1/dashboard`;
 
   constructor(private http: HttpService, private localStorage: LocalStorageService) {
   }

@@ -7,6 +7,7 @@ import {Observable, of} from "rxjs";
 import {PathVariable} from "../../utis/http/services/model-service.interface";
 import {catchError, map, mergeMap, take} from "rxjs/operators";
 import {throwErrorMessage} from "../../utis/http/model/exception/error-message.model";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ import {throwErrorMessage} from "../../utis/http/model/exception/error-message.m
 export class ConsolidacaoService extends AbstractRestService<ChamadoAtribuido> {
 
   constructor(http: HttpService) {
-    super(ChamadoConsolidado, "/api/sgmea/v1/chamado/chamados-atribuidos", http)
+    super(ChamadoConsolidado, `${environment.apiUrl}/api/sgmea/v1/chamado/chamados-atribuidos`, http)
   }
 
 
