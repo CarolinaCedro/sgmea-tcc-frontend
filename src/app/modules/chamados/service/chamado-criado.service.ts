@@ -99,7 +99,7 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
       .createRequest()
       .setAuthToken(this.localStorage.getItem(this.TOKEN))
       .usingLog(this.log)
-      .url(`${environment.apiUrl}api/sgmea/v1/chamado/chamados-encerrados`)
+      .url(`${environment.apiUrl}/api/sgmea/v1/chamado/chamados-encerrados`)
       .get()
       .pipe(
         map((result: any) => {
