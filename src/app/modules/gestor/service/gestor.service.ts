@@ -7,6 +7,7 @@ import {Observable} from "rxjs";
 import {ListResource} from "../../utis/http/model/list-resource.model";
 import {isNotNullOrUndefined, isString} from "../../utis/utils";
 import {map, take} from "rxjs/operators";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ import {map, take} from "rxjs/operators";
 export class GestorService extends AbstractRestService<Gestor> {
 
   constructor(http: HttpService) {
-    super(Gestor, "/api/sgmea/v1/gestor", http)
+    super(Gestor, `${environment.apiUrl}/api/sgmea/v1/gestor`, http)
   }
 
   protected getNameOfService(): string {
@@ -25,7 +26,7 @@ export class GestorService extends AbstractRestService<Gestor> {
     const request = this.http.createRequest()
       .usingLog(this.log);
     if (!isString(filter)) {
-      request.url("/api/sgmea/v1/gestor/list-advanced");
+      request.url(`${environment.apiUrl}/api/sgmea/v1/gestor/list-advanced`);
       if (isNotNullOrUndefined(filter)) {
         request.appendParamIfNotNullOrUndefined("nome", (filter as GestorFilter).nome)
       }

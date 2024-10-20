@@ -7,6 +7,7 @@ import {isNotNullOrUndefined, isString} from "../../utis/utils";
 import {map, take} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {ListResource} from "../../utis/http/model/list-resource.model";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ import {ListResource} from "../../utis/http/model/list-resource.model";
 export class DepartamentoService extends AbstractRestService<Departamento> {
 
   constructor(http: HttpService) {
-    super(Departamento, "/api/sgmea/v1/departamento", http)
+    super(Departamento, `${environment.apiUrl}/api/sgmea/v1/departamento`, http)
   }
 
   protected getNameOfService(): string {

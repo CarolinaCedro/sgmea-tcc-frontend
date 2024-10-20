@@ -16,6 +16,7 @@ import {serialize} from "class-transformer";
 import {ListResource} from "../../utis/http/model/list-resource.model";
 import {SrQuery} from "../../utis/http/criteria";
 import {query} from "express";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
               private tecnicoService: TecnicoService,
               private equipamentoService: EquipamentoService
   ) {
-    super(ChamadoCriado, "api/sgmea/v1/chamado", http)
+    super(ChamadoCriado, `${environment.apiUrl}api/sgmea/v1/chamado`, http)
   }
 
 
@@ -58,7 +59,7 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
             .createRequest()
             .setAuthToken(this.localStorage.getItem(this.TOKEN))
             .usingLog(this.log)
-            .url(this.buildServiceUrl("api/sgmea/v1/chamado/atribuir-chamado", pathVariable))
+            .url(this.buildServiceUrl(`${environment.apiUrl}api/sgmea/v1/chamado/atribuir-chamado`, pathVariable))
             .post(payload)
             //pelo fato de ser um poste não se tem necessidade de se pegar a resposta
             //.map((res: Response) => res.json())
@@ -99,7 +100,7 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
       .createRequest()
       .setAuthToken(this.localStorage.getItem(this.TOKEN))
       .usingLog(this.log)
-      .url("api/sgmea/v1/chamado/chamados-atribuidos")
+      .url(`${environment.apiUrl}api/sgmea/v1/chamado/chamados-atribuidos`)
       .get()
       .pipe(
         map((result) => this.deserializeListResource(result, ChamadoAtribuido))
@@ -112,7 +113,7 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
       .createRequest()
       .setAuthToken(this.localStorage.getItem(this.TOKEN))
       .usingLog(this.log)
-      .url(`api/sgmea/v1/chamado/chamados-atribuidos/byTecnico?currentTecnico=${currentTecnico}`)
+      .url(`${environment.apiUrl}api/sgmea/v1/chamado/chamados-atribuidos/byTecnico?currentTecnico=${currentTecnico}`)
       .get()
       .pipe(
         map((result) => this.deserializeListResource(result, ChamadoAtribuido))

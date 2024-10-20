@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpService} from "../../utis/http/services/http.service";
 import {map, take} from "rxjs/operators";
 import {LocalStorageService} from "../../utis/localstorage/local-storage.service";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import {LocalStorageService} from "../../utis/localstorage/local-storage.service
 export class DasboardService {
 
   public TOKEN: string = "token";
-  private apiUrl = '/api/sgmea/v1/dashboard';
+  private apiUrl = `${environment.apiUrl}//api/sgmea/v1/dashboard`;
 
   constructor(private http: HttpService, private localStorage: LocalStorageService) {
   }

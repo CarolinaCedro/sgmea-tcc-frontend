@@ -11,6 +11,7 @@ import {TecnicoFilter} from "../filter/tecnico-filter/tecnico-filter.component";
 import {ListResource} from "../../utis/http/model/list-resource.model";
 import {isNotNullOrUndefined, isString} from "../../utis/utils";
 import {FuncionarioFilter} from "../../funcionario/filter/funcionario-filter/funcionario-filter.component";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class TecnicoService extends AbstractRestService<Tecnico> {
 
 
   constructor(http: HttpService, private gestorService: GestorService) {
-    super(Tecnico, "/api/sgmea/v1/tecnico", http)
+    super(Tecnico, `${environment.apiUrl}/api/sgmea/v1/tecnico`, http)
   }
 
   protected getNameOfService(): string {

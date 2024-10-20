@@ -12,6 +12,7 @@ import {SrQuery} from "../../utis/http/criteria";
 import {PathVariable} from "../../utis/http/services/model-service.interface";
 import {throwErrorMessage} from "../../utis/http/model/exception/error-message.model";
 import {ChamadoAtribuido} from "../../../model/chamado-atribuido";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class EquipamentoService extends AbstractRestService<Equipamento> {
 
 
   constructor(http: HttpService) {
-    super(Equipamento, "/api/sgmea/v1/equipamento", http)
+    super(Equipamento, `${environment.apiUrl}/api/sgmea/v1/equipamento`, http)
   }
 
   protected getNameOfService(): string {

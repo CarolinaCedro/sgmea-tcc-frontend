@@ -11,6 +11,7 @@ import {map, mergeMap, take} from "rxjs/operators";
 import {isNotNullOrUndefined, isNullOrUndefined, isString} from "../../utis/utils";
 import {GestorService} from "../../gestor/service/gestor.service";
 import {DepartamentoService} from "../../departamentos/service/departamento.service";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class FuncionarioService extends AbstractRestService<Funcionario> {
 
 
   constructor(http: HttpService, private gestorService: GestorService, private departamentoService: DepartamentoService) {
-    super(Funcionario, "/api/sgmea/v1/funcionario", http)
+    super(Funcionario, `${environment.apiUrl}/api/sgmea/v1/funcionario`, http)
   }
 
 

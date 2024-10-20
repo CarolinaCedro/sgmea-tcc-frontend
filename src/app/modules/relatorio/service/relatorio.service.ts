@@ -8,6 +8,7 @@ import {isNotNullOrUndefined} from "../../utis/utils";
 import {Report} from "../relatorio-list/Report";
 import {HttpObserve} from "../../utis/http/services/sr-media-type";
 import {HttpResponse} from "@angular/common/http";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class RelatorioService {
   loadingReport(filter?: RelatorioFilter): Observable<Report> {
     console.log("os filtros", filter)
     const request = this.http.createRequest()
-      .url("api/sgmea/v1/chamado-report/generated-report");
+      .url(`${environment.apiUrl}api/sgmea/v1/chamado-report/generated-report`);
     if (isNotNullOrUndefined(filter)) {
       request.appendParamIfNotNullOrUndefined("nomeEquipamento", filter.nomeEquipamento)
         .appendParamDateIfNotNullOrUndefined("dataAbertura", filter.dataAbertura)

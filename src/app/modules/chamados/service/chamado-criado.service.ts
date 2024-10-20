@@ -14,6 +14,7 @@ import {isNotNullOrUndefined, isString} from "../../utis/utils";
 import {ChamadoFilter} from "../filter/chamado-filter/chamado-filter.component";
 import {HistoricoFilter} from "../../historico/filter/historico-filter/historico-filter.component";
 import {GestorService} from "../../gestor/service/gestor.service";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
               private funcionarioService: FuncionarioService,
               private gestorFuncionario: GestorService
   ) {
-    super(ChamadoCriado, "api/sgmea/v1/chamado", http)
+    super(ChamadoCriado, `${environment.apiUrl}api/sgmea/v1/chamado`, http)
   }
 
   protected getNameOfService(): string {
@@ -98,7 +99,7 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
       .createRequest()
       .setAuthToken(this.localStorage.getItem(this.TOKEN))
       .usingLog(this.log)
-      .url("api/sgmea/v1/chamado/chamados-encerrados")
+      .url(`${environment.apiUrl}api/sgmea/v1/chamado/chamados-encerrados`)
       .get()
       .pipe(
         map((result: any) => {
@@ -127,7 +128,7 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
     const request = this.http.createRequest()
       .usingLog(this.log);
     if (!isString(filter)) {
-      request.url("/api/sgmea/v1/chamado/list-advanced");
+      request.url(`${environment.apiUrl}/api/sgmea/v1/chamado/list-advanced`);
       if (isNotNullOrUndefined(filter)) {
         request.appendParamIfNotNullOrUndefined("titulo", (filter as ChamadoFilter).titulo)
       }
@@ -156,7 +157,7 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
     const request = this.http.createRequest()
       .usingLog(this.log);
     if (!isString(filter)) {
-      request.url("/api/sgmea/v1/chamado/chamados-encerrados/list-advanced");
+      request.url(`${environment.apiUrl}/api/sgmea/v1/chamado/chamados-encerrados/list-advanced`);
       if (isNotNullOrUndefined(filter)) {
         request.appendParamIfNotNullOrUndefined("titulo", (filter as ChamadoFilter).titulo)
       }
