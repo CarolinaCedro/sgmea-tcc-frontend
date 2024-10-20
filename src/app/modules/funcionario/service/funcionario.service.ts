@@ -61,7 +61,7 @@ export class FuncionarioService extends AbstractRestService<Funcionario> {
     const request = this.http.createRequest()
       .usingLog(this.log);
     if (!isString(filter)) {
-      request.url("/api/sgmea/v1/funcionario/list-advanced");
+      request.url(`${environment.apiUrl}/api/sgmea/v1/funcionario/list-advanced`);
       if (isNotNullOrUndefined(filter)) {
         request.appendParamIfNotNullOrUndefined("nome", (filter as FuncionarioFilter).nome)
         // .appendParamDateIfNotNullOrUndefined("dtInicio", (filter as CicloFilter).dtInicio)

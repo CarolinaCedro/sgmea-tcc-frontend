@@ -48,7 +48,7 @@ export class TecnicoService extends AbstractRestService<Tecnico> {
     const request = this.http.createRequest()
       .usingLog(this.log);
     if (!isString(filter)) {
-      request.url("/api/sgmea/v1/tecnico/list-advanced");
+      request.url(`${environment.apiUrl}/api/sgmea/v1/tecnico/list-advanced`);
       if (isNotNullOrUndefined(filter)) {
         request.appendParamIfNotNullOrUndefined("nome", (filter as TecnicoFilter).nome)
         // .appendParamDateIfNotNullOrUndefined("dtInicio", (filter as CicloFilter).dtInicio)

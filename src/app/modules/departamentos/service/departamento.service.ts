@@ -26,7 +26,7 @@ export class DepartamentoService extends AbstractRestService<Departamento> {
     const request = this.http.createRequest()
       .usingLog(this.log);
     if (!isString(filter)) {
-      request.url("/api/sgmea/v1/departamento/list-advanced");
+      request.url(`${environment.apiUrl}/api/sgmea/v1/departamento/list-advanced`);
       if (isNotNullOrUndefined(filter)) {
         request.appendParamIfNotNullOrUndefined("nome", (filter as DepartamentoFilter).nome)
         // .appendParamDateIfNotNullOrUndefined("dtInicio", (filter as CicloFilter).dtInicio)

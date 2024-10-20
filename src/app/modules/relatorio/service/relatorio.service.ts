@@ -28,7 +28,7 @@ export class RelatorioService {
   loadingReport(filter?: RelatorioFilter): Observable<Report> {
     console.log("os filtros", filter)
     const request = this.http.createRequest()
-      .url(`${environment.apiUrl}api/sgmea/v1/chamado-report/generated-report`);
+      .url(`${environment.apiUrl}/api/sgmea/v1/chamado-report/generated-report`);
     if (isNotNullOrUndefined(filter)) {
       request.appendParamIfNotNullOrUndefined("nomeEquipamento", filter.nomeEquipamento)
         .appendParamDateIfNotNullOrUndefined("dataAbertura", filter.dataAbertura)

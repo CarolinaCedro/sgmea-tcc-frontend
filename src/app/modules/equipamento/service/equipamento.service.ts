@@ -34,7 +34,7 @@ export class EquipamentoService extends AbstractRestService<Equipamento> {
   list(query?: SrQuery | string, pathVariable?: PathVariable): Observable<ListResource<Equipamento>> {
     return of([query])
       .pipe(
-        map(() => this.buildServiceUrl("/api/sgmea/v1/equipamento/allEquipamentosActive")),
+        map(() => this.buildServiceUrl(`${environment.apiUrl}/api/sgmea/v1/equipamento/allEquipamentosActive`)),
         mergeMap(url =>
           this.http
             .createRequest()
@@ -53,7 +53,7 @@ export class EquipamentoService extends AbstractRestService<Equipamento> {
   getAllEquipamentosInactive(): Observable<any> {
     return this.http.createRequest()
       .setAuthToken(this.localStorage.getItem(this.TOKEN))
-      .url("/api/sgmea/v1/equipamento/allEquipamentoIsNotActive")
+      .url(`${environment.apiUrl}/api/sgmea/v1/equipamento/allEquipamentoIsNotActive`)
       .get()
       .pipe(
         take(1),
@@ -64,7 +64,7 @@ export class EquipamentoService extends AbstractRestService<Equipamento> {
   inactiveEquipamento(equipamento: string): Observable<any> {
     return this.http.createRequest()
       .setAuthToken(this.localStorage.getItem(this.TOKEN))
-      .url(`/api/sgmea/v1/equipamento/inative/${equipamento}`)
+      .url(`${environment.apiUrl}/api/sgmea/v1/equipamento/inative/${equipamento}`)
       .post()
       .pipe(
         take(1),
@@ -76,7 +76,7 @@ export class EquipamentoService extends AbstractRestService<Equipamento> {
     const request = this.http.createRequest()
       .usingLog(this.log);
     if (!isString(filter)) {
-      request.url("/api/sgmea/v1/equipamento/list-advanced");
+      request.url(`${environment.apiUrl}/api/sgmea/v1/equipamento/list-advanced`);
       if (isNotNullOrUndefined(filter)) {
         request.appendParamIfNotNullOrUndefined("nome", (filter as EquipamentoFilter).nome)
       }
