@@ -2,7 +2,7 @@ const PROXY_CONFIG = [
   {
     context: ["/api"],
     target: "https://ec2-3-208-47-127.compute-1.amazonaws.com",
-    secure: true,
+    secure: false,
     logLevel: "debug",
     changeOrigin: true,
     onProxyReq: (proxyReq, req, res) => {
