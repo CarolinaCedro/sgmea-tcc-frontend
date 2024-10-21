@@ -4,7 +4,7 @@ import {ButtonComponent} from "../../../../shared/components/button/button.compo
 import {NgClass, NgIf} from "@angular/common";
 import {SignUpService} from "./service/sign-up.service";
 import {NewUser} from "../../../../model/newUser";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {NgxMaskDirective} from "ngx-mask";
@@ -25,7 +25,7 @@ export class SignUpComponent implements OnInit {
   private _snackBar = inject(MatSnackBar);
 
 
-  constructor(private formBuilder: FormBuilder, private service: SignUpService) {
+  constructor(private formBuilder: FormBuilder, private service: SignUpService,private router: Router) {
     this.form = this.formBuilder.group({
       nome: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
@@ -65,6 +65,7 @@ export class SignUpComponent implements OnInit {
       this.service.newUser(user).subscribe(
         res => {
           console.log("criado", res)
+          this.router.navigate(['/auth/sign-in']);
         }, error => {
           this.openSnackBar(error?.error?.message)
         }
