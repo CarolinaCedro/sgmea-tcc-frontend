@@ -26,7 +26,7 @@ export class ConsolidacaoService extends AbstractRestService<ChamadoAtribuido> {
           .createRequest()
           .setAuthToken(this.localStorage.getItem(this.TOKEN))
           .usingLog(this.log)
-          .url(this.buildServiceUrl("/api/sgmea/v1/chamado/consolidacao-chamado", pathVariable) + '/' + payload.id)
+          .url(this.buildServiceUrl(`${environment.apiUrl}/api/sgmea/v1/chamado/consolidacao-chamado`, pathVariable) + '/' + payload.id)
           .setHeader('Content-Type', 'text/plain')
           .put(observacao)
           .pipe(
