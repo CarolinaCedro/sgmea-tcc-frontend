@@ -33,33 +33,9 @@ export class AuthService {
   ) {
   }
 
-  //login(user: UserLogin): Observable<any> {
-  //   const headers = new HttpHeaders().set('ngrok-skip-browser-warning', 'true'); // Definindo o cabeçalho correto
-  //
-  //   return this.http
-  //     .post('http://localhost:8083/api/sgmea/v1/auth/login', user, { headers }) // Passando os headers corretamente
-  //     .pipe(
-  //       map(res => {
-  //         if (res.token) {
-  //           this.localStorageService.setItem('token', res.token); // Armazenar o token
-  //           this.updateUserRoles(); // Atualizar as roles do usuário
-  //           console.log("vamos para home aqui");
-  //           this.router.navigate(['/home/dashboard']); // Redirecionar para a página inicial
-  //         }
-  //         return res;
-  //       }),
-  //       catchError(err => {
-  //         return throwError(err);
-  //       })
-  //     );
-  // }
 
 
   login(user: UserLogin): Observable<any> {
-
-    //headers : {
-    //   'ngrok-skip-browser-warning':true
-    // }
 
     return this.http
       .createRequest()

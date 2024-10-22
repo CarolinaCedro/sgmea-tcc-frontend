@@ -1,7 +1,7 @@
 const PROXY_CONFIG = [
   {
     context: ["/api"],
-    target: "https://ec2-3-208-47-127.compute-1.amazonaws.com",
+    target: "https://cedro.dev.br",
     secure: true,
     logLevel: "debug",
     changeOrigin: true,
