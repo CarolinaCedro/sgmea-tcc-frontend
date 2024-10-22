@@ -49,11 +49,11 @@ export class FuncionarioFormComponent extends AbstractFormController<Funcionario
 
   constructor(formBuilder: FormBuilder, service: FuncionarioService, router: Router, route: ActivatedRoute) {
     super(Funcionario, formBuilder.group({
-      nome: [''],
-      cpf: [''],
+      nome: ['', [Validators.required]],
+      cpf: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      gestor: [''],
-      senha: [''],
+      gestor: ['', [Validators.required]],
+      senha: ['', [Validators.required]],
       role: [Perfil.FUNCIONARIO],
       perfil: [Perfil.FUNCIONARIO],
       departamento: [''],
@@ -67,6 +67,13 @@ export class FuncionarioFormComponent extends AbstractFormController<Funcionario
     // });
 
 
+  }
+
+  save(value: Funcionario) {
+    if (this.form.invalid) {
+      this.openSnackBar("Por favor, preencha todos os campos obrigatórios.");
+    }
+    super.save(value);
   }
 
 

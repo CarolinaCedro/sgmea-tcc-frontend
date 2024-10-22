@@ -47,13 +47,13 @@ export class TecnicosFormComponent extends AbstractFormController<Tecnico> imple
   constructor(formBuilder: FormBuilder, service: TecnicoService, router: Router, route: ActivatedRoute) {
     super(Tecnico, formBuilder.group({
       id: [''],
-      nome: [''],
-      email: [''],
-      cpf: [''],
-      gestor: [''],
+      nome: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      cpf: ['', [Validators.required]],
+      gestor: ['', [Validators.required]],
       disponibilidade: [true],
       especialidade: ['nenhuma'],
-      senha: [''],
+      senha: ['', [Validators.required]],
       perfil: [Perfil.TECNICO],
       role: [Perfil.TECNICO]
     }), service, router, route);
@@ -81,6 +81,13 @@ export class TecnicosFormComponent extends AbstractFormController<Tecnico> imple
       }
 
     });
+  }
+
+  save(value: Tecnico) {
+    if (this.form.invalid) {
+      this.openSnackBar("Por favor, preencha todos os campos obrigatórios.");
+    }
+    super.save(value);
   }
 
   containsMetadata(): boolean {

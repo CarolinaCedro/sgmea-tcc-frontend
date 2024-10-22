@@ -1,4 +1,4 @@
-<sgmea-list [listTitle]="'Relatórios'" [itensCount]="null"  [viewOnly]="true" class="w-full">
+<sgmea-list [listTitle]="'Relatório de chamados concluídos'" [itensCount]="null"  [viewOnly]="true" class="w-full">
   <relatorio-filter [autoEmitValuesChange]="false"
     (valuesChanges)="loadingReport($event)"/>
   <ng-container *ngIf="!reportIsLoaded() else viewPdf">

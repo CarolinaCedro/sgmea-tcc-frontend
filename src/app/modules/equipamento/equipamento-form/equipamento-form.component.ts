@@ -27,22 +27,23 @@ export class EquipamentoFormComponent extends AbstractFormController<Equipamento
 
   constructor(formBuilder: FormBuilder, service: EquipamentoService, router: Router, route: ActivatedRoute) {
     super(Equipamento, formBuilder.group({
-      nome: [''],
+      nome: ['', [Validators.required]],
       descricao: ['', [Validators.required]],
-      fabricante: [''],
+      fabricante: ['', [Validators.required]],
       patrimonio: ['', [Validators.required]],
       modelo: [''],
       emUso: ['']
     }), service, router, route);
   }
 
-  // save(value: Equipamento) {
-  //   if (this.form.valid) {
-  //     super.save(value);
-  //   } else {
-  //     console.log("faltando campos")
-  //   }
-  // }
+  save(value: Equipamento) {
+
+    if (this.form.invalid) {
+      this.openSnackBar("Por favor, preencha todos os campos obrigatórios.");
+    }
+
+    super.save(value);
+  }
 
   ngOnInit(): void {
     this.route.params.pipe(take(1)).subscribe((params: Params) => {

@@ -3,7 +3,6 @@
 
   <gestor-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>
 
-
   @if (values?.records && values.records.length > 0) {
 
     <ng-template let-gestor let-last="last" ngFor [ngForOf]="values?.records">
@@ -20,7 +19,6 @@
           <small>{{ gestor?.cpf | cpfMask }}</small>
         </div>
 
-
         <div mat-chip-situation>
           <div class="bg-primary text-white px-2 py-1 rounded-full shadow-lg">
             <div class="text-sm  text-white">
@@ -33,12 +31,6 @@
           <a mat-menu-item [routerLink]="[gestor.id]" [queryParams]="getCurrentQueryParams()">
             <mat-icon>edit</mat-icon>
             <span>Editar</span>
-          </a>
-
-
-          <a mat-menu-item [routerLink]="[gestor.id]" [queryParams]="getCurrentQueryParams()">
-            <mat-icon>visibility</mat-icon>
-            <span>Visualizar</span>
           </a>
 
           <button mat-menu-item

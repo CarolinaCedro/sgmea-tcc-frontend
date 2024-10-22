@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {SgmeaFormComponent} from "../../../shared/components/sgmea-form/sgmea-form.component";
-import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AbstractFormController} from "../../utis/abstract/abstract-form-controller";
 import {ChamadoCriado} from "../../../model/chamado-criado";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -43,13 +43,13 @@ export class ChamadosFormComponent extends AbstractFormController<ChamadoCriado>
   constructor(formBuilder: FormBuilder, service: ChamadoCriadoService, router: Router, route: ActivatedRoute, private authService: AuthService) {
     super(ChamadoCriado, formBuilder.group({
       id: [''],
-      titulo: [''],
+      titulo: ['', [Validators.required]],
       prioridade: ['BAIXA'],
       status: ['ABERTO'],
-      observacoes: [''],
-      equipamento: [''],
+      observacoes: ['', [Validators.required]],
+      equipamento: ['', [Validators.required]],
       alocado: [false],
-      funcionario: [''],
+      funcionario: ['', [Validators.required]],
       dataFechamento: [null]
     }), service, router, route);
 
@@ -64,6 +64,13 @@ export class ChamadosFormComponent extends AbstractFormController<ChamadoCriado>
       }
     });
 
+  }
+
+  save(value: ChamadoCriado) {
+    if (this.form.invalid) {
+      this.openSnackBar("Por favor, preencha todos os campos obrigatórios.");
+    }
+    super.save(value);
   }
 
 

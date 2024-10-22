@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {AbstractFormController} from "../../utis/abstract/abstract-form-controller";
 import {Gestor} from "../../../model/gestor";
-import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {GestorService} from "../service/gestor.service";
 import {SgmeaFormComponent} from "../../../shared/components/sgmea-form/sgmea-form.component";
@@ -11,6 +11,7 @@ import {isNullOrUndefined} from "../../utis/utils";
 import {of} from "rxjs";
 import {NgClass, NgIf} from "@angular/common";
 import {Perfil} from "../../../model/enum/perfil";
+import {AreaGestao} from "../../../model/enum/area-gestao";
 
 @Component({
   selector: 'app-gestor-form',
@@ -31,10 +32,10 @@ export class GestorFormComponent extends AbstractFormController<Gestor> implemen
 
   constructor(formBuilder: FormBuilder, service: GestorService, router: Router, route: ActivatedRoute) {
     super(Gestor, formBuilder.group({
-      nome: [''],
-      cpf: [''],
-      email: [''],
-      senha: [''],
+      nome: ['', [Validators.required]],
+      cpf: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      senha: ['', [Validators.required]],
       role: [Perfil.GESTOR],
       gestor: [''],
       perfil: [Perfil.GESTOR],
@@ -49,6 +50,14 @@ export class GestorFormComponent extends AbstractFormController<Gestor> implemen
     });
   }
 
+  save(value: Gestor) {
+
+    if (this.form.invalid) {
+      this.openSnackBar("Por favor, preencha todos os campos obrigatórios.");
+    }
+    super.save(value);
+  }
+
   ngOnInit() {
 
     this.route.params.pipe(take(1)).subscribe((params: Params) => {
@@ -59,6 +68,7 @@ export class GestorFormComponent extends AbstractFormController<Gestor> implemen
 
       if (params['id'] === 'new_record') {
         this.notShowPasswordView = true
+        // this.form.get("areaGestao").setValue(AreaGestao.OUTROS)
         console.log("novo record")
       } else {
         this.notShowPasswordView = false
