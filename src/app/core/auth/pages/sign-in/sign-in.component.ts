@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators,} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import {ButtonComponent} from '../../../../shared/components/button/button.component';
@@ -17,7 +17,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 export class SignInComponent implements OnInit {
 
 
-  form!: FormGroup;
+  form: FormGroup;
   submitted = false;
   passwordTextType!: boolean;
   isNotUserValid: boolean = false;
@@ -47,7 +47,7 @@ export class SignInComponent implements OnInit {
 
   login(value: UserLogin) {
     this.submitted = true;
-    if (this.form.invalid) {
+    if (this.form.valid) {
       return;
     }
 
@@ -68,4 +68,21 @@ export class SignInComponent implements OnInit {
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword;
   }
+
+  @HostListener('document:keydown', ['$event'])
+  onEnter(event: KeyboardEvent): void {
+    // console.log(event);
+    //   // Verifica se o campo de senha está em foco
+    //   const senhaField = document.getElementById('senha') as HTMLInputElement;
+    //   if (document.activeElement === senhaField) {
+    //     event.preventDefault()
+    //     // Execute qualquer outra lógica que você queira para o campo de senha
+    //     console.log('Tecla Enter pressionada no campo de senha');
+    //   } else {
+    //     // Se o foco não estiver no campo de senha, chamamos o método de login
+    //     this.login(this.form.value);
+    //   }
+    // }
+  }
+
 }
