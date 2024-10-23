@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment.ts';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -10,7 +9,7 @@ import { NgIf } from '@angular/common';
     imports: [NgIf],
 })
 export class ResponsiveHelperComponent implements OnInit {
-  public env: any = environment;
+
 
   constructor() {}
 

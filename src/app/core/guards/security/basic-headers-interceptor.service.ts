@@ -2,7 +2,8 @@ import {HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest}
 import {Observable} from "rxjs";
 import {Injectable} from "@angular/core";
 import moment from "moment";
-import {AuthService} from "../../../modules/auth/service/auth/auth.service";
+import {AuthService} from "../../auth/service/auth/auth.service";
+
 
 
 @Injectable({

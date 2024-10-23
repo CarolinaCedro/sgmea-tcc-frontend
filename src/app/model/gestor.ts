@@ -5,7 +5,7 @@ import {Perfil} from "./enum/perfil";
 export class Gestor extends User {
 
 
-  areaGestao?: AreaGestao;
+  areaGestao: string;
 
 
   constructor(id: string, nome: string, cpf: string, email: string, gestor: Gestor, perfil: Perfil, senha: string, authorities: [], areaGestao: AreaGestao) {
