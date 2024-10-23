@@ -98,7 +98,7 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
     return this.http
       .createRequest()
       .setAuthToken(this.localStorage.getItem(this.TOKEN))
-      .usingLog(this.log)
+      // .usingLog(this.log)
       .url(`${environment.apiUrl}/api/sgmea/v1/chamado/chamados-encerrados`)
       .get()
       .pipe(
@@ -119,14 +119,14 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
             )
           )
         ),
-        catchError((err) => throwErrorMessage(err, this.log)),
+        catchError((err) => throwErrorMessage(err)),
       );
   }
 
   listAdvanced(filter?: ChamadoFilter | string): Observable<ListResource<ChamadoCriado>> {
 
     const request = this.http.createRequest()
-      .usingLog(this.log);
+      // .usingLog(this.log);
     if (!isString(filter)) {
       request.url(`${environment.apiUrl}/api/sgmea/v1/chamado/list-advanced`);
       if (isNotNullOrUndefined(filter)) {
@@ -155,7 +155,7 @@ export class ChamadoCriadoService extends AbstractRestService<ChamadoCriado> {
 
   listAdvancedByConcluidos(filter?: HistoricoFilter | string): Observable<ListResource<ChamadoCriado>> {
     const request = this.http.createRequest()
-      .usingLog(this.log);
+      // .usingLog(this.log);
     if (!isString(filter)) {
       request.url(`${environment.apiUrl}/api/sgmea/v1/chamado/chamados-encerrados/list-advanced`);
       if (isNotNullOrUndefined(filter)) {

@@ -4,7 +4,6 @@ import { HttpObserve, ResponseType, SrMediaType } from './sr-media-type';
 import { Observable } from 'rxjs';
 import moment from 'moment';
 import { Model } from '../model/model';
-import { Logg } from '../../logger/logger';
 import { isNotNullOrUndefined, isNullOrUndefined, isString } from '../../utils';
 
 
@@ -32,7 +31,6 @@ export class Request {
   private _headers!: HttpHeaders;
   private _responseType!: string;
   private _params!: HttpParams;
-  private _log!: Logg;
   private _observer!: HttpObserve;
   private _authToken?: string;
 
@@ -172,9 +170,8 @@ export class Request {
     return this;
   }
 
-  public usingLog(log: Logg): Request {
-    this._log = log;
-    return this;
+  public usingLog(log: any): Request {
+    return log
   }
 
   public get(): Observable<any> {
@@ -237,11 +234,11 @@ export class Request {
   }
 
   private logURL(type: 'GET' | 'PUT' | 'PATCH' | 'DELETE' | 'POST', url: string, payload?: any): void {
-    if (isNotNullOrUndefined(this._log)) {
+    if (isNotNullOrUndefined()) {
       if (this._params.keys().length > 0) {
-        this._log.i(type + '[' + url + '?' + this._params.toString() + ']', payload);
+        console.log(type + '[' + url + '?' + this._params.toString() + ']', payload);
       } else {
-        this._log.i(type + '[' + url + ']', payload);
+        console.log(type + '[' + url + ']', payload);
       }
     }
   }

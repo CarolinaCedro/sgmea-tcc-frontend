@@ -6,7 +6,6 @@ import {catchError, expand, map, mergeMap, reduce, take, takeWhile} from 'rxjs/o
 import {throwErrorMessage} from '../model/exception/error-message.model';
 import {isListResource, ListResource} from '../model/list-resource.model';
 import {Model} from '../model/model';
-import {Logg} from '../../logger/logger';
 import {SrQuery} from '../criteria';
 import {isEmpty, isNotNullOrUndefined, isNullOrUndefined, isObject, isString, splitArray} from '../../utils';
 import {
@@ -18,7 +17,7 @@ import {LocalStorageService} from "../../localstorage/local-storage.service";
 import {inject} from "@angular/core";
 
 export abstract class AbstractRestService<T extends Model> implements ModelService<T> {
-  protected readonly log: Logg = Logg.of(this.getNameOfService());
+  // protected readonly log: Logg = Logg.of(this.getNameOfService());
 
   public TOKEN: string = "token";
   public localStorage: LocalStorageService;
@@ -66,14 +65,14 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
           this.http
             .createRequest()
             .setAuthToken(this.localStorage.getItem(this.TOKEN))
-            .usingLog(this.log)
+            // .usingLog(this.log)
             .url(this.buildServiceUrl(null, pathVariable))
             .post(payload)
             //pelo fato de ser um poste não se tem necessidade de se pegar a resposta
             //.map((res: Response) => res.json())
             .pipe(
               take(1),
-              catchError((err) => throwErrorMessage(err, this.log)),
+              catchError((err) => throwErrorMessage(err)),
             ),
         ),
       );
@@ -92,7 +91,7 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
             .pipe(
               take(1),
               map((result) => this.deserializeItem(result)),
-              catchError((err) => throwErrorMessage(err, this.log)),
+              catchError((err) => throwErrorMessage(err)),
             ),
         ),
       );
@@ -108,13 +107,13 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
             return this.http
               .createRequest()
               .setAuthToken(this.localStorage.getItem(this.TOKEN))
-              .usingLog(this.log)
+              // .usingLog(this.log)
               .url(this.buildServiceUrl(null, pathVariable) + '/' + (isString(_id) ? _id as string : (_id as T).id))
               .get()
               .pipe(
                 take(1),
                 map((result) => this.deserializeItem(result)),
-                catchError((err) => throwErrorMessage(err, this.log)),
+                catchError((err) => throwErrorMessage(err)),
               );
           },
         ),
@@ -200,7 +199,7 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
           const request = this.http
             .createRequest()
             .setAuthToken(this.localStorage.getItem(this.TOKEN))
-            .usingLog(this.log)
+            // .usingLog(this.log)
             .url(this.buildServiceUrl(null, pathVariable) + '/ids');
 
           //adicionado parametros da requisicao
@@ -210,7 +209,7 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
             .pipe(
               take(1),
               map((result) => this.deserializeArray(result)),
-              catchError((err) => throwErrorMessage(err, this.log)),
+              catchError((err) => throwErrorMessage(err)),
             );
         }),
       );
@@ -228,13 +227,13 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
           this.http
             .createRequest()
             .setAuthToken(this.localStorage.getItem(this.TOKEN))
-            .usingLog(this.log)
+            // .usingLog(this.log)
             .url(this.buildServiceUrl(null, pathVariable) + '/first')
             .get()
             .pipe(
               take(1),
               map((result) => this.deserializeItem(result)),
-              catchError((err) => throwErrorMessage(err, this.log)),
+              catchError((err) => throwErrorMessage(err)),
             ),
         ),
       );
@@ -251,12 +250,12 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
           this.http
             .createRequest()
             .setAuthToken(this.localStorage.getItem(this.TOKEN))
-            .usingLog(this.log)
+            // .usingLog(this.log)
             .url(this.buildServiceUrl(null, pathVariable) + '/' + _value.id)
             .delete()
             .pipe(
               take(1),
-              catchError((err) => throwErrorMessage(err, this.log)),
+              catchError((err) => throwErrorMessage(err)),
             ),
         ),
       );
@@ -269,14 +268,14 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
           this.http
             .createRequest()
             .setAuthToken(this.localStorage.getItem(this.TOKEN))
-            .usingLog(this.log)
+            // .usingLog(this.log)
             .url(this.buildServiceUrl(null, pathVariable) + '/count')
             .acceptTextOnly()
             .get()
             .pipe(
               take(1),
               map((value: string) => Number(value)),
-              catchError((err) => throwErrorMessage(err, this.log)),
+              catchError((err) => throwErrorMessage(err)),
             ),
         ),
       );
@@ -289,13 +288,13 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
         mergeMap(url =>
           this.http
             .createRequest()
-            .usingLog(this.log)
+            // .usingLog(this.log)
             .setAuthToken(this.localStorage.getItem(this.TOKEN))
             .url(url)
             .get()
             .pipe(
               map((result) => this.deserializeListResource(result)),
-              catchError((err) => throwErrorMessage(err, this.log))
+              catchError((err) => throwErrorMessage(err))
             )
         )
       );
@@ -352,10 +351,10 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
     }
     try {
       const result = customDeserializeItem(value, clazz);
-      this.log.d('payload response', result);
+      // this.log.d('payload response', result);
       return result;
     } catch (error) {
-      this.log.e('error on deserialize item ', error);
+      // this.log.e('error on deserialize item ', error);
       throw error;
     }
   }
@@ -368,9 +367,9 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
     }
     try {
       itens = customDeserializeArray(values, clazz);
-      this.log.d('payload response', itens);
+      // this.log.d('payload response', itens);
     } catch (error) {
-      this.log.e('error on deserialize ', error);
+      // this.log.e('error on deserialize ', error);
       throw error;
     }
     return itens;
@@ -385,7 +384,7 @@ export abstract class AbstractRestService<T extends Model> implements ModelServi
     try {
       list = customDeserializeListResource(value, clazz);
     } catch (error) {
-      this.log.e("error on deserialize ", error);
+      // this.log.e("error on deserialize ", error);
       throw error;
     }
 

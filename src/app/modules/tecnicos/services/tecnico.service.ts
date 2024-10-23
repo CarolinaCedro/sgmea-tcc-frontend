@@ -46,7 +46,7 @@ export class TecnicoService extends AbstractRestService<Tecnico> {
   listAdvanced(filter?: TecnicoFilter | string): Observable<ListResource<Tecnico>> {
 
     const request = this.http.createRequest()
-      .usingLog(this.log);
+      // .usingLog(this.log);
     if (!isString(filter)) {
       request.url(`${environment.apiUrl}/api/sgmea/v1/tecnico/list-advanced`);
       if (isNotNullOrUndefined(filter)) {

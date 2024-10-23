@@ -5,7 +5,7 @@ import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {FuncionarioService} from "../service/funcionario.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {SgmeaFormComponent} from "../../../shared/components/sgmea-form/sgmea-form.component";
-import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {DepartamentoAutocompleteDirective} from "../../departamentos/directives/departamento-autocomplete.directive";
 import {ListResource} from "../../utis/http/model/list-resource.model";

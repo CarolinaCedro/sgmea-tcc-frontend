@@ -58,14 +58,14 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
           this.http
             .createRequest()
             .setAuthToken(this.localStorage.getItem(this.TOKEN))
-            .usingLog(this.log)
+            // .usingLog(this.log)
             .url(this.buildServiceUrl(`${environment.apiUrl}/api/sgmea/v1/chamado/atribuir-chamado`, pathVariable))
             .post(payload)
             //pelo fato de ser um poste não se tem necessidade de se pegar a resposta
             //.map((res: Response) => res.json())
             .pipe(
               take(1),
-              catchError((err) => throwErrorMessage(err, this.log)),
+              catchError((err) => throwErrorMessage(err)),
             ),
         ),
       );
@@ -99,7 +99,7 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
     return this.http
       .createRequest()
       .setAuthToken(this.localStorage.getItem(this.TOKEN))
-      .usingLog(this.log)
+      // .usingLog(this.log)
       .url(`${environment.apiUrl}/api/sgmea/v1/chamado/chamados-atribuidos`)
       .get()
       .pipe(
@@ -112,7 +112,7 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
     return this.http
       .createRequest()
       .setAuthToken(this.localStorage.getItem(this.TOKEN))
-      .usingLog(this.log)
+      // .usingLog(this.log)
       .url(`${environment.apiUrl}/api/sgmea/v1/chamado/chamados-atribuidos/byTecnico?currentTecnico=${currentTecnico}`)
       .get()
       .pipe(

@@ -1,5 +1,5 @@
 import {deserialize, plainToClass, TransformOptions} from 'class-transformer';
-import {Logg} from '../../logger/logger';
+// import {Logg} from '../../logger/logger';
 import {ListResource} from '../model/list-resource.model';
 import {MetaData} from '../model/metadata.model';
 
@@ -16,42 +16,42 @@ export abstract class ClassDeserialize<T> {
   abstract deserialize(value: string): T;
 }
 
-export function deserializeItem(value: object, clazz: any, log?: Logg): any {
+export function deserializeItem(value: object, clazz: any): any {
 
   try {
     const result = deserialize(clazz, JSON.stringify(value)) as any;
-    if (isNotNullOrUndefined(log)) {
-      log?.d('payload response', result);
-    }
+    // if (isNotNullOrUndefined(log)) {
+    //   log?.d('payload response', result);
+    // }
     return result;
   } catch (error) {
     const errorResult = {};
     errorResult['error'] = error;
     errorResult['clazz'] = clazz;
     errorResult['payload'] = value;
-    if (isNotNullOrUndefined(log)) {
-      log?.e('error on deserialize item ', errorResult);
-    }
+    // if (isNotNullOrUndefined(log)) {
+    //   log?.e('error on deserialize item ', errorResult);
+    // }
     throw errorResult;
   }
 }
 
-export function deserializeArray(values, clazz: any, log?: Logg): Array<any> {
+export function deserializeArray(values, clazz: any): Array<any> {
   let itens = new Array<any>();
   if (isNotNullOrUndefined(values)) {
     try {
       itens = <Array<any>>plainToClass(clazz, values);
-      if (isNotNullOrUndefined(log)) {
-        log?.d('payload response', itens);
-      }
+      // if (isNotNullOrUndefined(log)) {
+      //   log?.d('payload response', itens);
+      // }
     } catch (error) {
       const errorResult = {};
       errorResult['error'] = error;
       errorResult['clazz'] = clazz;
       errorResult['payload'] = values;
-      if (isNotNullOrUndefined(log)) {
-        log?.e('error on deserialize ', errorResult);
-      }
+      // if (isNotNullOrUndefined(log)) {
+      //   log?.e('error on deserialize ', errorResult);
+      // }
       throw errorResult;
     }
   }

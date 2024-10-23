@@ -59,7 +59,7 @@ export class FuncionarioService extends AbstractRestService<Funcionario> {
 
   listAdvanced(filter?: FuncionarioFilter | string): Observable<ListResource<Funcionario>> {
     const request = this.http.createRequest()
-      .usingLog(this.log);
+      // .usingLog(this.log);
     if (!isString(filter)) {
       request.url(`${environment.apiUrl}/api/sgmea/v1/funcionario/list-advanced`);
       if (isNotNullOrUndefined(filter)) {

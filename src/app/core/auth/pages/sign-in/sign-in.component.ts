@@ -46,8 +46,9 @@ export class SignInComponent implements OnInit {
   }
 
   login(value: UserLogin) {
+    console.log('clicando')
     this.submitted = true;
-    if (this.form.valid) {
+    if (this.form.invalid) {
       return;
     }
 
@@ -71,18 +72,10 @@ export class SignInComponent implements OnInit {
 
   @HostListener('document:keydown', ['$event'])
   onEnter(event: KeyboardEvent): void {
-    // console.log(event);
-    //   // Verifica se o campo de senha está em foco
-    //   const senhaField = document.getElementById('senha') as HTMLInputElement;
-    //   if (document.activeElement === senhaField) {
-    //     event.preventDefault()
-    //     // Execute qualquer outra lógica que você queira para o campo de senha
-    //     console.log('Tecla Enter pressionada no campo de senha');
-    //   } else {
-    //     // Se o foco não estiver no campo de senha, chamamos o método de login
-    //     this.login(this.form.value);
-    //   }
-    // }
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
   }
+
 
 }

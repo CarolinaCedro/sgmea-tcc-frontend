@@ -6,7 +6,6 @@ import {debounceTime, map, mergeMap, take, takeUntil} from 'rxjs/operators';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material/snack-bar';
 import {ModelService} from '../http/services/model-service.interface';
 import {Model} from '../http/model/model';
-import {Logg} from '../logger/logger';
 import {isEmpty, isNotNullOrUndefined, isNullOrUndefined} from '../utils';
 import {ErrorMessage} from '../http/model/exception/error-message.model';
 import {FormController} from '../models/form-controller.interface';
@@ -85,7 +84,7 @@ export abstract class AbstractFormController<T extends Model> implements FormCon
   @Output()
   valuesOnChange: EventEmitter<T>;
 
-  readonly log: Logg = Logg.of('AbstractFormController');
+  // readonly log: Logg = Logg.of('AbstractFormController');
   private disablePatrimonioIfEditing: boolean;
 
 

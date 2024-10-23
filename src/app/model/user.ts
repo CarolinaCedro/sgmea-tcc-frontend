@@ -3,8 +3,6 @@ import {Transform, Type} from "class-transformer";
 import {ModelImplModel} from "../modules/utis/http/model/model-impl.model";
 import {Model} from "../modules/utis/http/model/model";
 import {Gestor} from "./gestor";
-import {Role} from "../core/roles/model/role";
-import {Authority} from "../core/roles/model/authority";
 
 
 export class User extends ModelImplModel {
@@ -17,7 +15,7 @@ export class User extends ModelImplModel {
   @Transform(value => Model.serialize(value), Model.serializeOpts())
   @Transform(value => Model.deserialize(value, Gestor), Model.deserializeOpts())
   @Type(() => Gestor)
-  gestor?: Gestor;
+  gestor: Gestor;
 
 
   @Transform(value => Perfil.serialize(value), Perfil.serializeOpts())
@@ -40,4 +38,5 @@ export class User extends ModelImplModel {
     this.senha = senha;
     this.authorities = authorities;
   }
+
 }

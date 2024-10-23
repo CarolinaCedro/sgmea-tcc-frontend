@@ -39,7 +39,6 @@
           required
           [ngClass]="{ 'is__invalid-input': submitted && f['senha'].errors }"
           class="peer block"
-          (keydown.enter)="onEnter($event)"
           placeholder=" "
           formControlName="senha"
         />

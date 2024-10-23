@@ -38,13 +38,13 @@ export class EquipamentoService extends AbstractRestService<Equipamento> {
         mergeMap(url =>
           this.http
             .createRequest()
-            .usingLog(this.log)
+            // .usingLog(this.log)
             .setAuthToken(this.localStorage.getItem(this.TOKEN))
             .url(url)
             .get()
             .pipe(
               map((result) => this.deserializeListResource(result)),
-              catchError((err) => throwErrorMessage(err, this.log))
+              catchError((err) => throwErrorMessage(err))
             )
         )
       );
@@ -74,7 +74,7 @@ export class EquipamentoService extends AbstractRestService<Equipamento> {
 
   listAdvanced(filter: EquipamentoFilter | string): Observable<ListResource<Equipamento>> {
     const request = this.http.createRequest()
-      .usingLog(this.log);
+      // .usingLog(this.log);
     if (!isString(filter)) {
       request.url(`${environment.apiUrl}/api/sgmea/v1/equipamento/list-advanced`);
       if (isNotNullOrUndefined(filter)) {

@@ -2,7 +2,7 @@ import { Observable, throwError as observableThrowError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Exclude } from 'class-transformer';
 import { isNotNullOrUndefined } from '../../../utils';
-import { Logg } from '../../../logger/logger';
+// import { Logg } from '../../../logger/logger';
 
 export class ErrorMessage {
   status?: HttpStatus;
@@ -46,7 +46,7 @@ function connectionError() {
   return message;
 }
 
-export function throwErrorMessage(response: HttpErrorResponse, log?: Logg): Observable<any> {
+export function throwErrorMessage(response: HttpErrorResponse): Observable<any> {
   let throws = null;
   // @ts-ignore
   if (response.constructor.name === 'TypeError') {
@@ -70,8 +70,8 @@ export function throwErrorMessage(response: HttpErrorResponse, log?: Logg): Obse
     throws.message = 'Server error';
     throws.details = response.error;
   }
-  if (isNotNullOrUndefined(log)) {
-    log?.e('error ocurred', throws);
-  }
+  // if (isNotNullOrUndefined(log)) {
+  //   log?.e('error ocurred', throws);
+  // }
   return observableThrowError(throws);
 }

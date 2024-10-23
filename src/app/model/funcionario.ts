@@ -1,9 +1,10 @@
-import {User} from "./user";
+
 import {Departamento} from "./departamento";
 import {Transform, Type} from "class-transformer";
 import {Model} from "../modules/utis/http/model/model";
 import {Gestor} from "./gestor";
 import {Perfil} from "./enum/perfil";
+import {User} from "./user";
 
 
 export class Funcionario extends User {

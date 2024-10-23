@@ -24,7 +24,7 @@ export class DepartamentoService extends AbstractRestService<Departamento> {
 
   listAdvanced(filter?: DepartamentoFilter): Observable<ListResource<Departamento>> {
     const request = this.http.createRequest()
-      .usingLog(this.log);
+      // .usingLog(this.log);
     if (!isString(filter)) {
       request.url(`${environment.apiUrl}/api/sgmea/v1/departamento/list-advanced`);
       if (isNotNullOrUndefined(filter)) {
