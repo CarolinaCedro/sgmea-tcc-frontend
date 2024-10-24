@@ -15,21 +15,6 @@ export type SgmeaProviderConfig = {
  * Fuse provider
  */
 export const provideSgmea = (config: SgmeaProviderConfig): Array<Provider | EnvironmentProviders> => {
-  // Base providers
-  // Mock Api services
-  // if (config?.mockApi?.services) {
-  //   providers.push(
-  //     provideHttpClient(withInterceptors([mockApiInterceptor])),
-  //     {
-  //       provide: APP_INITIALIZER,
-  //       deps: [...config.mockApi.services],
-  //       useFactory: () => (): any => null,
-  //       multi: true,
-  //     },
-  //   );
-  // }
-
-  // Return the providers
   return [
 
 

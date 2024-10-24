@@ -5,21 +5,21 @@
 
   @if (values?.records && values.records.length > 0) {
 
-    <ng-template let-tec let-last="last" ngFor [ngForOf]="values?.records">
-      <sgmea-container-list [icon]="'fa-solid fa-screwdriver-wrench'" [address]="tec?.id">
-        <div
-          class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ tec?.nome }}
-        </div>
+  <ng-template let-tec let-last="last" ngFor [ngForOf]="values?.records">
+    <sgmea-container-list [icon]="'fa-solid fa-screwdriver-wrench'" [address]="tec?.id">
+      <div
+        class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ tec?.nome }}
+  </div>
 
-        <div class="text-gray-500">
-          <small>{{ tec?.email }}</small>
+  <div class="text-gray-500">
+    <small>{{ tec?.email }}</small>
         </div>
 
 
         <div mat-chip-situation>
           <div class="bg-primary text-white px-2 py-1 rounded-full shadow-lg">
             <div class=" text-white">
-              <small><b>{{ tec?.especialidades ? tec?.especialidades : "N/A" }}</b></small>
+              <small><b>{{ tec?.especialidades ? tec?.especialidades : "Técnico" }}</b></small>
             </div>
           </div>
         </div>
@@ -31,11 +31,6 @@
             <span>Editar</span>
           </a>
 
-
-          <a mat-menu-item [routerLink]="[tec.id]" [queryParams]="getCurrentQueryParams()">
-            <mat-icon>visibility</mat-icon>
-            <span>Visualizar</span>
-          </a>
 
           <button mat-menu-item
 
@@ -55,7 +50,7 @@
                    aria-label="Select page">
     </mat-paginator>
   } @else {
-    <sgmea-no-data/>
+  <sgmea-no-data/>
   }
 
 

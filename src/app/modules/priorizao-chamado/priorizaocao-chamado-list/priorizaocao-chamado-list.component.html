@@ -1,4 +1,4 @@
-<sgmea-list [listTitle]="'Chamados em aberto'" [viewOnly]="true" [itensCount]="values?.records?.length" class="w-full">
+<sgmea-list [listTitle]="'Priorização de chamado'" [viewOnly]="true" [itensCount]="values?.records?.length" class="w-full">
 
 
   <priorizacao-filter [autoEmitValuesChange]="true" (valuesChanges)="customList($event)"/>
@@ -28,13 +28,7 @@
             <div menu-content>
               <a mat-menu-item [routerLink]="[chamado.id]" [queryParams]="getCurrentQueryParams()">
                 <mat-icon>edit</mat-icon>
-                <span>Editar</span>
-              </a>
-
-
-              <a mat-menu-item [routerLink]="[chamado.id]" [queryParams]="getCurrentQueryParams()">
-                <mat-icon>visibility</mat-icon>
-                <span>Visualizar</span>
+                <span>Alocar</span>
               </a>
 
               <button mat-menu-item

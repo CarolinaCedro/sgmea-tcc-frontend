@@ -6,13 +6,13 @@
   <mat-tab-group>
     <mat-tab label="Chamados criados">
       @if (values?.records && values.records.length > 0) {
-        <ng-template let-chamado let-last="last" ngFor [ngForOf]="values?.records">
-          <sgmea-container-list [icon]="'fa-solid fa-clipboard'" [address]="chamado?.id">
-            <div
-              class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamado?.titulo }}
-            </div>
-            <div class="text-gray-500">
-              <small><b>Aberto por : </b> {{ chamado?.funcionario?.nome }}</small>
+      <ng-template let-chamado let-last="last" ngFor [ngForOf]="values?.records">
+        <sgmea-container-list [icon]="'fa-solid fa-clipboard'" [address]="chamado?.id">
+          <div
+            class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamado?.titulo }}
+      </div>
+      <div class="text-gray-500">
+        <small><b>Aberto por : </b> {{ chamado?.funcionario?.nome }}</small>
             </div>
 
             <div class=" text-gray-500">
@@ -26,6 +26,12 @@
                 </div>
               </div>
             </div>
+
+           <div class="flex items-center justify-center space-x-1 bg-blue-100 text-blue-600 px-0.5 py-0.5 rounded-md">
+            <i class="fas fa-info-circle"></i>
+            <small>Chamado não alocado</small>
+          </div>
+
 
 
             <div menu-content>
@@ -56,39 +62,46 @@
                        aria-label="Select page">
         </mat-paginator>
       } @else {
-        <sgmea-no-data/>
+      <sgmea-no-data/>
       }
     </mat-tab>
 
     <mat-tab label="Acompanhamento de chamados">
       @if (chamadosAtribuidos?.records && chamadosAtribuidos.records.length > 0) {
-        <ng-template let-chamado let-last="last" ngFor [ngForOf]="chamadosAtribuidos?.records">
-          <sgmea-container-list [icon]="'fa-solid fa-clipboard'" [address]="chamado?.id">
-            <div
-              class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{ chamado?.chamadoCriado?.titulo }}
-            </div>
+      <ng-template let-chamado let-last="last" ngFor [ngForOf]="chamadosAtribuidos?.records">
 
-            <div class="text-gray-500" mat-chip-situation>
-              <small class="mat-chip-type-visita flex items-center"
-                     [ngClass]="{
-                                    'baixa': chamado?.prioridade === 'BAIXA',
-                                    'alta': chamado?.prioridade  === 'ALTA',
-                                    'media': chamado?.prioridade  === 'MEDIA',
-                                    'null': chamado?.prioridade  === null,
-                                     }">
+        <sgmea-container-list [dontShowMatMenu]="false" [icon]="'fa-solid fa-clipboard'" [address]="chamado?.id">
+          <div
+            class=" text-sm sm:text-base md:text-base lg:text-base leading-5 break-words">{{
+      chamado?.chamadoCriado?.titulo }}
+      </div>
 
-                {{ chamado?.prioridade ? chamado?.prioridade : "Erro" }}
-              </small>
-            </div>
+      <div class="text-gray-500" mat-chip-situation>
+        <small class="mat-chip-type-visita flex items-center"
+               [ngClass]="{
+      'baixa': chamado?.prioridade === 'BAIXA',
+      'alta': chamado?.prioridade === 'ALTA',
+      'media': chamado?.prioridade === 'MEDIA',
+      'null': chamado?.prioridade === null,
+      }">
 
-            <div class="text-gray-500">
-              <small><b>Status:</b> {{ chamado?.chamadoCriado?.status }}</small>
+      {{ chamado?.prioridade ? chamado?.prioridade : "Erro" }}
+      </small>
+    </div>
+
+    <div class="text-gray-500">
+      <small><b>Status:</b> {{ chamado?.chamadoCriado?.status }}</small>
             </div>
             <div class="text-gray-500">
               <small><b>Técnico:</b> {{ chamado?.tecnico?.nome }}</small>
             </div>
+          <div class="flex items-center justify-center space-x-1 bg-orange-100 text-orange-600 p-1 rounded-md">
+              <i class="fas fa-info-circle"></i> <!-- Ícone informativo do Font Awesome -->
+              <small>Chamado alocado</small>
+            </div>
 
-            <div menu-content *ngIf="false">
+
+            <div menu-content>
 
 
               <a mat-menu-item [routerLink]="[chamado.id]" [queryParams]="getCurrentQueryParams()">
@@ -96,11 +109,6 @@
                 <span>Editar</span>
               </a>
 
-
-              <a mat-menu-item [routerLink]="[chamado.id]" [queryParams]="getCurrentQueryParams()">
-                <mat-icon>visibility</mat-icon>
-                <span>Visualizar</span>
-              </a>
 
               <button mat-menu-item
 
@@ -121,7 +129,7 @@
                        aria-label="Select page">
         </mat-paginator>
       } @else {
-        <sgmea-no-data/>
+      <sgmea-no-data/>
       }
 
     </mat-tab>

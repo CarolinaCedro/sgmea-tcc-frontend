@@ -1,6 +1,6 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {SgmeaFormComponent} from "../../../shared/components/sgmea-form/sgmea-form.component";
-import {FormBuilder, ReactiveFormsModule, FormGroup} from "@angular/forms";
+import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
 import {AbstractFormController} from "../../utis/abstract/abstract-form-controller";
 import {ChamadoAtribuido} from "../../../model/chamado-atribuido";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -32,7 +32,7 @@ import {User} from "../../../model/user";
   templateUrl: './priorizaocao-chamado-form.component.html',
   styleUrl: './priorizaocao-chamado-form.component.scss'
 })
-export class PriorizaocaoChamadoFormComponent extends AbstractFormController<ChamadoAtribuido> implements OnInit, AfterViewInit {
+export class PriorizaocaoChamadoFormComponent extends AbstractFormController<ChamadoAtribuido> {
 
   tecnicos: ListResource<Tecnico>;
   gestores: ListResource<Gestor>;
@@ -56,26 +56,8 @@ export class PriorizaocaoChamadoFormComponent extends AbstractFormController<Cha
     this.form.get("status").disable()
   }
 
-  ngOnInit() {
-    // this.authService.userCurrent.subscribe(res => {
-    //   this.currentUser = res
-    // })
-  }
-
-
-  ngAfterViewInit() {
-    // this.form.get("gestor").setValue(this.currentUser)
-    // super.ngAfterViewInit();
-  }
 
   save(value: ChamadoAtribuido) {
-
-    // const prioridade = this.form.get("prioridade").value;
-    //
-    //
-    // console.log("prioridade ", prioridade);
-
-
     const chamadoAtribuido: any = {
       chamadoCriado: value.id,
       tecnico: value?.tecnico?.id,

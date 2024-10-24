@@ -58,7 +58,6 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
           this.http
             .createRequest()
             .setAuthToken(this.localStorage.getItem(this.TOKEN))
-            // .usingLog(this.log)
             .url(this.buildServiceUrl(`${environment.apiUrl}/api/sgmea/v1/chamado/atribuir-chamado`, pathVariable))
             .post(payload)
             //pelo fato de ser um poste não se tem necessidade de se pegar a resposta
@@ -76,8 +75,6 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
     console.log("cai findByListOfChamadosAtribuidosFully")
 
     console.log("Chamado recebido:", chamado);
-
-    // Verificar se os IDs estão corretos
     console.log("Gestor ID:", chamado?.gestor?.id);
     console.log("Técnico ID:", chamado?.tecnico?.id);
     console.log("Chamado Criado ID:", chamado?.chamadoCriado?.id);
@@ -99,7 +96,6 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
     return this.http
       .createRequest()
       .setAuthToken(this.localStorage.getItem(this.TOKEN))
-      // .usingLog(this.log)
       .url(`${environment.apiUrl}/api/sgmea/v1/chamado/chamados-atribuidos`)
       .get()
       .pipe(
@@ -112,7 +108,6 @@ export class PriorizacaoChamadoService extends AbstractRestService<ChamadoAtribu
     return this.http
       .createRequest()
       .setAuthToken(this.localStorage.getItem(this.TOKEN))
-      // .usingLog(this.log)
       .url(`${environment.apiUrl}/api/sgmea/v1/chamado/chamados-atribuidos/byTecnico?currentTecnico=${currentTecnico}`)
       .get()
       .pipe(
